@@ -10,6 +10,10 @@ return require('packer').startup({function()
     use 'navarasu/onedark.nvim'
     use 'EdenEast/nightfox.nvim'
 
+    -- 优化启动时间
+    use 'nathom/filetype.nvim'
+    use 'lewis6991/impatient.nvim'
+
     -- 对齐线
     use "lukas-reineke/indent-blankline.nvim"
 
@@ -31,12 +35,14 @@ return require('packer').startup({function()
     -- LSP 自动补全
     use {
         "williamboman/nvim-lsp-installer",
-        requires = { 
+        requires = {
             "neovim/nvim-lspconfig",
             'hrsh7th/nvim-cmp', -- Autocompletion plugin
             'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
             'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
             'L3MON4D3/LuaSnip', -- Snippets plugin
+            'hrsh7th/cmp-path',
+            'hrsh7th/cmp-cmdline',
         }
     }
     -- 自动补齐括号,引号
@@ -58,7 +64,10 @@ return require('packer').startup({function()
     use 'simrat39/symbols-outline.nvim'
     -- 状态栏/buffer
     use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
-    use {'windwp/windline.nvim'}
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = 'kyazdani42/nvim-web-devicons'
+    }
     -- 调试
     use {
         "mfussenegger/nvim-dap",

@@ -84,10 +84,20 @@ _G.packer_plugins = {
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
+  },
+  ["cmp-path"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
   },
   cmp_luasnip = {
     loaded = true,
@@ -99,6 +109,16 @@ _G.packer_plugins = {
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
     url = "https://github.com/glepnir/dashboard-nvim"
   },
+  ["filetype.nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/filetype.nvim",
+    url = "https://github.com/nathom/filetype.nvim"
+  },
+  ["impatient.nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/impatient.nvim",
+    url = "https://github.com/lewis6991/impatient.nvim"
+  },
   ["indent-blankline.nvim"] = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/indent-blankline.nvim",
@@ -108,6 +128,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/lazygit.nvim",
     url = "https://github.com/kdheepak/lazygit.nvim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
   },
   ["nightfox.nvim"] = {
     loaded = true,
@@ -216,11 +241,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/which-key.nvim",
     url = "https://github.com/folke/which-key.nvim"
-  },
-  ["windline.nvim"] = {
-    loaded = true,
-    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/windline.nvim",
-    url = "https://github.com/windwp/windline.nvim"
   }
 }
 

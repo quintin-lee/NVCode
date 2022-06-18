@@ -12,6 +12,8 @@ require('configs/nvim-tree')
 require('configs/lsp')
 require('configs/dap')
 require('configs/nvim-treesitter')
+require('configs/symbols-outline')
+require('impatient')
 
 -- 主题配置
 require('core/theme')
