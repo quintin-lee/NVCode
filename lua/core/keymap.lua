@@ -37,6 +37,7 @@ wk.register({
                 print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end, "list" },
         },
+        s = {"<cmd>SymbolsOutline<cr>", "Open SymbolsOutline"}
     },
     g = {
         name = 'git',

@@ -9,6 +9,15 @@ dap.listeners.before.event_exited["dapui_config"] = function()
   dapui.close()
 end
 
+local home = os.getenv("HOME")
+
+dap.adapters.cppdbg = {
+  id = 'cppdbg',
+  type = 'executable',
+  command = home .. '/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7',
+}
+
+require("configs/dap/cpp")
 
 dapui.setup({
   icons = { expanded = "▾", collapsed = "▸" },
