@@ -4,7 +4,14 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 
+local rest = require('rest-nvim')
+
 wk.register({
+    b = {
+        name = "buffer",
+        p = {"<cmd>bp<cr>", "previous"},
+        n = {"<cmd>bp<cr>", "next"},
+    },
     f = {
         name = "file", -- optional group name
         f = { "<cmd>Telescope find_files<cr>", "Find File" }, -- create a binding with label
@@ -13,6 +20,18 @@ wk.register({
         g = { "<cmd>Telescope live_grep<cr>", "Find Words" },
         w = { "<cmd>Telescope file_browser<cr>", "File Browser" },
         t = { "<cmd>NvimTreeToggle<cr>", "Toggle FileTree" },
+    },
+    h = {
+        name = 'http rest client',
+        r = {function()
+            rest.run()
+        end, "Run the request under the cursor"},
+        p = {function()
+            rest.run(true)
+        end, "Preview the request cURL command"},
+        l = {function()
+            rest.last()
+        end, "Re-run the last request"},
     },
     l = {
         name = 'lsp',

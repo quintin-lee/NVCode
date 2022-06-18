@@ -3,7 +3,7 @@
 -- Only required if you have packer configured as `opt`
 vim.cmd [[packadd packer.nvim]]
 
-return require('packer').startup({function()
+return require('packer').startup({ function()
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
     -- 主题配色
@@ -23,12 +23,12 @@ return require('packer').startup({function()
     -- 文件搜索
     use {
         'nvim-telescope/telescope.nvim',
-        requires = { 
-            {'nvim-lua/plenary.nvim'},
-            {'kyazdani42/nvim-web-devicons'},
-            {'nvim-telescope/telescope-file-browser.nvim'},
-            {'nvim-telescope/telescope-frecency.nvim', requires = {'tami5/sqlite.lua'}},
-            {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'}
+        requires = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'kyazdani42/nvim-web-devicons' },
+            { 'nvim-telescope/telescope-file-browser.nvim' },
+            { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sqlite.lua' } },
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
         }
     }
 
@@ -46,7 +46,7 @@ return require('packer').startup({function()
         }
     }
     -- 自动补齐括号,引号
-    use {'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end}
+    use { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
     -- 语法检查，语法高亮
     use {
         'nvim-treesitter/nvim-treesitter',
@@ -63,7 +63,7 @@ return require('packer').startup({function()
     -- 文件大纲/符号表
     use 'simrat39/symbols-outline.nvim'
     -- 状态栏/buffer
-    use {'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
+    use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' }
     use {
         'nvim-lualine/lualine.nvim',
         requires = 'kyazdani42/nvim-web-devicons'
@@ -80,10 +80,17 @@ return require('packer').startup({function()
     use 'kdheepak/lazygit.nvim'
 
     -- 快捷键绑定
-    use {'folke/which-key.nvim'}
-end,
-config = {
-    display = {
-        open_fn = require('packer.util').float,
+    use { 'folke/which-key.nvim' }
+
+    -- http rest client
+    use {
+        'NTBBloodbath/rest.nvim',
+        requires = { "nvim-lua/plenary.nvim" },
+        opt=false,
     }
-}})
+end,
+    config = {
+        display = {
+            open_fn = require('packer.util').float,
+        }
+    } })
