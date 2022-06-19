@@ -1,3 +1,11 @@
+-- Autocommand that reloads neovim whenever you save the plugins.lua file
+vim.cmd [[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]]
+
 -- This file can be loaded by calling `lua require('plugins')` from your init.vim
 
 -- Only required if you have packer configured as `opt`
@@ -16,6 +24,9 @@ return require('packer').startup({ function()
 
     -- 对齐线
     use "lukas-reineke/indent-blankline.nvim"
+
+    -- highlight the word under the cursor
+    use 'RRethy/vim-illuminate'
 
     -- 启动页
     use 'glepnir/dashboard-nvim'
@@ -78,6 +89,12 @@ return require('packer').startup({ function()
 
     -- git 插件
     use 'kdheepak/lazygit.nvim'
+    use {
+        'lewis6991/gitsigns.nvim',
+        config = function()
+            require('gitsigns').setup()
+        end
+    }
 
     -- 快捷键绑定
     use { 'folke/which-key.nvim' }
@@ -86,11 +103,11 @@ return require('packer').startup({ function()
     use {
         'NTBBloodbath/rest.nvim',
         requires = { "nvim-lua/plenary.nvim" },
-        opt=false,
+        opt = false,
     }
 
     -- 浮动终端
-    use  'doums/floaterm.nvim'
+    use 'doums/floaterm.nvim'
 end,
     config = {
         display = {
