@@ -54,6 +54,10 @@ return require('packer').startup({ function()
             'L3MON4D3/LuaSnip', -- Snippets plugin
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
+            {'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu',},
+            -- Lua Development for Neovim
+            'tjdevries/nlua.nvim',
+            'nvim-lua/completion-nvim',
         }
     }
     -- 自动补齐括号,引号

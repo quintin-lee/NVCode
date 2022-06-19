@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
     url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
+  ["completion-nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/completion-nvim",
+    url = "https://github.com/nvim-lua/completion-nvim"
+  },
   ["dashboard-nvim"] = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/dashboard-nvim",
@@ -150,10 +155,23 @@ _G.packer_plugins = {
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
     url = "https://github.com/EdenEast/nightfox.nvim"
   },
+  ["nlua.nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/nlua.nvim",
+    url = "https://github.com/tjdevries/nlua.nvim"
+  },
   ["nvim-cmp"] = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-code-action-menu"] = {
+    commands = { "CodeActionMenu" },
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/opt/nvim-code-action-menu",
+    url = "https://github.com/weilbith/nvim-code-action-menu"
   },
   ["nvim-dap"] = {
     loaded = true,
@@ -270,6 +288,12 @@ time([[Defining packer_plugins]], false)
 time([[Config for gitsigns.nvim]], true)
 try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
 time([[Config for gitsigns.nvim]], false)
+
+-- Command lazy-loads
+time([[Defining lazy-load commands]], true)
+pcall(vim.cmd, [[command -nargs=* -range -bang -complete=file CodeActionMenu lua require("packer.load")({'nvim-code-action-menu'}, { cmd = "CodeActionMenu", l1 = <line1>, l2 = <line2>, bang = <q-bang>, args = <q-args>, mods = "<mods>" }, _G.packer_plugins)]])
+time([[Defining lazy-load commands]], false)
+
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads
