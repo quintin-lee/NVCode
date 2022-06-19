@@ -114,6 +114,11 @@ _G.packer_plugins = {
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/filetype.nvim",
     url = "https://github.com/nathom/filetype.nvim"
   },
+  ["floaterm.nvim"] = {
+    loaded = true,
+    path = "/home/quintin/.local/share/nvim/site/pack/packer/start/floaterm.nvim",
+    url = "https://github.com/doums/floaterm.nvim"
+  },
   ["impatient.nvim"] = {
     loaded = true,
     path = "/home/quintin/.local/share/nvim/site/pack/packer/start/impatient.nvim",

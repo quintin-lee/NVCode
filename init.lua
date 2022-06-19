@@ -22,6 +22,7 @@ require('configs/dap')
 require('configs/nvim-treesitter')
 require('configs/symbols-outline')
 require('configs/rest')
+require('configs/floaterm')
 require('impatient')
 
 -- 主题配置

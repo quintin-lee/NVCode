@@ -84,4 +84,8 @@ wk.register({
         i = {"<cmd>:lua require'dap'.step_into()<cr>", "step into"},
         o = {"<cmd>:lua require'dap'.step_out()<cr>", "step out"},
     },
+    t = {
+        name = 'floaterm',
+        o = {[[<cmd>lua require'floaterm'.open({row=1})<cr>]], "open"},
+    }
 }, { prefix = "<leader>" })

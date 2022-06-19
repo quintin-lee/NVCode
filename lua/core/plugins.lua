@@ -88,6 +88,9 @@ return require('packer').startup({ function()
         requires = { "nvim-lua/plenary.nvim" },
         opt=false,
     }
+
+    -- 浮动终端
+    use  'doums/floaterm.nvim'
 end,
     config = {
         display = {
