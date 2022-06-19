@@ -9,6 +9,32 @@ dap.listeners.before.event_exited["dapui_config"] = function()
     dapui.close()
 end
 
+-- config and sign
+local dap_breakpoint = {
+    breakpoint = {
+        text = "",
+        texthl = "LspDiagnosticsSignError",
+        linehl = '',
+        numhl = ''
+    },
+    rejected = {
+        text = "",
+        texthl = "LspDiagnosticsSignHint",
+        linehl = "",
+        numhl = "",
+    },
+    stoped = {
+        text = "",
+        texthl = "LspDiagnosticsSignInformation",
+        linehl = "DiagnosticUnderlineInfo",
+        numhl = "LspDiagnosticsSignInformation",
+    }
+}
+
+vim.fn.sign_define('DapBreakpoint', dap_breakpoint.breakpoint)
+vim.fn.sign_define('DapBreakpoint', dap_breakpoint.rejected)
+vim.fn.sign_define('DapStopped', dap_breakpoint.stoped)
+
 local home = os.getenv("HOME")
 
 dap.adapters.cppdbg = {
@@ -17,7 +43,8 @@ dap.adapters.cppdbg = {
     command = home .. '/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7',
 }
 
-require("configs/dap/cpp")
+require("configs.dap.cpp")
+require("configs.dap.python")
 
 dapui.setup({
     icons = { expanded = "▾", collapsed = "▸" },

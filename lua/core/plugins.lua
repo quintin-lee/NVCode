@@ -89,6 +89,7 @@ return require('packer').startup({ function()
         "rcarriga/nvim-dap-ui",
         "ravenxrz/DAPInstall.nvim",
         "theHamsta/nvim-dap-virtual-text",
+        "mfussenegger/nvim-dap-python",
     }
 
     -- git 插件
