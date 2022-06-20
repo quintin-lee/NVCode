@@ -76,13 +76,12 @@ wk.register({
     },
     d = {
         name = 'debug',
-        d = {'<cmd>lua require("dapui").open()<cr>', "run"},
-        q = {'<cmd>lua require("dapui").close()<cr>', "quit"},
         b = {"<cmd>lua require'dap'.toggle_breakpoint()<cr>", "breakpoint"},
         c = {"<cmd>lua require'dap'.continue()<cr>", "continue"},
         n = {"<cmd>:lua require'dap'.step_over()<cr>", "step over"},
         i = {"<cmd>:lua require'dap'.step_into()<cr>", "step into"},
         o = {"<cmd>:lua require'dap'.step_out()<cr>", "step out"},
+        h = {"<cmd>:lua require'dap.ui.widgets'.hover()", "view value under the cursor"},
     },
     t = {
         name = 'floaterm',
