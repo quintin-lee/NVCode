@@ -81,7 +81,7 @@ wk.register({
         n = {"<cmd>:lua require'dap'.step_over()<cr>", "step over"},
         i = {"<cmd>:lua require'dap'.step_into()<cr>", "step into"},
         o = {"<cmd>:lua require'dap'.step_out()<cr>", "step out"},
-        h = {"<cmd>:lua require'dap.ui.widgets'.hover()", "view value under the cursor"},
+        h = {"<cmd>:lua require'dap.ui.widgets'.hover()<cr>", "view value under the cursor"},
     },
     t = {
         name = 'floaterm',
