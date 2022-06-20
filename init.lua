@@ -9,8 +9,6 @@ end
 -- 基础配置
 require('core/basic')
 
-require('core/keymap')
-
 -- 插件管理
 require('core/plugins')
 require('core/dashboard')
@@ -28,3 +26,5 @@ require('impatient')
 -- 主题配置
 require('core/theme')
 
+-- 快捷键绑定
+require('core/keymap')

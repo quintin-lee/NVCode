@@ -1,6 +1,6 @@
 require('floaterm').setup({
-  layout = 'bottom',
-  width = 1,
-  height = 0.4,
-  bg_color = '#211a16',
+  layout = 'center',
+  width = 0.8,
+  height = 0.8,
+  bg_color = '#454040',
 })
