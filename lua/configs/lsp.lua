@@ -24,6 +24,17 @@ for _, lsp in ipairs(servers) do
     }
 end
 
+lspconfig.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = {'vim'},
+      },
+    },
+  },
+}
+
 lspconfig.gopls.setup {
     on_attach = function(client)
         -- [[ other on_attach code ]]
