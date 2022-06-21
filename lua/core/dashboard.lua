@@ -1,4 +1,4 @@
---local home = os.getenv('HOME')
+local home = os.getenv('HOME')
 
 local cress = {
     '',
@@ -30,9 +30,13 @@ db.custom_header = cress
 --db.preview_file_width = 80
 db.custom_center = {
     { icon = '  ',
-        desc = 'Recently latest session                  ',
+        desc = 'Recently latest session                 ',
         shortcut = 'SPC s l',
         action = 'SessionLoad' },
+    { icon = '  ',
+        desc = 'New file                                ',
+        shortcut = 'SPC f n',
+        action = 'DashboardNewFile' },
     { icon = '  ',
         desc = 'Recently opened files                   ',
         --action =  'DashboardFindHistory',
@@ -50,8 +54,8 @@ db.custom_center = {
         desc = 'Find  word                              ',
         action = 'Telescope live_grep',
         shortcut = 'SPC f g' },
-    --{icon = '  ',
-    --desc = 'Open Personal dotfiles                  ',
-    --action = 'Telescope dotfiles path=' .. home ..'/.dotfiles',
-    --shortcut = 'SPC f d'},
+    { icon = '  ',
+        desc = 'Open neovim configuration               ',
+        action = 'e ' .. home .. '/.config/nvim/init.lua',
+        shortcut = 'SPC f d' },
 }

@@ -5,6 +5,7 @@ vim.g.maplocalleader = " "
 
 
 local rest = require('rest-nvim')
+local home = os.getenv('HOME')
 
 wk.register({
     b = {
@@ -20,6 +21,8 @@ wk.register({
         g = { "<cmd>Telescope live_grep<cr>", "Find Words" },
         w = { "<cmd>Telescope file_browser<cr>", "File Browser" },
         t = { "<cmd>NvimTreeToggle<cr>", "Toggle FileTree" },
+        n = { "<cmd>DashboardNewFile<cr>", "New File" },
+        d = { "<cmd>e "..home.."/.config/nvim/init.lua<cr>", "Open neovim configuration" },
     },
     h = {
         name = 'http rest client',
