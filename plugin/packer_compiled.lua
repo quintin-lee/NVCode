@@ -276,6 +276,11 @@ _G.packer_plugins = {
     path = "/home/liqm/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
+  ["translate.nvim"] = {
+    loaded = true,
+    path = "/home/liqm/.local/share/nvim/site/pack/packer/start/translate.nvim",
+    url = "https://github.com/uga-rosa/translate.nvim"
+  },
   ["vim-illuminate"] = {
     loaded = true,
     path = "/home/liqm/.local/share/nvim/site/pack/packer/start/vim-illuminate",

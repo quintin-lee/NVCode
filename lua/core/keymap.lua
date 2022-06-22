@@ -89,5 +89,12 @@ wk.register({
     t = {
         name = 'floaterm',
         o = {[[<cmd>lua require'floaterm'.open({row=1})<cr>]], "open"},
-    }
+    },
+    m = {
+        name = 'translate',
+        f = {"<cmd>Translate ZH -output=floating<cr>", "floating"},
+        s = {"<cmd>Translate ZH -output=split<cr>", "split"},
+        i = {"<cmd>Translate ZH -output=insert<cr>", "insert"},
+        r = {"<cmd>Translate ZH -output=replace<cr>", "replace"},
+    },
 }, { prefix = "<leader>" })

@@ -113,6 +113,9 @@ return require('packer').startup({ function()
 
     -- 浮动终端
     use 'doums/floaterm.nvim'
+
+    -- 翻译
+    use 'uga-rosa/translate.nvim'
 end,
     config = {
         display = {

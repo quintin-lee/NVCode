@@ -23,6 +23,7 @@ require('configs.rest')
 require('configs.floaterm')
 require('configs.vim-illuminate')
 require('impatient')
+require('configs.translate')
 
 -- 主题配置
 require('core.theme')
