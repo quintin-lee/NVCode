@@ -14,8 +14,8 @@ require('configs.symbols-outline')
 require('configs.rest')
 require('configs.floaterm')
 require('configs.vim-illuminate')
-require('impatient')
 require('configs.translate')
+require('configs.todo-comments')
 
 -- 主题配置
 require('core.theme')

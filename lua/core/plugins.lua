@@ -27,7 +27,12 @@ return require('packer').startup({ function()
 
     -- 优化启动时间
     use 'nathom/filetype.nvim'
-    use 'lewis6991/impatient.nvim'
+    use {
+        'lewis6991/impatient.nvim',
+        config = function()
+            require('impatient')
+        end
+    }
 
     -- 对齐线
     use "lukas-reineke/indent-blankline.nvim"
@@ -123,6 +128,11 @@ return require('packer').startup({ function()
 
     -- 翻译
     use 'uga-rosa/translate.nvim'
+
+    use {
+        'folke/todo-comments.nvim',
+        requires = 'nvim-lua/plenary.nvim',
+    }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
