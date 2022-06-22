@@ -54,7 +54,7 @@ vim.o.hidden = true
 vim.o.backup = false
 vim.o.writebackup = false
 vim.o.swapfile = false
--- smaller updatetime 
+-- smaller updatetime
 vim.o.updatetime = 300
 -- 等待mappings
 vim.o.timeoutlen = 100
@@ -79,3 +79,10 @@ vim.o.pumheight = 10
 vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
+
+-- 记录文件上次编辑和浏览位置
+vim.cmd [[
+    if has("autocmd")
+        au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    endif
+]]
