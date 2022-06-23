@@ -129,10 +129,14 @@ return require('packer').startup({ function()
     -- 翻译
     use 'uga-rosa/translate.nvim'
 
+    -- TODO 高亮
     use {
         'folke/todo-comments.nvim',
         requires = 'nvim-lua/plenary.nvim',
     }
+
+    -- nvim tui 美化
+    use 'stevearc/dressing.nvim'
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
