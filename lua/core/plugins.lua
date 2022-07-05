@@ -112,6 +112,7 @@ return require('packer').startup({ function()
             require('gitsigns').setup()
         end
     }
+    use 'f-person/git-blame.nvim'
 
     -- 快捷键绑定
     use { 'folke/which-key.nvim' }

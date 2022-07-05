@@ -14,7 +14,7 @@ require('onedark').setup  {
     -- You can configure multiple style with comma seperated, For e.g., keywords = 'italic,bold'
     code_style = {
         comments = 'italic',
-        keywords = 'none',
+        keywords = 'bold',
         functions = 'none',
         strings = 'none',
         variables = 'none'
