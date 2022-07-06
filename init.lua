@@ -17,6 +17,7 @@ require('configs.vim-illuminate')
 require('configs.translate')
 require('configs.todo-comments')
 require('configs.dressing')
+require('configs.git-blame')
 
 -- 主题配置
 require('core.theme')
