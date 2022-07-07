@@ -59,7 +59,34 @@ wk.register({
                 print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
             end, "list" },
         },
-        s = {"<cmd>SymbolsOutline<cr>", "Open SymbolsOutline"}
+        s = {"<cmd>SymbolsOutline<cr>", "Open SymbolsOutline"},
+        c = {
+            name = 'Comment',
+            c = {
+                function()
+                    require('neogen').generate({ type = 'class' })
+                end,
+                "class"
+            },
+            r = {
+                function()
+                    require('neogen').generate({ type = 'func' })
+                end,
+                "function"
+            },
+            f = {
+                function()
+                    require('neogen').generate({ type = 'file' })
+                end,
+                "file"
+            },
+            t = {
+                function()
+                    require('neogen').generate({ type = 'type' })
+                end,
+                "type"
+            },
+        },
     },
     g = {
         name = 'git',

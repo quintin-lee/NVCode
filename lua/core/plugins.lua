@@ -130,10 +130,21 @@ return require('packer').startup({ function()
     -- 翻译
     use 'uga-rosa/translate.nvim'
 
+    -- Comment 相关插件
     -- TODO 高亮
     use {
         'folke/todo-comments.nvim',
         requires = 'nvim-lua/plenary.nvim',
+    }
+    use {
+        'danymat/neogen',
+        requires = "nvim-treesitter/nvim-treesitter",
+    }
+    use {
+        'terrortylor/nvim-comment',
+        config = function()
+            require('nvim_comment').setup()
+        end
     }
 
     -- nvim tui 美化
