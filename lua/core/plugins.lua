@@ -2,7 +2,8 @@ local fn = vim.fn
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local packer_bootstrap = false
 if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim',
+        install_path })
 end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
@@ -113,6 +114,11 @@ return require('packer').startup({ function()
         end
     }
     use 'f-person/git-blame.nvim'
+    -- git diffview
+    use {
+        'sindrets/diffview.nvim',
+        requires = 'nvim-lua/plenary.nvim'
+    }
 
     -- 快捷键绑定
     use { 'folke/which-key.nvim' }

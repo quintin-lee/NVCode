@@ -94,6 +94,12 @@ wk.register({
         c = { "<cmd>LazyGitConfig<cr>", "LazyGitConfig" },
         f = { "<cmd>LazyGitFilter<cr>", "Project Commit" },
         b = { "<cmd>LazyGitFilterCurrentFile<cr>", "BUffer Commit" },
+        d = {
+            name = 'Diff View',
+            h = { "<cmd>DiffviewFileHistory %<cr>", "File History" },
+            q = { "<cmd>DiffviewClose <cr>", "Close Diffview" },
+            r = { "<cmd>DiffviewRefresh<cr>", "Update Diffview" },
+        },
     },
     p = {
         name = 'plug',
