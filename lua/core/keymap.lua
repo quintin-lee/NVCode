@@ -11,7 +11,7 @@ wk.register({
     b = {
         name = "buffer",
         p = {"<cmd>bp<cr>", "previous"},
-        n = {"<cmd>bp<cr>", "next"},
+        n = {"<cmd>bn<cr>", "next"},
     },
     f = {
         name = "file", -- optional group name
