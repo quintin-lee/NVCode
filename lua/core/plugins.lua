@@ -162,6 +162,14 @@ return require('packer').startup({ function()
     -- nvim tui 美化
     use 'stevearc/dressing.nvim'
 
+    -- workspace manager
+    use {
+        'natecraddock/workspaces.nvim',
+        requires = {
+            'natecraddock/sessions.nvim',
+        },
+    }
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

@@ -6,9 +6,38 @@ vim.g.maplocalleader = " "
 
 local rest = require('rest-nvim')
 local neogen = require('neogen')
+local workspaces = require('workspaces')
+
 local home = os.getenv('HOME')
 
 wk.register({
+    w = {
+        name = 'Workspace',
+        a = {
+            function()
+                workspaces.add()
+            end,
+            "add"
+        },
+        l = {
+            function()
+                workspaces.list()
+            end,
+            "list"
+        },
+        r = {
+            function()
+                workspaces.remove(workspaces.name())
+            end,
+            "remove current workspace"
+        },
+        o = {
+            function()
+                workspaces.open()
+            end,
+            "open"
+        },
+    },
     b = {
         name = "buffer",
         p = {"<cmd>bp<cr>", "previous"},

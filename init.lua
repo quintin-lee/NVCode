@@ -19,6 +19,7 @@ require('configs.todo-comments')
 require('configs.dressing')
 require('configs.neogen')
 require('configs.diffview')
+require('configs.workspaces')
 
 -- 主题配置
 require('core.theme')
