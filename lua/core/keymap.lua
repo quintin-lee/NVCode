@@ -5,6 +5,7 @@ vim.g.maplocalleader = " "
 
 
 local rest = require('rest-nvim')
+local neogen = require('neogen')
 local home = os.getenv('HOME')
 
 wk.register({
@@ -64,25 +65,25 @@ wk.register({
             name = 'Comment',
             c = {
                 function()
-                    require('neogen').generate({ type = 'class' })
+                    neogen.generate({ type = 'class' })
                 end,
                 "class"
             },
             r = {
                 function()
-                    require('neogen').generate({ type = 'func' })
+                    neogen.generate({ type = 'func' })
                 end,
                 "function"
             },
             f = {
                 function()
-                    require('neogen').generate({ type = 'file' })
+                    neogen.generate({ type = 'file' })
                 end,
                 "file"
             },
             t = {
                 function()
-                    require('neogen').generate({ type = 'type' })
+                    neogen.generate({ type = 'type' })
                 end,
                 "type"
             },
@@ -130,4 +131,5 @@ wk.register({
         i = {"<cmd>Translate ZH -output=insert<cr>", "insert"},
         r = {"<cmd>Translate ZH -output=replace<cr>", "replace"},
     },
+    q = { "<cmd>qa<cr>", "quit" }
 }, { prefix = "<leader>" })

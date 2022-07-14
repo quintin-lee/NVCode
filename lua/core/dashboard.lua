@@ -58,4 +58,8 @@ db.custom_center = {
         desc = 'Open neovim configuration               ',
         action = 'e ' .. home .. '/.config/nvim/init.lua',
         shortcut = 'SPC f d' },
+    { icon = '  ',
+        desc = 'Quit                                    ',
+        action = 'q',
+        shortcut = 'SPC q  ' },
 }
