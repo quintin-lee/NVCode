@@ -52,7 +52,7 @@ return require('packer').startup({ function()
             { 'kyazdani42/nvim-web-devicons' },
             { 'nvim-telescope/telescope-file-browser.nvim' },
             { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sqlite.lua' } },
-            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+            { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
         }
     }
 
@@ -113,7 +113,13 @@ return require('packer').startup({ function()
             require('gitsigns').setup()
         end
     }
-    use 'f-person/git-blame.nvim'
+    use {
+        'robert-oleynik/git-blame-virt.nvim',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require'git-blame-virt'.setup {}
+        end
+    }
     -- git diffview
     use {
         'sindrets/diffview.nvim',

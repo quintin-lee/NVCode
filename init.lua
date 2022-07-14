@@ -17,7 +17,6 @@ require('configs.vim-illuminate')
 require('configs.translate')
 require('configs.todo-comments')
 require('configs.dressing')
-require('configs.git-blame')
 require('configs.neogen')
 require('configs.diffview')
 
