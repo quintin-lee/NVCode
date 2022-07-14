@@ -35,13 +35,8 @@ vim.fn.sign_define('DapBreakpoint', dap_breakpoint.breakpoint)
 vim.fn.sign_define('DapBreakpoint', dap_breakpoint.rejected)
 vim.fn.sign_define('DapStopped', dap_breakpoint.stoped)
 
-local home = os.getenv("HOME")
-
-dap.adapters.cppdbg = {
-    id = 'cppdbg',
-    type = 'executable',
-    command = home .. '/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7',
-}
+-- 支持 .vscode/launch.json
+require('dap.ext.vscode').load_launchjs()
 
 require("configs.dap.cpp")
 require("configs.dap.python")
