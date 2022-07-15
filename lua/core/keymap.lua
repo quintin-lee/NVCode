@@ -37,6 +37,10 @@ wk.register({
             end,
             "open"
         },
+        s = {
+            "<cmd>SessionsSave<cr>",
+            "save session"
+        },
     },
     b = {
         name = "buffer",
