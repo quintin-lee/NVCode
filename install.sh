@@ -5,6 +5,10 @@ MIN_VERSION='v0.7'
 function usage()
 {
     echo "Usage:"
+    echo "      $(basename $0) [-i | -u]"
+    echo ""
+    echo "  -i, --install      install neovim and plugins"
+    echo "  -u, --uninstall    uninstall plugins"
     exit -1
 }
 
@@ -19,15 +23,15 @@ function parser_param()
     do
         case $1 in
             -i|--install)
-                install_neovim
-                install_requirements
-                install_plugs
+                is_install=1
                 shift
                 ;;
             -u|--uninstall)
+                is_uninstall=1
                 shift
                 ;;
             *)
+                echo "Invalid parameter"
                 usage
                 ;;
         esac
@@ -67,18 +71,23 @@ function get_os_type()
 
 function manjaro_install_neovim()
 {
-    if [ ${is_exist_nvim} ]
+    if [ ${is_exist_nvim} -eq 1 ]
     then
         pacman -Rsnc neovim --noconfirm
     fi
     pacman -S neovim --noconfirm
 }
 
+function arch_install_neovim()
+{
+    manjaro_install_neovim    
+}
+
 function install_neovim()
 {
     is_exists nvim
     is_exist_nvim=$?
-    if [ ${is_exist_nvim} ]
+    if [ ${is_exist_nvim} -eq 1 ]
     then
         version=$(nvim --version | grep NVIM)
         echo "neovim version: ${version}"
@@ -95,7 +104,11 @@ function install_neovim()
 
 function manjaro_install_requirements()
 {
+    pacman -S wget --noconfirm
+    pacman -S unzip --noconfirm
+    pacman -S cmake --noconfirm
     pacman -S make --noconfirm
+    pacman -S gcc --noconfirm
     pacman -S translate-shell --noconfirm
     pacman -S lazygit --noconfirm
     pacman -S bash-language-server --noconfirm
@@ -106,6 +119,11 @@ function manjaro_install_requirements()
     pacman -S npm --noconfirm
     pacman -S ripgrep --noconfirm
     pacman -S fd --noconfirm
+}
+
+function arch_install_requirements()
+{
+    manjaro_install_requirements
 }
 
 function install_requirements()
@@ -120,11 +138,13 @@ function install_requirements()
     mv vscode-cpptools ~/.local/
     chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
     rm -f cpptools-linux.vsix
-    exit 0
 }
 
 function install_plugs()
 {
+    # github proxy
+    git config --global url."https://ghproxy.com/https://github".insteadOf https://github
+
     git clone http://github.com/quintin-lee/neovim-config.git ~/.config/nvim
 
     go env -w GO111MODULE=on
@@ -135,9 +155,26 @@ function install_plugs()
 
 function main()
 {
+    is_install=0
+    is_uninstall=0
+
+    # parser parameter
+    if [ $# -eq 0 ]; then usage; fi
+    parser_param $*
+
+    # get type of os
     OS_TYPE=$(get_os_type)
     echo "OS: ${OS_TYPE}"
-    parser_param $*
+
+    # install neovim and plugin
+    if [ ${is_install} -eq 1 ]
+    then
+        echo "Begin ..."
+        install_neovim
+        install_requirements
+        install_plugs
+        echo "Finished!!"
+    fi
 }
 
 main $*
