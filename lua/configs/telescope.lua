@@ -16,6 +16,25 @@ require("telescope").setup {
     },
     file_ignore_patterns = {"./node_modules"}
   },
+  pickers = {
+    find_files = {
+      theme = "ivy",
+      prompt_prefix = '🔍 ',
+      find_command = 'rg,--ignore,--hidden,--files'
+    },
+    oldfiles = {
+      theme = "ivy",
+      prompt_prefix = '🔍 ',
+    },
+    buffers = {
+      theme = "ivy",
+      prompt_prefix = '🔍 ',
+    },
+    live_grep = {
+      theme = "ivy",
+      prompt_prefix = '🔍 ',
+    }
+  },
   extensions = {
     fzf = {
       fuzzy = true, -- false will only do exact matching

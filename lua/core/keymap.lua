@@ -54,6 +54,8 @@ wk.register({
         b = { "<cmd>Telescope buffers<cr>", "Find Buffers" },
         g = { "<cmd>Telescope live_grep<cr>", "Find Words" },
         w = { "<cmd>Telescope file_browser<cr>", "File Browser" },
+        k = { "<cmd>Telescope keymaps<cr>", "Keymaps" },
+        m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         t = { "<cmd>NvimTreeToggle<cr>", "Toggle FileTree" },
         n = { "<cmd>DashboardNewFile<cr>", "New File" },
         d = { "<cmd>e "..home.."/.config/nvim/init.lua<cr>", "Open neovim configuration" },
