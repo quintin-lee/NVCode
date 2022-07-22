@@ -20,7 +20,6 @@ require("telescope").setup {
     find_files = {
       theme = "ivy",
       prompt_prefix = '🔍 ',
-      find_command = 'rg,--ignore,--hidden,--files'
     },
     oldfiles = {
       theme = "ivy",
