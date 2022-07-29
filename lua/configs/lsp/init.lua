@@ -20,6 +20,9 @@ local servers = { 'clangd', 'bashls', 'pyright', 'sumneko_lua' }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         -- on_attach = my_custom_on_attach,
+        on_attach = function(client, bufnr)
+            require "lsp_signature".on_attach()
+        end,
         capabilities = capabilities,
     }
 end

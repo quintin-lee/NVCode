@@ -72,6 +72,7 @@ return require('packer').startup({ function()
             'tjdevries/nlua.nvim',
             'nvim-lua/completion-nvim',
             'rmagatti/goto-preview',
+            'ray-x/lsp_signature.nvim',
         }
     }
     -- 自动补齐括号,引号
