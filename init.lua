@@ -21,6 +21,7 @@ require('configs.neogen')
 require('configs.diffview')
 require('configs.workspaces')
 require('configs.git-blame-virt')
+require('configs.goto-preview')
 
 -- 主题配置
 require('core.theme')

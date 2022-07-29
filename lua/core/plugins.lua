@@ -71,6 +71,7 @@ return require('packer').startup({ function()
             -- Lua Development for Neovim
             'tjdevries/nlua.nvim',
             'nvim-lua/completion-nvim',
+            'rmagatti/goto-preview',
         }
     }
     -- 自动补齐括号,引号

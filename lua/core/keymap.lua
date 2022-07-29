@@ -7,6 +7,7 @@ vim.g.maplocalleader = " "
 local rest = require('rest-nvim')
 local neogen = require('neogen')
 local workspaces = require('workspaces')
+local goto_preview = require('goto-preview')
 
 local home = os.getenv('HOME')
 
@@ -80,7 +81,15 @@ wk.register({
             d = { vim.lsp.buf.definition, "definition" },
             i = { vim.lsp.buf.implementation, "implementation" },
             r = { vim.lsp.buf.references, "references" },
-            t = { vim.lsp.buf.type_definition, "type definition" }
+            t = { vim.lsp.buf.type_definition, "type definition" },
+        },
+        p = {
+            name = 'Goto Preview',
+            d = { goto_preview.goto_preview_definition, "definition" },
+            i = { goto_preview.goto_preview_implementation, "implementation" },
+            r = { goto_preview.goto_preview_references, "references" },
+            t = { goto_preview.goto_preview_type_definition, "type definition" },
+            q = { goto_preview.close_all_win, "close" },
         },
         a = { vim.lsp.buf.code_action, "Code Action" },
         r = { vim.lsp.buf.rename, "Rename" },
