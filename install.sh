@@ -76,6 +76,8 @@ function manjaro_install_neovim()
         pacman -Rsnc neovim --noconfirm
     fi
     pacman -S neovim --noconfirm
+    ln -sf /usr/bin/nvim /usr/local/bin/vi
+    ln -sf /usr/bin/nvim /usr/local/bin/vim
 }
 
 function arch_install_neovim()
