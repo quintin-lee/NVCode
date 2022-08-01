@@ -7,9 +7,6 @@ require'git-blame-virt'.setup {
 		max_committer = 3, -- Limit Number of committers display in list
 		commit_time = true, -- Enable/Disable relative commit time
 		hi = 'Comment', -- Change Highlight group of default highlight function
-		fn = function(...)
-			-- See Custom Display Function
-		end
 	},
 	ft = {
 		-- Enable/Disable plugin per filetype
