@@ -134,6 +134,11 @@ _G.packer_plugins = {
     path = "/home/liqm/.local/share/nvim/site/pack/packer/start/floaterm.nvim",
     url = "https://github.com/doums/floaterm.nvim"
   },
+  fzf = {
+    loaded = true,
+    path = "/home/liqm/.local/share/nvim/site/pack/packer/start/fzf",
+    url = "https://github.com/junegunn/fzf"
+  },
   ["git-blame-virt.nvim"] = {
     config = { "\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19git-blame-virt\frequire\0" },
     loaded = true,
@@ -191,6 +196,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/liqm/.local/share/nvim/site/pack/packer/start/nlua.nvim",
     url = "https://github.com/tjdevries/nlua.nvim"
+  },
+  ["nvim-bqf"] = {
+    loaded = false,
+    needs_bufread = true,
+    only_cond = false,
+    path = "/home/liqm/.local/share/nvim/site/pack/packer/opt/nvim-bqf",
+    url = "https://github.com/kevinhwang91/nvim-bqf"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -351,6 +363,10 @@ time([[Defining packer_plugins]], false)
 time([[Config for nvim-comment]], true)
 try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17nvim_comment\frequire\0", "config", "nvim-comment")
 time([[Config for nvim-comment]], false)
+-- Config for: impatient.nvim
+time([[Config for impatient.nvim]], true)
+try_loadstring("\27LJ\2\n)\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\14impatient\frequire\0", "config", "impatient.nvim")
+time([[Config for impatient.nvim]], false)
 -- Config for: gitsigns.nvim
 time([[Config for gitsigns.nvim]], true)
 try_loadstring("\27LJ\2\n6\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\rgitsigns\frequire\0", "config", "gitsigns.nvim")
@@ -359,10 +375,6 @@ time([[Config for gitsigns.nvim]], false)
 time([[Config for git-blame-virt.nvim]], true)
 try_loadstring("\27LJ\2\n@\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\19git-blame-virt\frequire\0", "config", "git-blame-virt.nvim")
 time([[Config for git-blame-virt.nvim]], false)
--- Config for: impatient.nvim
-time([[Config for impatient.nvim]], true)
-try_loadstring("\27LJ\2\n)\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\14impatient\frequire\0", "config", "impatient.nvim")
-time([[Config for impatient.nvim]], false)
 
 -- Command lazy-loads
 time([[Defining lazy-load commands]], true)
@@ -371,6 +383,10 @@ time([[Defining lazy-load commands]], false)
 
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
+  -- Filetype lazy-loads
+time([[Defining lazy-load filetype autocommands]], true)
+vim.cmd [[au FileType qf ++once lua require("packer.load")({'nvim-bqf'}, { ft = "qf" }, _G.packer_plugins)]]
+time([[Defining lazy-load filetype autocommands]], false)
   -- Event lazy-loads
 time([[Defining lazy-load event autocommands]], true)
 vim.cmd [[au InsertEnter * ++once lua require("packer.load")({'smart-pairs'}, { event = "InsertEnter *" }, _G.packer_plugins)]]

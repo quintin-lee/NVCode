@@ -12,6 +12,7 @@
 + npm
 + ripgrep
 + fd
++ fzf
 + lua-language-server
 + vscode-cpp-tools
 
@@ -39,6 +40,7 @@ sudo pacman -S gopls
 sudo pacman -S npm
 sudo pacman -S ripgrep
 sudo pacman -S fd
+sudo pacman -S fzf
 
 ## 安装 vscode-cpp-tools 用于 debug c/cpp
 wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.10.8/cpptools-linux.vsix
@@ -125,4 +127,5 @@ Nerd 字体： https://github.com/ryanoasis/nerd-fonts.git
 | vim-illuminate         | https://github.com/RRethy/vim-illuminate                      | 高亮光标下的词         |
 | which-key              | https://github.com/folke/which-key.nvim                       | 快捷键绑定           |
 | workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
+| nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
 
