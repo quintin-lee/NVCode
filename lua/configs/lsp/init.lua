@@ -16,7 +16,7 @@ capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'bashls', 'pyright', 'sumneko_lua' }
+local servers = { 'clangd', 'bashls', 'pyright', 'sumneko_lua', 'cmake' }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         -- on_attach = my_custom_on_attach,
@@ -26,6 +26,9 @@ for _, lsp in ipairs(servers) do
         capabilities = capabilities,
     }
 end
+
+-- Automagically formatting on save
+vim.cmd [[autocmd BufWritePre *.c,*.h lua vim.lsp.buf.formatting_sync()]]
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -37,6 +40,10 @@ cmp.setup {
         expand = function(args)
             luasnip.lsp_expand(args.body)
         end,
+    },
+    windows = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = cmp.mapping.preset.insert({
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
