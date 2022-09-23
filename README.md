@@ -15,6 +15,7 @@
 + fzf
 + lua-language-server
 + vscode-cpp-tools
++ cmake-language-server
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -41,6 +42,9 @@ sudo pacman -S npm
 sudo pacman -S ripgrep
 sudo pacman -S fd
 sudo pacman -S fzf
+sudo pacman -S unzip
+
+pip install cmake-language-server
 
 ## 安装 vscode-cpp-tools 用于 debug c/cpp
 wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.10.8/cpptools-linux.vsix
@@ -70,6 +74,9 @@ go env -w GOPROXY=https://goproxy.cn,direct
 ```shell
 Nerd 字体： https://github.com/ryanoasis/nerd-fonts.git
 推荐 JetBrainsMono 字体
+
+cd ~/.config/nvim
+bash install_fonts.sh
 ```
 
 ## 3. 插件列表
