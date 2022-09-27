@@ -1,3 +1,7 @@
+## 界面预览
+
+![启动页面](https://raw.githubusercontent.com/quintin-lee/neovim-config/master/screenshots/startup.png)
+
 ## 1. 依赖
 
 + neovim > 0.7
