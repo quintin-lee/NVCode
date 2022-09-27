@@ -28,7 +28,7 @@ for _, lsp in ipairs(servers) do
 end
 
 -- Automagically formatting on save
-vim.cmd [[autocmd BufWritePre *.c,*.h lua vim.lsp.buf.formatting_sync()]]
+vim.cmd [[autocmd BufWritePre *.c,*.cpp,*.C,*.cc,*.c++,*.cxx,*.h,*.hxx,*.hpp lua vim.lsp.buf.formatting_sync()]]
 
 -- luasnip setup
 local luasnip = require 'luasnip'
