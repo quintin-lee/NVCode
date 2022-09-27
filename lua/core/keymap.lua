@@ -86,6 +86,7 @@ wk.register({
             i = { vim.lsp.buf.implementation, "implementation" },
             r = { vim.lsp.buf.references, "references" },
             t = { vim.lsp.buf.type_definition, "type definition" },
+            s = { "<cmd>ClangdSwitchSourceHeader<cr>" , "switch source/header" },
         },
         p = {
             name = 'Goto Preview',
