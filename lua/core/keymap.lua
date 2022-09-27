@@ -50,7 +50,7 @@ wk.register({
         d = {"<cmd>bd<cr>", "delete"},
         f = {"<cmd>bf<cr>", "first"},
         l = {"<cmd>bl<cr>", "last"},
-        s = {"<cmd>bs<cr>", "list"},
+        s = {"<cmd>ls<cr>", "list"},
     },
     f = {
         name = "file", -- optional group name
