@@ -1,6 +1,8 @@
 #!/usr/bin/bash
 OS_TYPE='manjaro'
 MIN_VERSION='v0.7'
+SCRIPT_PATH=$(readlink -f $0)
+SCRIPT_DIR=$(dirname ${SCRIPT_PATH})
 
 function usage()
 {
@@ -74,8 +76,10 @@ function manjaro_install_neovim()
     if [ ${is_exist_nvim} -eq 1 ]
     then
         pacman -Rsnc neovim --noconfirm
+        [ $? -eq 0 ] || exit 1
     fi
     pacman -S neovim --noconfirm
+    [ $? -eq 0 ] || exit 1
     ln -sf /usr/bin/nvim /usr/local/bin/vi
     ln -sf /usr/bin/nvim /usr/local/bin/vim
 }
@@ -102,6 +106,7 @@ function install_neovim()
     fi
 
     ${OS_TYPE}_install_neovim
+    [ $? -eq 0 ] || exit 1
 }
 
 function manjaro_install_requirements()
@@ -131,6 +136,7 @@ function arch_install_requirements()
 function install_requirements()
 {
     ${OS_TYPE}_install_requirements
+    [ $? -eq 0 ] || exit 1
 
     wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.10.8/cpptools-linux.vsix
     mkdir vscode-cpptools
@@ -155,6 +161,13 @@ function install_plugs()
     exit 0
 }
 
+function install_fonts()
+{
+    ${SCRIPT_DIR}/install_fonts.sh
+    [ $? -eq 0 ] || exit 1
+    exit 0
+}
+
 function main()
 {
     is_install=0
@@ -173,7 +186,11 @@ function main()
     then
         echo "Begin ..."
         install_neovim
+        [ $? -eq 0 ] || exit 1
         install_requirements
+        [ $? -eq 0 ] || exit 1
+        install_fonts
+        [ $? -eq 0 ] || exit 1
         install_plugs
         echo "Finished!!"
     fi
