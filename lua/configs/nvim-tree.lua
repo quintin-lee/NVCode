@@ -6,8 +6,8 @@ require 'nvim-tree'.setup {
     hijack_netrw = true,
     hijack_unnamed_buffer_when_opening = false,
     ignore_buffer_on_setup = false,
-    open_on_setup = true,
-    open_on_setup_file = true,
+    open_on_setup = false,
+    open_on_setup_file = false,
     open_on_tab = false,
     sort_by = "name",
     update_cwd = false,
@@ -115,7 +115,6 @@ require 'nvim-tree'.setup {
     },
     filesystem_watchers = {
         enable = false,
-        interval = 100,
     },
     git = {
         enable = true,
