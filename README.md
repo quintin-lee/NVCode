@@ -10,7 +10,7 @@
 
 ## 界面预览
 
-![启动页面](https://raw.githubusercontent.com/quintin-lee/neovim-config/master/screenshots/startup.png)
+![启动页面](https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/startup.png)
 
 ## 特性
 
