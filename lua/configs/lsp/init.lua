@@ -70,7 +70,7 @@ cmp.setup {
         --    cmp.TriggerEvent.TextChanged,
         --    -- cmp.TriggerEvent.InsertEnter,
         --},
-        completeopt = "menuone,noinsert",
+        completeopt = "menuone,noinsert,noselect",
         keyword_length = 2,
     },
     preselect = cmp.PreselectMode.None,
@@ -121,6 +121,15 @@ cmp.setup {
             vim_item.kind = (cmp_kinds[vim_item.kind] or '') .. vim_item.kind
             return vim_item
         end,
+    },
+    -- define the appearance of the completion menu
+    window = {
+        completion = cmp.config.window.bordered({
+            winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        }),
+        documentation = cmp.config.window.bordered({
+            winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+        }),
     },
 }
 
