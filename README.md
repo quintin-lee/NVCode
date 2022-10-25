@@ -14,8 +14,6 @@
 
 ## 特性
 
-## Features
-
 - Fully written in lua
 - Easy to install
 - Format on save
