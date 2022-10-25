@@ -35,7 +35,45 @@ local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
 local cmp = require 'cmp'
+local cmp_kinds = {
+  Text = '  ',
+  Method = '  ',
+  Function = '  ',
+  Constructor = '  ',
+  Field = '  ',
+  Variable = '  ',
+  Class = '  ',
+  Interface = '  ',
+  Module = '  ',
+  Property = '  ',
+  Unit = '  ',
+  Value = '  ',
+  Enum = '  ',
+  Keyword = '  ',
+  Snippet = '  ',
+  Color = '  ',
+  File = '  ',
+  Reference = '  ',
+  Folder = '  ',
+  EnumMember = '  ',
+  Constant = '  ',
+  Struct = '  ',
+  Event = '  ',
+  Operator = '  ',
+  TypeParameter = '  ',
+}
+
 cmp.setup {
+    completion = {
+        autocomplete = false,
+        --autocomplete = {
+        --    cmp.TriggerEvent.TextChanged,
+        --    -- cmp.TriggerEvent.InsertEnter,
+        --},
+        completeopt = "menuone,noinsert",
+        keyword_length = 2,
+    },
+    preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body)
@@ -78,6 +116,36 @@ cmp.setup {
         { name = 'path' },
         { name = 'cmdline' },
     },
+    formatting = {
+        format = function(_, vim_item)
+            vim_item.kind = (cmp_kinds[vim_item.kind] or '') .. vim_item.kind
+            return vim_item
+        end,
+    },
 }
+
+vim.api.nvim_create_autocmd(
+    {"TextChangedI", "TextChangedP"},
+    {
+        callback = function()
+            local line = vim.api.nvim_get_current_line()
+            local cursor = vim.api.nvim_win_get_cursor(0)[2]
+
+            local current = string.sub(line, cursor, cursor + 1)
+            if current == "." or current == "," or current == " " then
+                require('cmp').close()
+            end
+
+            local before_line = string.sub(line, 1, cursor + 1)
+            local after_line = string.sub(line, cursor + 1, -1)
+            if not string.match(before_line, '^%s+$') then
+                if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+                    require('cmp').complete()
+                end
+            end
+        end,
+        pattern = "*"
+    }
+)
 
 require('configs.lsp.lua')
