@@ -1,3 +1,14 @@
+<h1 align="center">QV-IDE</h1>
+<h2 align="center">The Neovim configuration to achieve the power of Modern IDE</h2>
+
+<p align="center">
+  <img alt="Stargazers" src="https://img.shields.io/github/stars/quintin-lee/QV-IDE?style=for-the-badge&logo=starship" />
+  <img alt="Made with lua" src="https://img.shields.io/badge/Made%20with%20Lua-blue.svg?style=for-the-badge&logo=lua" />
+  <img alt="Minimum neovim version" src="https://img.shields.io/badge/Neovim-0.8.0+-blueviolet.svg?style=for-the-badge&logo=Neovim" />
+  <img alt="Tests" src="https://img.shields.io/github/workflow/status/quintin-lee/QV-IDE/Tests/main?style=for-the-badge&logo=github&label=Build" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/QV-IDE?style=for-the-badge&logo=gitbook" />
+</p>
+
 ## 界面预览
 
 ![启动页面](https://raw.githubusercontent.com/quintin-lee/neovim-config/master/screenshots/startup.png)
