@@ -10,7 +10,9 @@
 
 ## 界面预览
 
-![启动页面](https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/startup.png)
+![启动页面](https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/startup.png "启动页面") ![lsp 自动补全](https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/autocomp.png "lsp 自动补全")
+
+![文件浏览](https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/filebrowser.png "文件浏览")
 
 ## 特性
 
