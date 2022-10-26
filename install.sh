@@ -126,6 +126,7 @@ function manjaro_install_requirements()
     pacman -S npm --noconfirm
     pacman -S ripgrep --noconfirm
     pacman -S fd --noconfirm
+    pacman -S xsel --noconfirm
 }
 
 function arch_install_requirements()

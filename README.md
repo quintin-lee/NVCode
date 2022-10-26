@@ -39,6 +39,7 @@
 + lua-language-server
 + vscode-cpp-tools
 + cmake-language-server
++ xsel
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -66,6 +67,7 @@ sudo pacman -S ripgrep
 sudo pacman -S fd
 sudo pacman -S fzf
 sudo pacman -S unzip
+sudo pacman -S xsel
 
 pip install cmake-language-server
 
