@@ -14,6 +14,7 @@
   <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/startup.png" width="33%" />
   <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/autocomp.png" width="33%" /> 
   <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/filebrowser.png " width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/debug.png " width="33%" />
 </p>
 
 ## 特性
@@ -24,6 +25,7 @@
 - Autocompletion
 - Uses neovim's native lsp
 - Support c/c++, shell, python, lua
+- Support Debug
 
 ## 1. 依赖
 
