@@ -127,6 +127,7 @@ function manjaro_install_requirements()
     pacman -S ripgrep --noconfirm
     pacman -S fd --noconfirm
     pacman -S xsel --noconfirm
+    yay -S jdtls -language-server --noconfirm
 }
 
 function arch_install_requirements()

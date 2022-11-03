@@ -25,7 +25,7 @@
 - Format on save
 - Autocompletion
 - Uses neovim's native lsp
-- Support c/c++, shell, python, lua
+- Support c/c++, shell, python, lua, java
 - Support Debug
 
 ## 1. 依赖
@@ -46,6 +46,7 @@
 + lua-language-server
 + vscode-cpp-tools
 + cmake-language-server
++ jdtls
 + xsel
 
 ## 2. manjaro/archlinux 系统安装
@@ -75,6 +76,7 @@ sudo pacman -S fd
 sudo pacman -S fzf
 sudo pacman -S unzip
 sudo pacman -S xsel
+yay -S jdtls
 
 pip install cmake-language-server
 
