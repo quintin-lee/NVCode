@@ -1,4 +1,4 @@
-<h1 align="center">QV-IDE</h1>
+<h1 align="center">NVCode</h1>
 <h2 align="center">The Neovim configuration to achieve the power of Modern IDE</h2>
 
 <p align="center">
