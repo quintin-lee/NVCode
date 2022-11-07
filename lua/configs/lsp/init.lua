@@ -159,3 +159,4 @@ vim.api.nvim_create_autocmd(
 )
 
 require('configs.lsp.lua')
+require('configs.lsp.java')
