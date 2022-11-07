@@ -2,20 +2,20 @@
 <h2 align="center">The Neovim configuration to achieve the power of Modern IDE</h2>
 
 <p align="center">
-  <img alt="Stargazers" src="https://img.shields.io/github/stars/quintin-lee/QV-IDE?style=for-the-badge&logo=starship" />
+  <img alt="Stargazers" src="https://img.shields.io/github/stars/quintin-lee/NVCode?style=for-the-badge&logo=starship" />
   <img alt="Made with lua" src="https://img.shields.io/badge/Made%20with%20Lua-blue.svg?style=for-the-badge&logo=lua" />
   <img alt="Minimum neovim version" src="https://img.shields.io/badge/Neovim-0.8.0+-blueviolet.svg?style=for-the-badge&logo=Neovim" />
-  <img alt="forks" src="https://img.shields.io/github/forks/quintin-lee/QV-IDE?style=for-the-badge&logo=forks" />
-  <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/QV-IDE?style=for-the-badge&logo=gitbook" />
+  <img alt="forks" src="https://img.shields.io/github/forks/quintin-lee/NVCode?style=for-the-badge&logo=forks" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/NVCode?style=for-the-badge&logo=gitbook" />
 </p>
 
 ## 界面预览
 
 <p float="center" align="middle">
-  <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/startup.png" width="33%" />
-  <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/autocomp.png" width="33%" /> 
-  <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/filebrowser.png " width="33%" />
-  <img src="https://raw.githubusercontent.com/quintin-lee/QV-IDE/master/screenshots/debug.png " width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/startup.png" width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/autocomp.png" width="33%" /> 
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/filebrowser.png " width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/debug.png " width="33%" />
 </p>
 
 ## 特性
