@@ -34,7 +34,9 @@ vim.cmd [[autocmd BufWritePre *.c,*.cpp,*.C,*.cc,*.c++,*.cxx,*.h,*.hxx,*.hpp lua
 local luasnip = require 'luasnip'
 
 -- nvim-cmp setup
-local cmp = require 'cmp'
+local cmp = require('cmp')
+local core = require('cmp.core')
+local keymap = require('cmp.utils.keymap')
 local cmp_kinds = {
   Text = '  ',
   Method = '  ',
@@ -122,6 +124,27 @@ cmp.setup {
             return vim_item
         end,
     },
+    confirm = function(option)
+        option = option or {}
+        local e = core.menu:get_selected_entry() or (option.select and core.menu:get_first_entry() or nil)
+        print('confirm')
+        if e then
+            core.confirm(e, {
+                behavior = option.behavior,
+            }, function()
+                local myContext  =	core.get_context({ reason = cmp.ContextReason.TriggerOnly })
+                core.complete(myContext)
+                --function() 自动增加()
+                if e and e.resolved_completion_item and (e.resolved_completion_item.kind==3 or e.resolved_completion_item.kind==2) then
+                    vim.api.nvim_feedkeys(keymap.t('()<Left>'), 'n', true)
+                end
+            end)
+            return true
+        else
+            return false
+        end
+    end,
+
     -- define the appearance of the completion menu
     window = {
         completion = cmp.config.window.bordered({
@@ -141,13 +164,14 @@ vim.api.nvim_create_autocmd(
             local cursor = vim.api.nvim_win_get_cursor(0)[2]
 
             local current = string.sub(line, cursor, cursor + 1)
-            if cursor == 0 or current == "." or current == "," or current == " " or current == ";" or current == ":" then
+            if cursor == 0 or current == "," or current == " " or current == ";" or current == ":" or current == "{" then
                 require('cmp').close()
                 return
             end
 
             local before_line = string.sub(line, 1, cursor + 1)
             local after_line = string.sub(line, cursor + 1, -1)
+            print(after_line)
             if not string.match(before_line, '^%s+$') then
                 if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
                     require('cmp').complete()
