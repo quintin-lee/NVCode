@@ -26,7 +26,7 @@
 - Autocompletion
 - Uses neovim's native lsp
 - Support c/c++, shell, python, lua, java
-- Support Debug
+- Support c/c++ Debug
 
 ## 1. 依赖
 
@@ -169,4 +169,8 @@ bash install_fonts.sh
 | which-key              | https://github.com/folke/which-key.nvim                       | 快捷键绑定           |
 | workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
+
+## 4. 参考
+
+[awesome neovim](https://github.com/rockerBOO/awesome-neovim/blob/main/README.md)
 
