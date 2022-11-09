@@ -171,6 +171,7 @@ bash install_fonts.sh
 | which-key              | https://github.com/folke/which-key.nvim                       | 快捷键绑定           |
 | workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
+| openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
 
 ## 4. 参考
 
