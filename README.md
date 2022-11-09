@@ -48,6 +48,7 @@
 + cmake-language-server
 + jdtls
 + xsel
++ zathura
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -76,6 +77,7 @@ sudo pacman -S fd
 sudo pacman -S fzf
 sudo pacman -S unzip
 sudo pacman -S xsel
+sudo pacman -S zathura
 yay -S jdtls
 
 pip install cmake-language-server

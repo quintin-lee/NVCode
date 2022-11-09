@@ -82,6 +82,12 @@ return require('packer').startup({ function()
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+
+    -- Syntax highlighting, cheatsheet, snippets, offline manual and fuzzy help plugin for the openscad language
+    use {
+        'salkin-mada/openscad.nvim',
+        requires = 'L3MON4D3/LuaSnip'
+    }
     -- 文件树
     --use {
     --    'kyazdani42/nvim-tree.lua',
