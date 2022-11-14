@@ -157,7 +157,8 @@ wk.register({
     g = {
         name = 'git',
         g = { "<cmd>LazyGit<cr>", "LazyGit" },
-        c = { "<cmd>LazyGitConfig<cr>", "LazyGitConfig" },
+        c = { "<cmd>Telescope gitmoji<cr>", "gitmoji commit" },
+        s = { "<cmd>LazyGitConfig<cr>", "LazyGitConfig" },
         f = { "<cmd>LazyGitFilter<cr>", "Project Commit" },
         b = { "<cmd>LazyGitFilterCurrentFile<cr>", "BUffer Commit" },
         d = {

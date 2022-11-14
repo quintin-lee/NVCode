@@ -62,6 +62,28 @@ require("telescope").setup {
         ignore_patterns = {"*.git/*", "*/tmp/*"},
         disable_devicons = false,
     },
+    gitmoji = {
+        action = function(entry)
+            -- entry = {
+            --     display = "🎨 Improve structure / format of the code.",
+            --     index = 1,
+            --     ordinal = "Improve structure / format of the code.",
+            --     value = "🎨"
+            -- }
+            vim.ui.input({ prompt = "Enter commit msg: " .. entry.value .. " "}, function(msg)
+                if not msg then
+                    return
+                end
+
+                local git_tool = ":!git"
+                if vim.g.loaded_fugitive then
+                    git_tool = ":G"
+                end
+
+                vim.cmd(string.format('%s commit -m "%s %s"', git_tool, entry.value, msg))
+            end)
+        end,
+    },
   }
 }
 
@@ -70,4 +92,5 @@ require("telescope").setup {
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("file_browser")
 require"telescope".load_extension("frecency")
+require("telescope").load_extension("gitmoji")
 
