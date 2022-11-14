@@ -165,7 +165,7 @@ bash install_fonts.sh
 | telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | 搜索最近访问文件        |
 | telescope-fzf-native   | https://github.com/nvim-telescope/telescope-fzf-native.nvim   |                 |
 | telescope              | https://github.com/nvim-telescope/telescope.nvim              | 搜索插件            |
-| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | 搜索字图标          |
+| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | 搜索字符图标        |
 | telescope-gitmoji      | https://github.com/olacin/telescope-gitmoji.nvim              | 支持 gitmoji        |
 | todo-comments          | https://github.com/folke/todo-comments.nvim                   | TODO 注释高亮       |
 | translate              | https://github.com/translate.nvim                             | 翻译              |
