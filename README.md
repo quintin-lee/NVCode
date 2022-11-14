@@ -49,6 +49,7 @@
 + jdtls
 + xsel
 + zathura
++ noto-fonts-emoji
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -78,6 +79,7 @@ sudo pacman -S fzf
 sudo pacman -S unzip
 sudo pacman -S xsel
 sudo pacman -S zathura
+sudo pacman -S noto-fonts-emoji --noconfirm
 yay -S jdtls
 
 pip install cmake-language-server

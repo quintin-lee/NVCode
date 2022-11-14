@@ -75,13 +75,13 @@ function manjaro_install_neovim()
 {
     if [ ${is_exist_nvim} -eq 1 ]
     then
-        pacman -Rsnc neovim --noconfirm
+        sudo pacman -Rsnc neovim --noconfirm
         [ $? -eq 0 ] || exit 1
     fi
-    pacman -S neovim --noconfirm
+    sudo pacman -S neovim --noconfirm
     [ $? -eq 0 ] || exit 1
-    ln -sf /usr/bin/nvim /usr/local/bin/vi
-    ln -sf /usr/bin/nvim /usr/local/bin/vim
+    sudo ln -sf /usr/bin/nvim /usr/local/bin/vi
+    sudo ln -sf /usr/bin/nvim /usr/local/bin/vim
 }
 
 function arch_install_neovim()
@@ -111,24 +111,25 @@ function install_neovim()
 
 function manjaro_install_requirements()
 {
-    pacman -S wget --noconfirm
-    pacman -S unzip --noconfirm
-    pacman -S cmake --noconfirm
-    pacman -S make --noconfirm
-    pacman -S gcc --noconfirm
-    pacman -S translate-shell --noconfirm
-    pacman -S lazygit --noconfirm
-    pacman -S bash-language-server --noconfirm
-    pacman -S pyright --noconfirm
-    pacman -S lua-language-server --noconfirm
-    pacman -S go --noconfirm
-    pacman -S gopls --noconfirm
-    pacman -S npm --noconfirm
-    pacman -S ripgrep --noconfirm
-    pacman -S fd --noconfirm
-    pacman -S xsel --noconfirm
+    sudo pacman -S wget --noconfirm
+    sudo pacman -S unzip --noconfirm
+    sudo pacman -S cmake --noconfirm
+    sudo pacman -S make --noconfirm
+    sudo pacman -S gcc --noconfirm
+    sudo pacman -S translate-shell --noconfirm
+    sudo pacman -S lazygit --noconfirm
+    sudo pacman -S bash-language-server --noconfirm
+    sudo pacman -S pyright --noconfirm
+    sudo pacman -S lua-language-server --noconfirm
+    sudo pacman -S go --noconfirm
+    sudo pacman -S gopls --noconfirm
+    sudo pacman -S npm --noconfirm
+    sudo pacman -S ripgrep --noconfirm
+    sudo pacman -S fd --noconfirm
+    sudo pacman -S xsel --noconfirm
+    sudo pacman -S noto-fonts-emoji --noconfirm
+    sudo pacman -S zathura --noconfirm
     yay -S jdtls -language-server --noconfirm
-    pacman -S zathura --noconfirm
 }
 
 function arch_install_requirements()
