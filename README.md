@@ -97,7 +97,7 @@ chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
 ### 2.3 安装插件
 
 ```shell
-git clone http://github.com/quintin-lee/neovim-config.git ~/.config/nvim
+git clone https://github.com/quintin-lee/NVCode.git ~/.config/nvim
 nvim +PackerSync
 
 
