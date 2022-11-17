@@ -129,7 +129,7 @@ function manjaro_install_requirements()
     sudo pacman -S xsel --noconfirm
     sudo pacman -S noto-fonts-emoji --noconfirm
     sudo pacman -S zathura --noconfirm
-    yay -S jdtls -language-server --noconfirm
+    yay -S jdtls --noconfirm
 }
 
 function arch_install_requirements()
