@@ -74,18 +74,26 @@ require("telescope").setup {
             --     value = "🎨"
             -- }
 
-            vim.ui.input({ prompt = "Enter commit msg: " .. entry.value .. " "}, function(msg)
-                print(entry.key)
-                if not msg then
+
+            vim.ui.input({ prompt = "Enter scope msg: " .. entry.key .. " "}, function(scope)
+                if not scope then
                     return
                 end
 
-                local git_tool = ":!git"
-                if vim.g.loaded_fugitive then
-                    git_tool = ":G"
-                end
+                local scope_msg = string.format("%s(%s):", entry.key, scope)
 
-                vim.cmd(string.format('%s commit -m "%s %s"', git_tool, entry.value, msg))
+                vim.ui.input({ prompt = "Enter commit msg: " .. entry.value .. " "}, function(msg)
+                    if not msg then
+                        return
+                    end
+
+                    local git_tool = ":!git"
+                    if vim.g.loaded_fugitive then
+                        git_tool = ":G"
+                    end
+
+                    vim.cmd(string.format('%s commit -m "%s %s %s"', git_tool, entry.value, scope_msg, msg))
+                end)
             end)
         end,
     },
