@@ -3,6 +3,8 @@ if (not status) then
   return
 end
 
+local commit_type = require("configs.emojis")
+
 --local actions = require('telescope.actions')
 -- Global remapping
 ------------------------------
@@ -63,6 +65,7 @@ require("telescope").setup {
         disable_devicons = false,
     },
     gitmoji = {
+        commit_type = commit_type,
         action = function(entry)
             -- entry = {
             --     display = "🎨 Improve structure / format of the code.",
@@ -70,7 +73,9 @@ require("telescope").setup {
             --     ordinal = "Improve structure / format of the code.",
             --     value = "🎨"
             -- }
+
             vim.ui.input({ prompt = "Enter commit msg: " .. entry.value .. " "}, function(msg)
+                print(entry.key)
                 if not msg then
                     return
                 end

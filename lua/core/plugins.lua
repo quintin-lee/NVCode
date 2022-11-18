@@ -54,7 +54,7 @@ return require('packer').startup({ function()
             { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sqlite.lua' } },
             { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
             { 'nvim-telescope/telescope-symbols.nvim' },
-            { 'olacin/telescope-gitmoji.nvim' },
+            { 'quintin-lee/telescope-gitmoji.nvim' },
         }
     }
 
