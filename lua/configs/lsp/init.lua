@@ -117,6 +117,7 @@ cmp.setup {
         { name = 'luasnip' },
         { name = 'path' },
         { name = 'cmdline' },
+        { name = 'doxygen' },
     },
     formatting = {
         format = function(_, vim_item)
@@ -164,21 +165,22 @@ vim.api.nvim_create_autocmd(
             local cursor = vim.api.nvim_win_get_cursor(0)[2]
 
             local current = string.sub(line, cursor, cursor + 1)
-            if cursor == 0 or current == "," or current == " " or current == ";" or current == ":" or current == "{" then
+            if cursor == 0 or current == "," or current == " " or current == "/" or current == "*"
+                or current == ";" or current == ":" or current == "{" then
                 require('cmp').close()
                 return
             end
 
             local before_line = string.sub(line, 1, cursor + 1)
             local after_line = string.sub(line, cursor + 1, -1)
-            print(after_line)
             if not string.match(before_line, '^%s+$') then
-                if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+                if after_line == "" or after_line == ";" or after_line == "}" or after_line == ")" or after_line == "]"
+                    or string.match(before_line, " $") or string.match(before_line, "%.$") then
                     require('cmp').complete()
                 end
             end
         end,
-        pattern = "*"
+        --pattern = "*"
     }
 )
 

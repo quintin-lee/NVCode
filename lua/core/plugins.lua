@@ -75,6 +75,7 @@ return require('packer').startup({ function()
             'nvim-lua/completion-nvim',
             'rmagatti/goto-preview',
             'ray-x/lsp_signature.nvim',
+            {'paopaol/cmp-doxygen', requires = 'nvim-treesitter/nvim-treesitter-textobjects'},
         }
     }
     -- 自动补齐括号,引号
