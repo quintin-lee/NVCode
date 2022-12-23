@@ -115,8 +115,6 @@ cmp.setup {
     sources = {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
-        { name = 'path' },
-        { name = 'cmdline' },
         { name = 'doxygen' },
     },
     formatting = {
@@ -156,6 +154,20 @@ cmp.setup {
         }),
     },
 }
+
+cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+        { name = 'path' }
+    }, {
+        {
+            name = 'cmdline',
+            option = {
+                ignore_cmds = { 'Man', '!' }
+            }
+        }
+    })
+})
 
 vim.api.nvim_create_autocmd(
     {"TextChangedI", "TextChangedP"},
