@@ -117,7 +117,14 @@ cd ~/.config/nvim
 bash install_fonts.sh
 ```
 
-## 3. 插件列表
+## 3. Docker
+
+[quintinlee/neovim][1] 是 NVCode 基于 archlinux 的docker镜像，无需安装 NVCode，即可快速体验 NVCode 带来的快乐
+
+docker run -it quintinlee/neovim
+
+
+## 4. 插件列表
 
 | 插件名                    | 插件地址                                                          | 备注              |
 | ---------------------- | ------------------------------------------------------------- | --------------- |
@@ -177,7 +184,10 @@ bash install_fonts.sh
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
 | openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
 
-## 4. 参考
+## 5. 参考
 
 [awesome neovim](https://github.com/rockerBOO/awesome-neovim/blob/main/README.md)
+
+
+[1]: https://hub.docker.com/repository/docker/quintinlee/neovim
 
