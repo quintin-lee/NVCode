@@ -188,7 +188,7 @@ wk.register({
     },
     t = {
         name = 'floaterm',
-        o = {[[<cmd>lua require'floaterm'.open({row=1})<cr>]], "open"},
+        o = {[[<cmd>lua require("FTerm").toggle()<cr>]], "open"},
     },
     m = {
         name = 'translate',

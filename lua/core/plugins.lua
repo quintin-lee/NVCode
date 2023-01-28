@@ -148,7 +148,7 @@ return require('packer').startup({ function()
     }
 
     -- 浮动终端
-    use 'doums/floaterm.nvim'
+    use "numToStr/FTerm.nvim"
 
     -- 翻译
     use 'uga-rosa/translate.nvim'

@@ -121,7 +121,9 @@ bash install_fonts.sh
 
 [quintinlee/neovim][1] 是 NVCode 基于 archlinux 的docker镜像，无需安装 NVCode，即可快速体验 NVCode 带来的快乐
 
+```shell
 docker run -it quintinlee/neovim
+```
 
 
 ## 4. 插件列表
@@ -141,7 +143,7 @@ docker run -it quintinlee/neovim
 | diffview               | https://github.com/sindrets/diffview.nvim                     | git diff        |
 | dressing               | https://github.com/stevearc/dressing.nvim                     | 优化 tui          |
 | filetype               | https://github.com/nathom/filetype.nvim                       | 优化启动            |
-| floaterm               | https://github.com/doums/floaterm.nvim                        | 浮动终端            |
+| FTerm                  | https://github.com/numToStr/FTerm.nvim                        | 浮动终端            |
 | git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | 显示 git blame    |
 | gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | 显示 git 文件变更     |
 | impatient              | https://github.com/lewis6991/impatient.nvim                   | 优化启动            |
