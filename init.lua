@@ -22,6 +22,7 @@ require('configs.diffview')
 require('configs.workspaces')
 require('configs.git-blame-virt')
 require('configs.goto-preview')
+require('configs.wilder')
 
 -- 主题配置
 require('core.theme')

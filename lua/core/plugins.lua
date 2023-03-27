@@ -26,6 +26,14 @@ return require('packer').startup({ function()
     use 'navarasu/onedark.nvim'
     use 'EdenEast/nightfox.nvim'
 
+    -- 命令行美化
+    use {
+        'gelguy/wilder.nvim',
+        requires = {
+            { 'romgrk/fzy-lua-native' },
+        },
+    }
+
     -- 优化启动时间
     use 'nathom/filetype.nvim'
     use {
