@@ -1,7 +1,7 @@
 vim.notify = require("notify")
 
 require("notify").setup({
-   background_color = "#000000",
+   background_colour = "#000000",
 })
 
 -- Utility functions shared between progress reports for LSP and DAP
