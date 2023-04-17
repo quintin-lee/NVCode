@@ -86,6 +86,10 @@ return require('packer').startup({ function()
             {'paopaol/cmp-doxygen', requires = 'nvim-treesitter/nvim-treesitter-textobjects'},
         }
     }
+
+    -- Tabnine client
+    use { 'codota/tabnine-nvim', run = "./dl_binaries.sh" }
+
     -- 自动补齐括号,引号
     use { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
     -- 语法检查，语法高亮

@@ -23,6 +23,7 @@ require('configs.workspaces')
 require('configs.git-blame-virt')
 require('configs.goto-preview')
 require('configs.wilder')
+require('configs.tabnine')
 
 -- 主题配置
 require('core.theme')

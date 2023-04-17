@@ -43,8 +43,8 @@ require('lualine').setup {
         lualine_c = { 'filename' },
         -- right
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
-        lualine_y = { 'progress' },
-        lualine_z = { 'location' }
+        lualine_y = { 'tabnine'},
+        lualine_z = { 'progress', 'location' }
     },
     inactive_sections = {
         lualine_a = { 'filename' },
