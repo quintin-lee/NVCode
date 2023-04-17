@@ -204,6 +204,9 @@ return require('packer').startup({ function()
         ft = 'qf'
     }
 
+    -- 美化消息通知
+    use 'rcarriga/nvim-notify'
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then

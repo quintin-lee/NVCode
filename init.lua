@@ -24,6 +24,7 @@ require('configs.git-blame-virt')
 require('configs.goto-preview')
 require('configs.wilder')
 require('configs.tabnine')
+require('configs.vim-notify')
 
 -- 主题配置
 require('core.theme')
