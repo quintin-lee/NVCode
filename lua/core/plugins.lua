@@ -139,6 +139,7 @@ return require('packer').startup({ function()
     }
     use {
         'robert-oleynik/git-blame-virt.nvim',
+        commit = 'be59011',
         requires = { 'nvim-lua/plenary.nvim' },
         config = function()
             require'git-blame-virt'.setup {}
