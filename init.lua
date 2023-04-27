@@ -26,6 +26,7 @@ require('configs.wilder')
 require('configs.tabnine')
 require('configs.vim-notify')
 require('configs.noice')
+require('configs.hlargs')
 
 -- 主题配置
 require('core.theme')

@@ -98,6 +98,7 @@ return require('packer').startup({ function()
         'nvim-treesitter/nvim-treesitter',
         run = ':TSUpdate'
     }
+    use { 'm-demare/hlargs.nvim', commit = '79ea0c98ff3998c5a77a07f793f065fbac83d9a8' }
 
     -- Syntax highlighting, cheatsheet, snippets, offline manual and fuzzy help plugin for the openscad language
     use {
