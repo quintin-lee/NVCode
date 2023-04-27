@@ -129,6 +129,7 @@ function manjaro_install_requirements()
     sudo pacman -S xsel --noconfirm
     sudo pacman -S noto-fonts-emoji --noconfirm
     sudo pacman -S zathura --noconfirm
+    sudo pacman -S fzf --noconfirm
     yay -S jdtls --noconfirm
 }
 
