@@ -29,7 +29,7 @@ else
             miDebuggerServerAddress = function()
                 return vim.fn.input('localhost:', '')
             end,
-            miDebuggerPath = home .. '/.local/bin/ngdb',
+            miDebuggerPath = '/usr/bin/ngdb',
             cwd = '${workspaceFolder}',
             program = function()
                 return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
@@ -43,7 +43,7 @@ else
             processId = function()
                 return vim.fn.input('processId:', '', 'var')
             end,
-            miDebuggerPath = home .. '/.local/bin/ngdb',
+            miDebuggerPath = '/usr/bin/gdb',
             cwd = '${workspaceFolder}',
             program = function()
                 return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')

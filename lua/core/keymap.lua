@@ -185,6 +185,10 @@ wk.register({
         i = {"<cmd>:lua require'dap'.step_into()<cr>", "step into"},
         o = {"<cmd>:lua require'dap'.step_out()<cr>", "step out"},
         h = {"<cmd>:lua require'dap.ui.widgets'.hover()<cr>", "view value under the cursor"},
+        r = {"<cmd>:lua require('dap').repl.open()<CR>", "repl open"},
+        l = {"<cmd>:lua require('dap').run_last()<CR>", "run last"},
+        q = {"<cmd>:lua require('dap').disconnect()<CR>", "disconnect"},
+        x = {"<cmd>:lua require('dapui').close()<CR>", "ui close"},
     },
     t = {
         name = 'floaterm',
