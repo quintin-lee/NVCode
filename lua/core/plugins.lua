@@ -55,6 +55,7 @@ return require('packer').startup({ function()
     -- 文件搜索
     use {
         'nvim-telescope/telescope.nvim',
+        commit = '713d26b98583b160b50fb827adb751f768238ed3',
         requires = {
             { 'nvim-lua/plenary.nvim' },
             { 'kyazdani42/nvim-web-devicons' },
