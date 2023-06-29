@@ -28,6 +28,51 @@ wk.setup({
 })
 
 wk.register({
+    a = {
+        name = "AI",
+        b = {
+            name = "Bito",
+            g = {
+                "<cmd>BitoAiGenerate<cr>",
+                "Generates code based on a given prompt"
+            },
+            u = {
+                "<cmd>BitoAiGenerateUnit<cr>",
+                "Generates unit test code for the selected code block"
+            },
+            m = {
+                "<cmd>BitoAiGenerateComment<cr>",
+                "Generates comments for methods, explaining parameters and output"
+            },
+            c = {
+                name = "Check",
+                c = {
+                    "<cmd>BitoAiCheck<cr>",
+                    "Performs a check for potential issues in the code and suggests improvements"
+                },
+                s = {
+                    "<cmd>BitoAiCheckSecurity<cr>",
+                    "Checks the code for security issues and provides recommendations"
+                },
+                t = {
+                    "<cmd>BitoAiCheckStyle<cr>",
+                    "Checks the code for style issues and suggests style improvements"
+                },
+                p = {
+                    "<cmd>BitoAiCheckPerformance<cr>",
+                    "Analyzes the code for performance issues and suggests optimizations"
+                },
+            },
+            r = {
+                "<cmd>BitoAiReadable<cr>",
+                "Organizes the code to enhance readability and maintainability"
+            },
+            e = {
+                "<cmd>BitoAiExplain<cr>",
+                "Generates an explanation for the selected code"
+            },
+        }
+    },
     w = {
         name = 'Workspace',
         a = {

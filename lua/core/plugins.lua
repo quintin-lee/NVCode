@@ -92,6 +92,9 @@ return require('packer').startup({ function()
     -- Tabnine client
     use { 'codota/tabnine-nvim', run = "./dl_binaries.sh" }
 
+    -- bito AI
+    use { 'zhenyangze/vim-bitoai' }
+
     -- 自动补齐括号,引号
     use { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
     -- 语法检查，语法高亮
