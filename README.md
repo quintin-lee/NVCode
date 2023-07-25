@@ -25,7 +25,7 @@
 - Format on save
 - Autocompletion
 - Uses neovim's native lsp
-- Support c/c++, shell, python, lua, java
+- Support c/c++, shell, python, lua, java, rust
 - Support c/c++ Debug
 
 ## 1. 依赖
@@ -47,9 +47,11 @@
 + vscode-cpp-tools
 + cmake-language-server
 + jdtls
++ rust-analyzer
 + xsel
 + zathura
 + noto-fonts-emoji
++ [bito cli](https://github.com/gitbito/CLI)
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -80,6 +82,7 @@ sudo pacman -S unzip
 sudo pacman -S xsel
 sudo pacman -S zathura
 sudo pacman -S noto-fonts-emoji --noconfirm
+sudo pacman -S rust-analyzer
 yay -S jdtls
 
 pip install cmake-language-server
@@ -185,6 +188,7 @@ docker run -it quintinlee/neovim
 | workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
 | openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
+| vim-bitoai             | https://github.com/zhenyangze/vim-bitoai.git                  | Plugin for Bito Using Bito CLI |
 
 ## 5. 参考
 
