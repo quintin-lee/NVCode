@@ -89,18 +89,24 @@ return require('packer').startup({ function()
         }
     }
 
+    use {
+        "SmiteshP/nvim-navic",
+        requires = "neovim/nvim-lspconfig"
+    }
+
     -- Tabnine client
     use { 'codota/tabnine-nvim', run = "./dl_binaries.sh" }
 
     -- bito AI
-    use { 'zhenyangze/vim-bitoai' }
+    use { 'zhenyangze/vim-bitoai', commit = '1f4d05dd23ee27a236c9cee765655b762c116e28' }
 
     -- 自动补齐括号,引号
     use { 'ZhiyuanLck/smart-pairs', event = 'InsertEnter', config = function() require('pairs'):setup() end }
     -- 语法检查，语法高亮
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = ':TSUpdate'
+        run = ':TSUpdate',
+        commit ='e7f2b1276b7aa68099acc8169ce51f7e389b1772'
     }
     use { 'm-demare/hlargs.nvim', commit = '79ea0c98ff3998c5a77a07f793f065fbac83d9a8' }
 
