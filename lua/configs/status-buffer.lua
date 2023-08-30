@@ -40,7 +40,7 @@ require('lualine').setup {
         -- left
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename', 'navic' },
+        lualine_c = { '%f', 'navic' },
         -- right
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'tabnine'},

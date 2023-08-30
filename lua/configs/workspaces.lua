@@ -14,7 +14,7 @@ sessions.setup({
 ws.setup({
     hooks = {
         add = function()
-            sessions.save(nil)
+            sessions.save(nil, {})
         end,
         open_pre = {
             "SessionsStop",
