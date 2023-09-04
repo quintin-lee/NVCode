@@ -116,13 +116,15 @@ return require('packer').startup({ function()
         requires = 'L3MON4D3/LuaSnip'
     }
     -- 文件树
-    --use {
-    --    'kyazdani42/nvim-tree.lua',
-    --    requires = {
-    --        'kyazdani42/nvim-web-devicons', -- optional, for file icon
-    --    },
-    --    tag = 'nightly' -- optional, updated every week. (see issue #1193)
-    --}
+    use {
+        'nvim-tree/nvim-tree.lua',
+        requires = {
+            'kyazdani42/nvim-web-devicons', -- optional, for file icon
+        },
+        config = function()
+            require("nvim-tree").setup {}
+        end,
+    }
     -- 文件大纲/符号表
     use 'simrat39/symbols-outline.nvim'
     -- 状态栏/buffer
