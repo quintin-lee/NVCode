@@ -51,6 +51,7 @@
 + xsel
 + zathura
 + noto-fonts-emoji
++ noto-color-emoji-fontconfig-no-binding
 + [bito cli](https://github.com/gitbito/CLI)
 
 ## 2. manjaro/archlinux 系统安装
@@ -84,6 +85,7 @@ sudo pacman -S zathura
 sudo pacman -S noto-fonts-emoji --noconfirm
 sudo pacman -S rust-analyzer
 yay -S jdtls
+yay -S noto-color-emoji-fontconfig-no-binding
 
 pip install cmake-language-server
 
@@ -189,6 +191,7 @@ docker run -it quintinlee/neovim
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
 | openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
 | vim-bitoai             | https://github.com/zhenyangze/vim-bitoai.git                  | Plugin for Bito Using Bito CLI |
+| leap.nvim              | https://github.com/ggandor/leap.nvim                          | 光标跳转插件 |
 
 ## 5. 参考
 
