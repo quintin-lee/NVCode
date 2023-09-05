@@ -9,7 +9,7 @@ local neogen = require('neogen')
 local workspaces = require('workspaces')
 local goto_preview = require('goto-preview')
 
-local home = os.getenv('HOME')
+local config_home = vim.fn.stdpath("config")
 
 wk.setup({
     window = {
@@ -124,7 +124,7 @@ wk.register({
         m = { "<cmd>Telescope man_pages<cr>", "Man Pages" },
         t = { "<cmd>NvimTreeToggle<cr>", "Toggle FileTree" },
         n = { "<cmd>DashboardNewFile<cr>", "New File" },
-        d = { "<cmd>e "..home.."/.config/nvim/init.lua<cr>", "Open neovim configuration" },
+        d = { "<cmd>e "..config_home.."/init.lua<cr>", "Open neovim configuration" },
     },
     h = {
         name = 'http rest client',
