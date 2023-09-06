@@ -28,6 +28,7 @@ require('configs.vim-notify')
 require('configs.noice')
 require('configs.hlargs')
 require('configs.nvim-navic')
+require('configs.nvim-ufo')
 
 -- 主题配置
 require('core.theme')

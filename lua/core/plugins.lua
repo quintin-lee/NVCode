@@ -233,6 +233,12 @@ return require('packer').startup({ function()
         config = function() require("leap").set_default_keymaps() end
     }
 
+    -- fold look
+    use {
+        'kevinhwang91/nvim-ufo',
+        requires = 'kevinhwang91/promise-async'
+    }
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
