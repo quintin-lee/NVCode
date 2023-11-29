@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 OS_TYPE='manjaro'
-MIN_VERSION='v0.7'
+MIN_VERSION='v0.9'
 SCRIPT_PATH=$(readlink -f $0)
 SCRIPT_DIR=$(dirname ${SCRIPT_PATH})
 
@@ -162,7 +162,7 @@ function install_plugs()
 
     go env -w GO111MODULE=on
     go env -w GOPROXY=https://goproxy.cn,direct
-    nvim +PackerSync
+    nvim 
     exit 0
 }
 
