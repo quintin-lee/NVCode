@@ -1,13 +1,7 @@
-require("nvim-lsp-installer").setup({
-    automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
-    ui = {
-        icons = {
-            server_installed = "✓",
-            server_pending = "➜",
-            server_uninstalled = "✗"
-        }
-    }
-})
+require("mason").setup()
+require("mason-lspconfig").setup {
+    ensure_installed = { "clangd", "bashls", "pyright", "cmake", "jdtls", "lua_ls", "rust_analyzer" },
+}
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = vim.lsp.protocol.make_client_capabilities()

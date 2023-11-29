@@ -30,7 +30,7 @@
 
 ## 1. 依赖
 
-+ neovim > 0.7 and neovim < 0.9
++ neovim > 0.9
 + patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
 + translate-shell
 + lazygit
@@ -103,7 +103,7 @@ chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
 
 ```shell
 git clone https://github.com/quintin-lee/NVCode.git ~/.config/nvim
-nvim +PackerSync
+nvim
 
 
 ### 如果 LspInstall gopls 无法拉取则，设置代理
@@ -135,7 +135,7 @@ docker run -it quintinlee/neovim
 
 | 插件名                    | 插件地址                                                          | 备注              |
 | ---------------------- | ------------------------------------------------------------- | --------------- |
-| packer                 | https://github.com/wbthomason/packer.nvim                     | 插件管理器           |
+| packer                 | https://github.com/folke/lazy.nvim                            | 插件管理器           |
 | DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | debuggers 管理    |
 | LuaSnip                | https://github.com/L3MON4D3/LuaSnip                           |                 |
 | bufferline             | https://github.com/akinsho/bufferline.nvim                    | buffer 栏        |
