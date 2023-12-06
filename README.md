@@ -135,7 +135,7 @@ docker run -it quintinlee/neovim
 
 | 插件名                    | 插件地址                                                          | 备注              |
 | ---------------------- | ------------------------------------------------------------- | --------------- |
-| packer                 | https://github.com/folke/lazy.nvim                            | 插件管理器           |
+| lazy                   | https://github.com/folke/lazy.nvim                            | 插件管理器           |
 | DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | debuggers 管理    |
 | LuaSnip                | https://github.com/L3MON4D3/LuaSnip                           |                 |
 | bufferline             | https://github.com/akinsho/bufferline.nvim                    | buffer 栏        |

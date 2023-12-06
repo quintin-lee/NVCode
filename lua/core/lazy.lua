@@ -24,7 +24,11 @@ local plugins = {
 
     -- 优化启动时间
     {
-        'nathom/filetype.nvim'
+        'nathom/filetype.nvim',
+        enabled = false,
+        config = function ()
+            require("filetype").setup{}
+        end,
     },
     {
         'lewis6991/impatient.nvim',
@@ -70,7 +74,6 @@ local plugins = {
     -- LSP
     {
         'williamboman/mason-lspconfig.nvim',
-        event = "VimEnter",
         config = function()
             require('configs.lsp')
             require('configs.goto-preview')
@@ -78,21 +81,36 @@ local plugins = {
         dependencies = {{
             "williamboman/mason.nvim",
             'neovim/nvim-lspconfig',
-            "folke/neodev.nvim",
             'hrsh7th/nvim-cmp', -- Autocompletion plugin
             'hrsh7th/cmp-nvim-lsp', -- LSP source for nvim-cmp
             'saadparwaiz1/cmp_luasnip', -- Snippets source for nvim-cmp
-            'L3MON4D3/LuaSnip', -- Snippets plugin
+            { 'L3MON4D3/LuaSnip', tag = "v2.*", run = "make install_jsregexp"}, -- Snippets plugin
             'hrsh7th/cmp-path',
             'hrsh7th/cmp-cmdline',
-            { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu', },
             -- Lua Development for Neovim
             'tjdevries/nlua.nvim',
             'nvim-lua/completion-nvim',
             'rmagatti/goto-preview',
             'ray-x/lsp_signature.nvim',
-            {'paopaol/cmp-doxygen', dependencies = {{ 'nvim-treesitter/nvim-treesitter-textobjects'}},}
         }}
+    },
+    {
+        "folke/neodev.nvim",
+        opts = {},
+        config = function()
+            require("neodev").setup({})
+        end,
+    },
+    {
+        'weilbith/nvim-code-action-menu',
+        cmd = 'CodeActionMenu',
+        event = "VeryLazy",
+    },
+    {
+        'paopaol/cmp-doxygen',
+        dependencies = {{
+            'nvim-treesitter/nvim-treesitter-textobjects'
+        }},
     },
     {
         "SmiteshP/nvim-navic",
@@ -126,10 +144,13 @@ local plugins = {
     -- 调试
     {
         'rcarriga/nvim-dap-ui',
-        'mfussenegger/nvim-dap',
-        'ravenxrz/DAPInstall.nvim',
-        'theHamsta/nvim-dap-virtual-text',
-        'mfussenegger/nvim-dap-python',
+        dependencies = {{
+            'mfussenegger/nvim-dap',
+            'ravenxrz/DAPInstall.nvim',
+            'theHamsta/nvim-dap-virtual-text',
+            'mfussenegger/nvim-dap-python',
+        }},
+        event = "VeryLazy",
         config = function()
             require('configs.dap')
         end,

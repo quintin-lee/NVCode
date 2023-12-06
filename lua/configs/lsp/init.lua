@@ -1,6 +1,24 @@
-require("mason").setup()
+local lsp_servers = {
+    'bashls',
+    'lua_ls',
+    'jdtls',
+    'pyright',
+    'clangd',
+    'cmake',
+    'rust_analyzer',
+};
+
+require("mason").setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗"
+    }
+  }
+})
 require("mason-lspconfig").setup {
-    ensure_installed = { "clangd", "bashls", "pyright", "cmake", "jdtls", "lua_ls", "rust_analyzer" },
+    ensure_installed = lsp_servers,
 }
 
 -- Add additional capabilities supported by nvim-cmp
@@ -10,19 +28,20 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'bashls', 'pyright', 'cmake', 'jdtls', 'lua_ls', 'rust_analyzer' }
-for _, lsp in ipairs(servers) do
+for _, lsp in ipairs(lsp_servers) do
     lspconfig[lsp].setup {
-        -- on_attach = my_custom_on_attach,
         on_attach = function(client, bufnr)
             require "lsp_signature".on_attach()
         end,
         capabilities = capabilities,
+        init_options = {
+          enableProfileLoading = false,
+        },
     }
 end
 
 -- Automagically formatting on save
-vim.cmd [[autocmd BufWritePre *.c,*.cpp,*.C,*.cc,*.c++,*.cxx,*.h,*.hxx,*.hpp lua vim.lsp.buf.format()]]
+vim.cmd [[autocmd BufWritePre *.c,*.cpp,*.C,*.cc,*.c++,*.cxx,*.h,*.hxx,*.hpp,*.py,*.cu lua vim.lsp.buf.format()]]
 
 -- luasnip setup
 local luasnip = require 'luasnip'
@@ -193,3 +212,5 @@ vim.api.nvim_create_autocmd(
 require('configs.lsp.lua')
 require('configs.lsp.java')
 require('configs.lsp.openscad')
+require('configs.lsp.bash')
+require('configs.lsp.python')
