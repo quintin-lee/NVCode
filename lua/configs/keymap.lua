@@ -4,7 +4,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 
-local rest = require('rest-nvim')
+--local rest = require('rest-nvim')
 local neogen = require('neogen')
 local workspaces = require('workspaces')
 local goto_preview = require('goto-preview')
@@ -127,18 +127,18 @@ wk.register({
         n = { "<cmd>DashboardNewFile<cr>", "New File" },
         d = { "<cmd>e "..config_home.."/init.lua<cr>", "Open neovim configuration" },
     },
-    h = {
-        name = 'http rest client',
-        r = {function()
-            rest.run()
-        end, "Run the request under the cursor"},
-        p = {function()
-            rest.run(true)
-        end, "Preview the request cURL command"},
-        l = {function()
-            rest.last()
-        end, "Re-run the last request"},
-    },
+    --h = {
+    --    name = 'http rest client',
+    --    r = {function()
+    --        rest.run()
+    --    end, "Run the request under the cursor"},
+    --    p = {function()
+    --        rest.run(true)
+    --    end, "Preview the request cURL command"},
+    --    l = {function()
+    --        rest.last()
+    --    end, "Re-run the last request"},
+    --},
     l = {
         name = 'lsp',
         g = {

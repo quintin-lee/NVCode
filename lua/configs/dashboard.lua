@@ -1,4 +1,4 @@
-local home = os.getenv('HOME')
+local config_home = vim.fn.stdpath("config")
 
 local default_header = {
     '',
@@ -87,7 +87,7 @@ db.setup ({
                 icon_hi = 'Title',
                 desc = 'Open neovim configuration                                 ',
                 desc_hi = 'String',
-                action = 'e ' .. home .. '/.config/nvim/init.lua',
+                action = 'e ' .. config_home .. '/init.lua',
                 key_hi = 'Number',
                 key = 'd',
                 keymap = 'SPC f d'

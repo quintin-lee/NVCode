@@ -149,6 +149,7 @@ local plugins = {
             'ravenxrz/DAPInstall.nvim',
             'theHamsta/nvim-dap-virtual-text',
             'mfussenegger/nvim-dap-python',
+            'nvim-neotest/nvim-nio',
         }},
         event = "VeryLazy",
         config = function()
@@ -213,12 +214,28 @@ local plugins = {
     },
 
     -- http rest client
+    --{
+    --    'NTBBloodbath/rest.nvim',
+    --    dependencies = {{ "nvim-lua/plenary.nvim" }},
+    --    lazy = true,
+    --    config = function()
+    --        require('configs.rest')
+    --    end,
+    --},
     {
-        'NTBBloodbath/rest.nvim',
-        dependencies = {{ "nvim-lua/plenary.nvim" }},
-        lazy = true,
+        "vhyrro/luarocks.nvim",
+        priority = 1000,
+        config = true,
+        opts = {
+            rocks = { "lua-curl", "nvim-nio", "mimetypes", "xml2lua" }
+        }
+    },
+    {
+        "rest-nvim/rest.nvim",
+        ft = "http",
+        dependencies = { "luarocks.nvim" },
         config = function()
-            require('configs.rest')
+            require("rest-nvim").setup()
         end,
     },
 
