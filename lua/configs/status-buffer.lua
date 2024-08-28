@@ -17,6 +17,8 @@ require('bufferline').setup {
                 text_align = 'left'
             }
         },
+        -- 分割线的样式
+        separator_style = "slant",
         numbers = function(opts)
             return string.format('%s.%s', opts.id, opts.lower(opts.ordinal))
         end,
