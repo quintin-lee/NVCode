@@ -27,6 +27,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require('core.basic')
 
+vim.loader.enable()
+
 local plugins = {
     -- theme
     {
@@ -42,12 +44,6 @@ local plugins = {
         enabled = false,
         config = function ()
             require("filetype").setup{}
-        end,
-    },
-    {
-        'lewis6991/impatient.nvim',
-        config = function()
-            require('impatient')
         end,
     },
 
