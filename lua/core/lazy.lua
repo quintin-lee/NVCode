@@ -38,15 +38,6 @@ local plugins = {
         end,
     },
 
-    -- 优化启动时间
-    {
-        'nathom/filetype.nvim',
-        enabled = false,
-        config = function ()
-            require("filetype").setup{}
-        end,
-    },
-
     -- 对齐线
     {
         'lukas-reineke/indent-blankline.nvim',
