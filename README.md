@@ -25,8 +25,8 @@
 - Format on save
 - Autocompletion
 - Uses neovim's native lsp
-- Support c/c++, shell, python, lua, java, rust
-- Support c/c++ Debug
+- Support c/c++, shell, python, lua, java, rust, markdown
+- Support c/c++/python Debug
 
 ## 1. 依赖
 
@@ -147,11 +147,9 @@ docker run -it quintinlee/neovim
 | dashboard              | https://github.com/glepnir/dashboard-nvim                     | 启动页             |
 | diffview               | https://github.com/sindrets/diffview.nvim                     | git diff        |
 | dressing               | https://github.com/stevearc/dressing.nvim                     | 优化 tui          |
-| filetype               | https://github.com/nathom/filetype.nvim                       | 优化启动            |
 | FTerm                  | https://github.com/numToStr/FTerm.nvim                        | 浮动终端            |
 | git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | 显示 git blame    |
 | gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | 显示 git 文件变更     |
-| impatient              | https://github.com/lewis6991/impatient.nvim                   | 优化启动            |
 | indent-blankline       | https://github.com/lukas-reineke/indent-blankline.nvim        | 对齐线             |
 | lazygit                | https://github.com/kdheepak/lazygit.nvim                      | lazygit         |
 | lualine                | https://github.com/nvim-lualine/lualine.nvim                  | 状态栏             |
