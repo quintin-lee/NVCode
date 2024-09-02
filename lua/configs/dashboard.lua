@@ -99,7 +99,7 @@ db.setup ({
                 desc_hi = 'String',
                 action = 'q',
                 key_hi = 'Number',
-                key = 'q',
+                key = 'SPC q',
                 keymap = 'SPC q  '
             },
         },

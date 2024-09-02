@@ -52,6 +52,7 @@
 + zathura
 + noto-fonts-emoji
 + noto-color-emoji-fontconfig-no-binding
++ luarocks
 + [bito cli](https://github.com/gitbito/CLI)
 
 ## 2. manjaro/archlinux 系统安装
@@ -84,6 +85,7 @@ sudo pacman -S xsel
 sudo pacman -S zathura
 sudo pacman -S noto-fonts-emoji --noconfirm
 sudo pacman -S rust-analyzer
+sudo pacman -S luarocks
 yay -S jdtls
 yay -S noto-color-emoji-fontconfig-no-binding
 
