@@ -80,7 +80,6 @@ local plugins = {
             'hrsh7th/cmp-cmdline',
             -- Lua Development for Neovim
             'tjdevries/nlua.nvim',
-            'nvim-lua/completion-nvim',
             'rmagatti/goto-preview',
             'ray-x/lsp_signature.nvim',
         }}
