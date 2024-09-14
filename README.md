@@ -53,7 +53,6 @@
 + noto-fonts-emoji
 + noto-color-emoji-fontconfig-no-binding
 + luarocks
-+ [bito cli](https://github.com/gitbito/CLI)
 
 ## 2. manjaro/archlinux 系统安装
 
@@ -124,6 +123,17 @@ cd ~/.config/nvim
 bash install_fonts.sh
 ```
 
+### 2.5 AI 代码建议配置
+
+OpenAI 的 API 接口协议直接配置下面的环境变量即可。
+
+```shell
+# 以智谱清言为例配置如下：
+export AVANTE_API_ENDPOINT=https://open.bigmodel.cn/api/paas/v4
+export AVANTE_MODEL_NAME=GLM-4-Plus
+export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (使用自己的 API_KEY)
+```
+
 ## 3. Docker
 
 [quintinlee/neovim][1] 是 NVCode 基于 archlinux 的docker镜像，无需安装 NVCode，即可快速体验 NVCode 带来的快乐
@@ -190,7 +200,7 @@ docker run -it quintinlee/neovim
 | workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
 | openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
-| vim-bitoai             | https://github.com/zhenyangze/vim-bitoai.git                  | Plugin for Bito Using Bito CLI |
+| avante.nvim            | https://github.com/yetone/avante.nvim                         | 模拟 Cursor AI IDE 的行为。 它为用户提供人工智能驱动的代码建议 |
 | leap.nvim              | https://github.com/ggandor/leap.nvim                          | 光标跳转插件 |
 
 ## 5. 参考
