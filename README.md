@@ -4,7 +4,7 @@
 <p align="center">
   <img alt="Stargazers" src="https://img.shields.io/github/stars/quintin-lee/NVCode?logo=starship" />
   <img alt="Made with lua" src="https://img.shields.io/badge/Made%20with%20Lua-blue.svg?logo=lua" />
-  <img alt="Minimum neovim version" src="https://img.shields.io/badge/Neovim-0.9.0+-blueviolet.svg?logo=Neovim" />
+  <img alt="Minimum neovim version" src="https://img.shields.io/badge/Neovim-0.10.0+-blueviolet.svg?logo=Neovim" />
   <img alt="forks" src="https://img.shields.io/github/forks/quintin-lee/NVCode?logo=forks" />
   <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/NVCode?logo=gitbook" />
 </p>
@@ -30,7 +30,7 @@
 
 ## 1. 依赖
 
-+ neovim > 0.9
++ neovim > 0.10
 + patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
 + translate-shell
 + lazygit
@@ -127,10 +127,42 @@ bash install_fonts.sh
 
 OpenAI 的 API 接口协议直接配置下面的环境变量即可。
 
+```
+AVANTE_API_ENDPOINT
+AVANTE_MODEL_NAME
+AVANTE_API_KEY
+```
+
++ 以智谱清言为例配置如下：
+
+智谱清言[官方文档](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
+
+1. 获取 API Keys
+
+可以访问[API Keys 页面](https://bigmodel.cn/usercenter/apikeys)查找您将在请求中使用的 API Key。
+
+2. 验证 API Keys 是否可以正常访问 GLM4
+
 ```shell
-# 以智谱清言为例配置如下：
+curl --location 'https://open.bigmodel.cn/api/paas/v4/chat/completions' \
+--header 'Authorization: Bearer <你的apikey>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "model": "glm-4",
+    "messages": [
+        {
+            "role": "user",
+            "content": "你好"
+        }
+    ]
+}'
+```
+
+3. 配置环境变量
+
+```shell
 export AVANTE_API_ENDPOINT=https://open.bigmodel.cn/api/paas/v4
-export AVANTE_MODEL_NAME=GLM-4-Plus
+export AVANTE_MODEL_NAME=GLM-4
 export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (使用自己的 API_KEY)
 ```
 
