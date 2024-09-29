@@ -119,7 +119,7 @@ local plugins = {
     {
         "nvim-treesitter/nvim-treesitter",
         build = ":TSUpdate",
-        config = function () 
+        config = function ()
             require('configs.nvim-treesitter')
         end,
     },
@@ -203,15 +203,6 @@ local plugins = {
         end,
     },
 
-    -- http rest client
-    --{
-    --    'NTBBloodbath/rest.nvim',
-    --    dependencies = {{ "nvim-lua/plenary.nvim" }},
-    --    lazy = true,
-    --    config = function()
-    --        require('configs.rest')
-    --    end,
-    --},
     {
         "vhyrro/luarocks.nvim",
         priority = 1000,
@@ -225,8 +216,13 @@ local plugins = {
         ft = "http",
         dependencies = { "luarocks.nvim" },
         config = function()
-            require("rest-nvim").setup()
-        end,
+            vim.api.nvim_create_autocmd("FileType",  {
+                pattern = { "json" },
+                callback = function()
+                    vim.api.nvim_set_option_value("formatprg", "jq", { scope = 'local' })
+                end,
+            })
+         end,
     },
 
     -- 快速跳转
