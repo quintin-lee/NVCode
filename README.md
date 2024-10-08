@@ -171,7 +171,7 @@ export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (使用自己的
 [quintinlee/neovim][1] 是 NVCode 基于 archlinux 的docker镜像，无需安装 NVCode，即可快速体验 NVCode 带来的快乐
 
 ```shell
-docker run -it quintinlee/neovim
+docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspace -w /workspace crpi-cofuzswrnwwx9atk.cn-beijing.personal.cr.aliyuncs.com/quintinlee/nvcode:0.10 /opt/nvcode/bin/nvcode
 ```
 
 
@@ -237,8 +237,9 @@ docker run -it quintinlee/neovim
 
 ## 5. 参考
 
-[awesome neovim](https://github.com/rockerBOO/awesome-neovim/blob/main/README.md)
+[awesome neovim][2]
 
 
-[1]: https://hub.docker.com/repository/docker/quintinlee/neovim
+[1]: https://cr.console.aliyun.com/repository/cn-beijing/quintinlee/nvcode
+[2]: https://github.com/rockerBOO/awesome-neovim/blob/main/README.md
 
