@@ -101,7 +101,7 @@ function install_neovim()
         then
             return 0
         else
-            echo "neovim 版本低于 v0.7, 重新安装 neovim"
+            echo "neovim 版本低于 ${MIN_VERSION}, 重新安装 neovim"
         fi
     fi
 
