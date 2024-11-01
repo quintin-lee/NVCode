@@ -9,9 +9,7 @@
   <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/NVCode?logo=gitbook" />
 </p>
 
-## Language Switching
-
- [简体中文 (Chinese Simplified)](README.zh-CN.md)
+English | [中文版](README.zh-CN.md)
 
 ## Interface Preview
 
