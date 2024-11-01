@@ -18,7 +18,8 @@ require('bufferline').setup {
             }
         },
         -- 分割线的样式
-        separator_style = "slant",
+        -- slant padded_slant slope padded_slope thick thin
+        separator_style = "thin",
         numbers = function(opts)
             return string.format('%s.%s', opts.id, opts.lower(opts.ordinal))
         end,
