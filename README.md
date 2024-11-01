@@ -9,7 +9,11 @@
   <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/NVCode?logo=gitbook" />
 </p>
 
-## 界面预览
+## Language Switching
+
+ [简体中文 (Chinese Simplified)](README.zh-CN.md)
+
+## Interface Preview
 
 <p float="center" align="middle">
   <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/startup.png" width="33%" />
@@ -18,17 +22,19 @@
   <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/debug.png " width="33%" />
 </p>
 
-## 特性
+## Features
 
-- Fully written in lua
-- Easy to install
-- Format on save
-- Autocompletion
-- Uses neovim's native lsp
-- Support c/c++, shell, python, lua, java, rust, markdown
-- Support c/c++/python Debug
+- Completely written in Lua for enhanced performance and customization.
+- Easy setup with minimal configuration required.
+- Automatic formatting on save for a clean codebase.
+- Intelligent autocompletion for increased productivity.
+- Utilizes Neovim's built-in LSP for robust language support.
+- Comprehensive language support including C/C++, Shell, Python, Lua, Java, Rust, and Markdown.
+- Debugging support for C/C++, Python, and other languages.
+- Integrated REST client for web development and testing.
+- Default theme: OneDark, for a modern and sleek interface.
 
-## 1. 依赖
+## 1. Dependencies
 
 + neovim > 0.10
 + patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
@@ -54,9 +60,9 @@
 + noto-color-emoji-fontconfig-no-binding
 + luarocks
 
-## 2. manjaro/archlinux 系统安装
+## 2. Installation on Manjaro/Archlinux
 
-### 2.1 安装 neovim 软件
+### 2.1 Install neovim
 
 ```shell
 sudo pacman -S neovim
@@ -64,7 +70,7 @@ sudo ln -sf /usr/bin/nvim /usr/local/bin/vi
 sudo ln -sf /usr/bin/nvim /usr/local/bin/vim
 ```
 
-### 2.2 安装依赖
+### 2.2 Install dependencies
 
 ```shell
 sudo pacman -S make
@@ -90,7 +96,7 @@ yay -S noto-color-emoji-fontconfig-no-binding
 
 pip install cmake-language-server
 
-## 安装 vscode-cpp-tools 用于 debug c/cpp
+## Install vscode-cpp-tools for debugging c/cpp
 wget https://github.com/microsoft/vscode-cpptools/releases/download/v1.10.8/cpptools-linux.vsix
 mkdir vscode-cpptools
 pushd vscode-cpptools
@@ -100,32 +106,32 @@ mv vscode-cpptools ~/.local/
 chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
 ```
 
-### 2.3 安装插件
+### 2.3 Install pluings
 
 ```shell
 git clone https://github.com/quintin-lee/NVCode.git ~/.config/nvim
 nvim
 
 
-### 如果 LspInstall gopls 无法拉取则，设置代理
-# 报错信息：spawn: go failed with no exit code. go is not executable
+### If LspInstall gopls fails to fetch, set up a proxy
+# Error msg：spawn: go failed with no exit code. go is not executable
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-### 2.4 安装 Nerd 字体
+### 2.4 Install Nerd Fonts
 
 ```shell
-Nerd 字体： https://github.com/ryanoasis/nerd-fonts.git
-推荐 JetBrainsMono 字体
+Nerd Fonts： https://github.com/ryanoasis/nerd-fonts.git
+Recommend JetBrainsMono font
 
 cd ~/.config/nvim
 bash install_fonts.sh
 ```
 
-### 2.5 AI 代码建议配置
+### 2.5 AI Code Suggestions Configuration
 
-OpenAI 的 API 接口协议直接配置下面的环境变量即可。
+To configure the OpenAI API interface directly, set the following environment variables.
 
 ```
 AVANTE_API_ENDPOINT
@@ -133,15 +139,15 @@ AVANTE_MODEL_NAME
 AVANTE_API_KEY
 ```
 
-+ 以智谱清言为例配置如下：
++ As an example, configuring with ZhiPu Qingyan:
 
-智谱清言[官方文档](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
+[Official Documentation of ZhiPu Qingyan](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
 
-1. 获取 API Keys
+1. Obtain API Keys
 
-可以访问[API Keys 页面](https://bigmodel.cn/usercenter/apikeys)查找您将在请求中使用的 API Key。
+You can visit the [API Keys page](https://bigmodel.cn/usercenter/apikeys) to find the API Key you will use in the request.
 
-2. 验证 API Keys 是否可以正常访问 GLM4
+2. Verify whether the API Keys can access GLM4
 
 ```shell
 curl --location 'https://open.bigmodel.cn/api/paas/v4/chat/completions' \
@@ -152,90 +158,90 @@ curl --location 'https://open.bigmodel.cn/api/paas/v4/chat/completions' \
     "messages": [
         {
             "role": "user",
-            "content": "你好"
+            "content": "Hello"
         }
     ]
 }'
 ```
 
-3. 配置环境变量
+3. Configure environment variables
 
 ```shell
 export AVANTE_API_ENDPOINT=https://open.bigmodel.cn/api/paas/v4
 export AVANTE_MODEL_NAME=GLM-4
-export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (使用自己的 API_KEY)
+export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (use your own API_KEY)
 ```
 
 ## 3. Docker
 
-[quintinlee/neovim][1] 是 NVCode 基于 archlinux 的docker镜像，无需安装 NVCode，即可快速体验 NVCode 带来的快乐
+[quintinlee/neovim][1] is the Docker image of NVCode based on Archlinux. You can quickly experience the joy brought by NVCode without installing NVCode.
 
 ```shell
 docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspace -w /workspace crpi-cofuzswrnwwx9atk.cn-beijing.personal.cr.aliyuncs.com/quintinlee/nvcode:0.10 /opt/nvcode/bin/nvcode
 ```
 
 
-## 4. 插件列表
+## 4. Plugin List
 
-| 插件名                    | 插件地址                                                          | 备注              |
+| Plugin Name            | Plugin Address                                                | Notes              |
 | ---------------------- | ------------------------------------------------------------- | --------------- |
-| lazy                   | https://github.com/folke/lazy.nvim                            | 插件管理器           |
-| DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | debuggers 管理    |
+| lazy                   | https://github.com/folke/lazy.nvim                            | Plugin Manager           |
+| DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | Debuggers Manager    |
 | LuaSnip                | https://github.com/L3MON4D3/LuaSnip                           |                 |
-| bufferline             | https://github.com/akinsho/bufferline.nvim                    | buffer 栏        |
+| bufferline             | https://github.com/akinsho/bufferline.nvim                    | Buffer Bar        |
 | cmp-cmdline            | https://github.com/hrsh7th/cmp-cmdline                        |                 |
 | cmp-nvim-lsp           | https://github.com/hrsh7th/cmp-nvim-lsp                       |                 |
 | cmp-path               | https://github.com/hrsh7th/cmp-path                           |                 |
 | cmp_luasnip            | https://github.com/saadparwaiz1/cmp_luasnip                   |                 |
-| completion             | https://github.com/nvim-lua/completion-nvim                   | 自动补全            |
-| dashboard              | https://github.com/glepnir/dashboard-nvim                     | 启动页             |
+| completion             | https://github.com/nvim-lua/completion-nvim                   | Auto Completion            |
+| dashboard              | https://github.com/glepnir/dashboard-nvim                     | Startup screen             |
 | diffview               | https://github.com/sindrets/diffview.nvim                     | git diff        |
-| dressing               | https://github.com/stevearc/dressing.nvim                     | 优化 tui          |
-| FTerm                  | https://github.com/numToStr/FTerm.nvim                        | 浮动终端            |
-| git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | 显示 git blame    |
-| gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | 显示 git 文件变更     |
-| indent-blankline       | https://github.com/lukas-reineke/indent-blankline.nvim        | 对齐线             |
+| dressing               | https://github.com/stevearc/dressing.nvim                     | Optimized tui          |
+| FTerm                  | https://github.com/numToStr/FTerm.nvim                        | Floating Terminal            |
+| git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | Display git blame    |
+| gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | Display git File Changes     |
+| indent-blankline       | https://github.com/lukas-reineke/indent-blankline.nvim        | Alignment Line             |
 | lazygit                | https://github.com/kdheepak/lazygit.nvim                      | lazygit         |
-| lualine                | https://github.com/nvim-lualine/lualine.nvim                  | 状态栏             |
-| neogen                 | https://github.com/danymat/neogen                             | 生成注释            |
-| nightfox               | https://github.com/EdenEast/nightfox.nvim                     | 主题              |
+| lualine                | https://github.com/nvim-lualine/lualine.nvim                  | Status Bar             |
+| neogen                 | https://github.com/danymat/neogen                             | Generate Comments            |
+| nightfox               | https://github.com/EdenEast/nightfox.nvim                     | Theme              |
 | nlua                   | https://github.com/tjdevries/nlua.nvim                        |                 |
 | nvim-cmp               | https://github.com/hrsh7th/nvim-cmp                           |                 |
 | nvim-code-action-menu  | https://github.com/weilbith/nvim-code-action-menu             |                 |
 | nvim-comment           | https://github.com/terrortylor/nvim-comment                   | Toggle comments |
-| nvim-dap               | https://github.com/mfussenegger/nvim-dap                      | 调试插件            |
+| nvim-dap               | https://github.com/mfussenegger/nvim-dap                      | Debugging Plugin            |
 | nvim-dap-python        | https://github.com/mfussenegger/nvim-dap-python               |                 |
 | nvim-dap-ui            | https://github.com/rcarriga/nvim-dap-ui                       |                 |
 | nvim-dap-virtual-text  | https://github.com/theHamsta/nvim-dap-virtual-text            |                 |
 | nvim-lsp-installer     | https://github.com/williamboman/nvim-lsp-installer            |                 |
-| nvim-lspconfig         | https://github.com/neovim/nvim-lspconfig                      | lsp 客户端         |
-| nvim-tree              | https://github.com/kyazdani42/nvim-tree.lua                   | 文件树             |
-| nvim-treesitter        | https://github.com/nvim-treesitter/nvim-treesitter            | 语法高亮增强          |
-| nvim-web-devicons      | https://github.com/kyazdani42/nvim-web-devicons               | 文字图标            |
-| onedark                | https://github.com/navarasu/onedark.nvim                      | 主题              |
+| nvim-lspconfig         | https://github.com/neovim/nvim-lspconfig                      | lsp Client         |
+| nvim-tree              | https://github.com/kyazdani42/nvim-tree.lua                   | File Tree             |
+| nvim-treesitter        | https://github.com/nvim-treesitter/nvim-treesitter            | Enhanced Syntax Highlighting          |
+| nvim-web-devicons      | https://github.com/kyazdani42/nvim-web-devicons               | Text Icons            |
+| onedark                | https://github.com/navarasu/onedark.nvim                      | Theme              |
 | plenary                | https://github.com/nvim-lua/plenary.nvim                      |                 |
-| rest                   | https://github.com/NTBBloodbath/rest.nvim                     | REST 客户端        |
-| sessions               | https://github.com/natecraddock/sessions.nvim                 | session 管理      |
-| smart-pairs            | https://github.com/ZhiyuanLck/smart-pairs                     | 智能括号            |
+| rest                   | https://github.com/NTBBloodbath/rest.nvim                     | REST Client        |
+| sessions               | https://github.com/natecraddock/sessions.nvim                 | Session Management      |
+| smart-pairs            | https://github.com/ZhiyuanLck/smart-pairs                     | Smart Parentheses            |
 | sqlite                 | https://github.com/tami5/sqlite.lua                           |                 |
-| symbols-outline        | https://github.com/simrat39/symbols-outline.nvim              | 大纲              |
-| telescope-file-browser | https://github.com/nvim-telescope/telescope-file-browser.nvim | 文件浏览            |
-| telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | 搜索最近访问文件        |
+| symbols-outline        | https://github.com/simrat39/symbols-outline.nvim              | Outline              |
+| telescope-file-browser | https://github.com/nvim-telescope/telescope-file-browser.nvim | File Browsing            |
+| telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | Search Recently Visited Files |
 | telescope-fzf-native   | https://github.com/nvim-telescope/telescope-fzf-native.nvim   |                 |
-| telescope              | https://github.com/nvim-telescope/telescope.nvim              | 搜索插件            |
-| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | 搜索字符图标        |
-| telescope-gitmoji      | https://github.com/olacin/telescope-gitmoji.nvim              | 支持 gitmoji        |
-| todo-comments          | https://github.com/folke/todo-comments.nvim                   | TODO 注释高亮       |
-| translate              | https://github.com/translate.nvim                             | 翻译              |
-| vim-illuminate         | https://github.com/RRethy/vim-illuminate                      | 高亮光标下的词         |
-| which-key              | https://github.com/folke/which-key.nvim                       | 快捷键绑定           |
-| workspaces             | https://github.com/natecraddock/workspaces.nvim               | 工作空间管理          |
-| nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 quickfix 窗口    |
-| openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 openscad 语法    |
-| avante.nvim            | https://github.com/yetone/avante.nvim                         | 模拟 Cursor AI IDE 的行为。 它为用户提供人工智能驱动的代码建议 |
-| leap.nvim              | https://github.com/ggandor/leap.nvim                          | 光标跳转插件 |
+| telescope              | https://github.com/nvim-telescope/telescope.nvim              | Search Plugin            |
+| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | Search Character Icons        |
+| telescope-gitmoji      | https://github.com/olacin/telescope-gitmoji.nvim              | gitmoji Support        |
+| todo-comments          | https://github.com/folke/todo-comments.nvim                   | TODO Comment Highlighting       |
+| translate              | https://github.com/translate.nvim                             | Translation              |
+| vim-illuminate         | https://github.com/RRethy/vim-illuminate                      | Highlight Word Under Cursor         |
+| which-key              | https://github.com/folke/which-key.nvim                       | Shortcut Binding           |
+| workspaces             | https://github.com/natecraddock/workspaces.nvim               | Workspace Management          |
+| nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | Optimized Quickfix Window   |
+| openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | Support OpenSCAD Syntax   |
+| avante.nvim            | https://github.com/yetone/avante.nvim                         | Simulates the behavior of Cursor AI IDE. Provides AI-driven code suggestions to the user. |
+| leap.nvim              | https://github.com/ggandor/leap.nvim                          | Cursor Jumping Plugin  |
 
-## 5. 参考
+## 5. References
 
 [awesome neovim][2]
 
