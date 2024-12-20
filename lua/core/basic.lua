@@ -49,8 +49,7 @@ vim.o.whichwrap = 'b,s,<,>,[,],h,l'
 -- 允许隐藏被修改过的buffer
 vim.o.hidden = true
 -- 鼠标模式设置
--- vim.o.mouse = "a"
-vim.o.mouse = "v"
+vim.o.mouse = "a"
 -- 禁止创建备份文件
 vim.o.backup = false
 vim.o.writebackup = false
@@ -86,4 +85,10 @@ vim.cmd [[
     if has("autocmd")
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
     endif
+]]
+
+-- helps jumps out of the difinition without too many C-o
+vim.cmd [[
+    set tagfunc=v:lua.vim.lsp.tagfunc
+    set jumpoptions+=stack
 ]]
