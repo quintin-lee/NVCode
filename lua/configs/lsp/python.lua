@@ -5,7 +5,9 @@ py_config.setup{
     pylsp = {
       plugins = {
         pycodestyle = {
-          maxLineLength = 120
+          maxLineLength = 120,
+          indentSize = 4,
+          ignore = {'E302', 'E305'}
         }
       }
     }
