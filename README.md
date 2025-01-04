@@ -40,7 +40,7 @@ English | [中文版](README.zh-CN.md)
 + lazygit
 + clangd
 + bash-language-server
-+ pyright
++ pylsp
 + go
 + gopls
 + npm

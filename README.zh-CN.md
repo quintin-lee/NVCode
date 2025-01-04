@@ -40,7 +40,7 @@
 + lazygit
 + clangd
 + bash-language-server
-+ pyright
++ pylsp
 + go
 + gopls
 + npm
