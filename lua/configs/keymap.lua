@@ -44,7 +44,7 @@ wk.add({
   { "<leader>bl", "<cmd>bl<cr>", desc = "last" },
   { "<leader>bn", "<cmd>bn<cr>", desc = "next" },
   { "<leader>bp", "<cmd>bp<cr>", desc = "previous" },
-  { "<leader>bs", "<cmd>ls<cr>", desc = "list" },
+  { "<leader>bs", "<cmd>BufferList<cr>", desc = "list" },
   { "<leader>d", group = "debug" },
   { "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", desc = "breakpoint" },
   { "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", desc = "continue" },
