@@ -127,6 +127,8 @@ wk.add({
   { "<leader>ps", "<cmd>Lazy sync<cr>", desc = "Sync" },
   { "<leader>pu", "<cmd>Lazy update<cr>", desc = "Update" },
   { "<leader>q", "<cmd>qa<cr>", desc = "quit" },
+  { "<leader>s", group = "Setting" },
+  { "<leader>st", "<cmd>Themify<cr>", desc = "Colorscheme manager and switcher" },
   { "<leader>t", group = "floaterm" },
   { "<leader>to", '<cmd>lua require("FTerm").toggle()<cr>', desc = "open" },
   { "<leader>w", group = "Workspace" },

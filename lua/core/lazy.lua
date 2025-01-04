@@ -28,7 +28,7 @@ local plugins = {
         priority = 999,
 
         config = function ()
-           require('configs.themify') 
+           require('configs.themify')
         end,
     },
 
