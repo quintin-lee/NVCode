@@ -400,6 +400,13 @@ local plugins = {
         end,
     },
 
+    -- 滚动条
+    {
+        'Xuyuanp/scrollbar.nvim',
+        config = function()
+            require('configs.scrollbar')
+        end,
+    },
     -- ui 美化
     {
         'stevearc/dressing.nvim',
