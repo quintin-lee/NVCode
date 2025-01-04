@@ -67,6 +67,7 @@
   "telescope-gitmoji.nvim": { "branch": "master", "commit": "ed5e3bc41e353d881cf4a93776c48e3ab8b6d0e2" },
   "telescope-symbols.nvim": { "branch": "master", "commit": "a6d0127a53d39b9fc2af75bd169d288166118aec" },
   "telescope.nvim": { "branch": "master", "commit": "5972437de807c3bc101565175da66a1aa4f8707a" },
+  "themify.nvim": { "branch": "main", "commit": "a792aea1caccd2d977f0ad65b0c4bf4cd49d8133" },
   "todo-comments.nvim": { "branch": "main", "commit": "8f45f353dc3649cb9b44cecda96827ea88128584" },
   "translate.nvim": { "branch": "main", "commit": "30cc9e9f339b61e7bd40bc1ba7af73ea193bf589" },
   "vim-illuminate": { "branch": "master", "commit": "5eeb7951fc630682c322e88a9bbdae5c224ff0aa" },

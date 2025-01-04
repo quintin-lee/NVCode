@@ -20,11 +20,15 @@ require('core.basic')
 vim.loader.enable()
 
 local plugins = {
-    -- theme
+    -- 主题管理
     {
-        'navarasu/onedark.nvim',
-        config = function()
-            require('configs.theme')
+        'lmantw/themify.nvim',
+
+        lazy = false,
+        priority = 999,
+
+        config = function ()
+           require('configs.themify') 
         end,
     },
 
