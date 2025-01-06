@@ -264,6 +264,9 @@ local plugins = {
         dependencies = {
             'nvim-tree/nvim-web-devicons', -- optional, for file icon
         },
+        init = function()
+            require('configs.nvim-tree')
+        end,
         config = function()
             require("nvim-tree").setup {}
         end,
