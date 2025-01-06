@@ -89,6 +89,7 @@ local plugins = {
         }}
     },
     {
+        -- 文件大纲/符号表
         'nvimdev/lspsaga.nvim',
         config = function()
             require('lspsaga').setup({})
@@ -304,15 +305,6 @@ local plugins = {
             -- or leave it empty to use the default settings
             -- refer to the configuration section below
         },
-    },
-
-    -- 文件大纲/符号表
-    {
-        'simrat39/symbols-outline.nvim',
-        event = "VeryLazy",
-        config = function()
-            require('configs.symbols-outline')
-        end,
     },
 
     -- Tabnine client

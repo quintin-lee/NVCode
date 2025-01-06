@@ -109,7 +109,7 @@ wk.add({
   { "<leader>lpr", goto_preview.goto_preview_references, desc = "references" },
   { "<leader>lpt", goto_preview.goto_preview_type_definition, desc = "type definition" },
   { "<leader>lr", vim.lsp.buf.rename, desc = "Rename" },
-  { "<leader>ls", "<cmd>SymbolsOutline<cr>", desc = "Open SymbolsOutline" },
+  { "<leader>ls", "<cmd>Lspsaga outline<cr>", desc = "Open Outline" },
   { "<leader>lw", group = "Workspace Folder" },
   { "<leader>lwa", vim.lsp.buf.add_workspace_folder, desc = "add" },
   { "<leader>lwl", vim.lsp.buf.remove_workspace_folder, desc = "list" },
