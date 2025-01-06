@@ -222,7 +222,6 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 | sessions               | https://github.com/natecraddock/sessions.nvim                 | Session 管理 |
 | smart-pairs            | https://github.com/ZhiyuanLck/smart-pairs                     | 智能括号 |
 | sqlite                 | https://github.com/tami5/sqlite.lua                           |                 |
-| symbols-outline        | https://github.com/simrat39/symbols-outline.nvim              | 大纲              |
 | telescope-file-browser | https://github.com/nvim-telescope/telescope-file-browser.nvim | 文件浏览 |
 | telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | 搜索最近访问文件 |
 | telescope-fzf-native   | https://github.com/nvim-telescope/telescope-fzf-native.nvim   |                 |
