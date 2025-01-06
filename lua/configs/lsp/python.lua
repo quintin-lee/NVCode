@@ -7,7 +7,7 @@ py_config.setup{
         pycodestyle = {
           maxLineLength = 120,
           indentSize = 4,
-          ignore = {'E302', 'E305'}
+          ignore = {'E302', 'E305', 'E121', 'E126'}
         }
       }
     }
