@@ -1,0 +1,20 @@
+/*
+ * File:   <filename>.cpp
+ * Author: Your Name
+ *
+ * Created on <date>
+ *
+ * <Add a brief description of the file here>
+ */
+
+#include <iostream>
+#include <vector>
+#include <string>
+
+/* Define your functions here */
+
+int main(int argc, char *argv[]) {
+    // Your main function code here
+    <!-- CURSOR -->
+    return 0;
+}

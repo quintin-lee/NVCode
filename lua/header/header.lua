@@ -39,7 +39,8 @@ end
 local templates = {
   ['*.py'] = '/lua/header/templates/python.txt',
   ['*.sh'] = '/lua/header/templates/bash.txt',
-  ['*.c'] = '/lua/header/templates/c.txt'
+  ['*.c'] = '/lua/header/templates/c.txt',
+  ['*.cpp'] = '/lua/header/templates/cpp.txt',
 }
 
 -- 注册所有模板
