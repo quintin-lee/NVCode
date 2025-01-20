@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Author: Your Name
-Date: $(date +%Y-%m-%d)
+Author: {{AUTHOR}}
+Date: {{DATE}}
 
 Description: This is a Python script.
 """

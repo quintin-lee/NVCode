@@ -1,8 +1,8 @@
 /*
- * File:   <filename>.c
- * Author: Your Name
+ * File:   {{FILENAME}}
+ * Author: {{AUTHOR}}
  *
- * Created on <date>
+ * Created on {{DATE}}
  *
  * <Add a brief description of the file here>
  */
