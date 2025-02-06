@@ -37,6 +37,9 @@ local plugins = {
         'lukas-reineke/indent-blankline.nvim',
         main = "ibl",
         opts = {},
+        config = function ()
+            require('configs.indent-blankline')
+        end,
     },
 
     -- highlight the word under the cursor
