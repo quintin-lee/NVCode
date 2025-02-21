@@ -92,3 +92,8 @@ vim.cmd [[
     set tagfunc=v:lua.vim.lsp.tagfunc
     set jumpoptions+=stack
 ]]
+
+-- 默认不折叠代码
+vim.o.foldenable = true
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
