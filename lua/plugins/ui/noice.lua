@@ -17,6 +17,11 @@ return {
                     ["cmp.entry.get_documentation"] = true,
                 },
             },
+            cmdline = {
+                -- 或保留部分功能但禁用浮动窗口：
+                enabled = true,   -- 保持启用，但修改视图模式
+                view = "cmdline", -- 使用传统命令行（非浮动窗口）
+            },
             presets = {
                 bottom_search = true,
                 command_palette = true,
