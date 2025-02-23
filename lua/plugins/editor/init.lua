@@ -9,4 +9,5 @@ return {
     require("plugins.editor.ufo"),           -- 代码折叠
     require("plugins.editor.whick-key"),    -- 快捷键提示
     require("plugins.editor.workspaces"),    -- 工作区
+    require("plugins.editor.markdown"),       -- markdown
 }
