@@ -1,0 +1,51 @@
+{
+    "bashls": {
+        "enabled": true,
+        "settings": {}
+    },
+    "lua_ls": {
+        "enabled": true,
+        "settings": {
+            "Lua": {
+                "runtime": {
+                    "version": "LuaJIT"
+                },
+                "diagnostics": {
+                    "globals": ["vim", "use", "client", "bufnr"]
+                },
+                "workspace": {
+                    "library": []
+                },
+                "telemetry": {
+                    "enable": false
+                }
+            }
+        }
+    },
+    "pylsp": {
+        "enabled": true,
+        "settings": {
+            "pylsp": {
+                "plugins": {
+                    "pycodestyle": {
+                        "maxLineLength": 120,
+                        "indentSize": 4,
+                        "ignore": ["E302", "E305", "E121", "E126"]
+                    }
+                }
+            }
+        }
+    },
+    "clangd": {
+        "enabled": true,
+        "settings": {}
+    },
+    "cmake": {
+        "enabled": true,
+        "settings": {}
+    },
+    "rust_analyzer": {
+        "enabled": true,
+        "settings": {}
+    }
+} 
