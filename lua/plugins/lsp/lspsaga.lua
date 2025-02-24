@@ -1,8 +1,25 @@
 return {
-    'glepnir/lspsaga.nvim',
+    'nvimdev/lspsaga.nvim',
     event = "LspAttach",
     config = function()
         require('lspsaga').setup({
+            debug = false,
+            use_saga_diagnostic_sign = true,
+            -- 诊断符号配置
+            error_sign = "",
+            warn_sign = "",
+            hint_sign = "",
+            info_sign = "",
+            -- 代码操作图标
+            code_action_icon = "💡",
+            code_action_prompt = {
+                enable = true,
+                sign_priority = 40,
+                virtual_text = true,
+            },
+            -- 预览窗口行数限制
+            max_preview_lines = 15,
+
             ui = {
                 border = 'rounded',
                 winblend = 10,
