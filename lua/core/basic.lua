@@ -9,8 +9,8 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 -- 高亮所在行
 vim.wo.cursorline = true
--- 显示左侧图标指示列
-vim.wo.signcolumn = "yes"
+-- 显示左侧图标指示列，并设置固定宽度
+vim.wo.signcolumn = "yes:2"  -- 使用自动模式，避免不必要的宽度
 -- 右侧参考线，超过表示代码太长了，考虑换行
 vim.wo.colorcolumn = "120"
 -- 缩进2个空格等于一个Tab

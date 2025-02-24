@@ -8,8 +8,9 @@ return {
     config = function()
         local ftMap = {
             vim = 'indent',
-            python = {'indent'},
-            git = ''
+            python = 'indent',
+            git = '',
+            lua = 'indent',
         }
 
         require('ufo').setup({
@@ -17,7 +18,8 @@ return {
             close_fold_kinds_for_ft = {
                 default = {'imports', 'comment'},
                 json = {'array'},
-                c = {'comment', 'region'}
+                c = {'comment', 'region'},
+                lua = { 'comment' },
             },
             preview = {
                 win_config = {
@@ -33,7 +35,7 @@ return {
                 }
             },
             provider_selector = function(bufnr, filetype, buftype)
-                return ftMap[filetype]
+                return ftMap[filetype] or 'indent'
             end
         })
 
@@ -42,11 +44,11 @@ return {
         vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
         vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
         vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
-        vim.keymap.set('n', 'K', function()
+        vim.keymap.set('n', 'zK', function()
             local winid = require('ufo').peekFoldedLinesUnderCursor()
             if not winid then
                 vim.lsp.buf.hover()
             end
-        end)
+        end, { desc = 'Peek folded lines under cursor' })
     end,
 }

@@ -52,7 +52,7 @@ return {
         local lsp_config = read_json_config(vim.fn.stdpath("config") .. "/lua/configs/lsp_config.json")
 
         local user_lsp_servers = vim.tbl_keys(lsp_config)
-        local lsp_servers = concat_dedup( user_lsp_servers, {
+        local lsp_servers = concat_dedup(user_lsp_servers, {
             'bashls',
             'lua_ls',
             'jdtls',
