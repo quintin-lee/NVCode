@@ -134,6 +134,8 @@ return {
         { "<leader>st", "<cmd>Themify<cr>", desc = "Colorscheme manager and switcher" },
         { "<leader>t", group = "floaterm" },
         { "<leader>to", '<cmd>lua require("FTerm").toggle()<cr>', desc = "open" },
+        { "<leader>tb", '<cmd>FTermBtop<cr>', desc = "Open Btop" },
+        { "<leader>tc", '<CMD>FTermClose<CR>', desc = "Close FTerm" },
         { "<leader>w", group = "Workspace" },
         { "<leader>wa", function() workspaces.add() end, desc = "add" },
         { "<leader>wl", function() workspaces.list() end, desc = "list" },

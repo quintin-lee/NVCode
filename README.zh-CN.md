@@ -57,6 +57,7 @@
 + noto-fonts-emoji
 + noto-color-emoji-fontconfig-no-binding
 + luarocks
++ btop
 
 ## 2. Manjaro/Archlinux 系统安装
 
@@ -89,6 +90,7 @@ sudo pacman -S zathura
 sudo pacman -S noto-fonts-emoji --noconfirm
 sudo pacman -S rust-analyzer
 sudo pacman -S luarocks
+sudo pacman -S btop
 yay -S jdtls
 yay -S noto-color-emoji-fontconfig-no-binding
 

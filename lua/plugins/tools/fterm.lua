@@ -1,7 +1,22 @@
 return {
     'numToStr/FTerm.nvim',
     config = function()
-        require'FTerm'.setup({
+        local fterm = require("FTerm")
+
+        local btop = fterm:new({
+            ft = 'fterm_btop',
+            cmd = "btop"
+        })
+
+        -- Use this to toggle btop in a floating terminal
+        vim.keymap.set('n', '<A-b>', function()
+            btop:toggle()
+        end)
+
+        vim.api.nvim_create_user_command('FTermClose', require('FTerm').close, { bang = true })
+        vim.api.nvim_create_user_command('FTermBtop', function() btop:toggle() end, { bang = true })
+
+        fterm.setup({
             border = 'double',
             dimensions  = {
                 height = 0.9,
