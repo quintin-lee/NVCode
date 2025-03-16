@@ -132,6 +132,7 @@ return {
         { "<leader>q", "<cmd>qa<cr>", desc = "quit" },
         { "<leader>s", group = "Setting" },
         { "<leader>st", "<cmd>Themify<cr>", desc = "Colorscheme manager and switcher" },
+        { "<leader>sl", "<cmd>e "..config_home.."/lua/configs/lsp_config.json<cr>", desc = "Open LSP Configuration File" },
         { "<leader>t", group = "floaterm" },
         { "<leader>to", '<cmd>lua require("FTerm").toggle()<cr>', desc = "open" },
         { "<leader>tb", '<cmd>FTermBtop<cr>', desc = "Open Btop" },
