@@ -1,7 +1,10 @@
 local lspconfig = require('lspconfig')
 
 lspconfig.jdtls.setup {
-    cmd = { 'jdtls' },
+    cmd = {
+        'jdtls',
+        '--jvm-arg=-javaagent:' .. vim.fn.stdpath('data') .. '/mason/packages/jdtls/lombok.jar',
+    },
     root_dir = lspconfig.util.root_pattern(".git", "mvnw", "gradlew", "pom.xml"),
     settings = {
         java = {}
