@@ -9,20 +9,21 @@ return {
         local api_key  = tostring(os.getenv("AVANTE_API_KEY"))
 
         require('avante').setup({
-        provider = "ollama",
-        mappings = {
-            ask = "na", -- ask
-            edit = "ne", -- edit
-            refresh = "nr", -- refresh
-        },
-        vendors = {
-            ollama = {
-                __inherited_from = "openai",
-                api_key_name = "AVANTE_API_KEY",
-                endpoint = endpoint,
-                model = model,
+            provider = "openrouter",
+            mappings = {
+                ask = "na", -- ask
+                edit = "ne", -- edit
+                refresh = "nr", -- refresh
             },
-        }
+            vendors = {
+                openrouter = {
+                    __inherited_from = "openai",
+                    api_key_name = "AVANTE_API_KEY",
+                    endpoint = endpoint,
+                    model = model,
+                    max_tokens = 4096,
+                },
+            }
         })
     end,
 }
