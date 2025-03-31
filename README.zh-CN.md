@@ -106,6 +106,11 @@ mv vscode-cpptools ~/.local/
 chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
 ```
 
+## 安装 lombok.jar 为 java lsp
+wget https://projectlombok.org/downloads/lombok.jar
+
+mv lombok.jar $XDG_DATA_HOME/mason/packages/jdtls/lombok.jar
+
 ### 2.3 安装插件
 
 ```shell

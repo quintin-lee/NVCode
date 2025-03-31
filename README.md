@@ -104,6 +104,12 @@ unzip ../cpptools-linux.vsix
 popd
 mv vscode-cpptools ~/.local/
 chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
+
+
+## Install lombok.jar for lsp java
+wget https://projectlombok.org/downloads/lombok.jar
+
+mv lombok.jar $XDG_DATA_HOME/mason/packages/jdtls/lombok.jar
 ```
 
 ### 2.3 Install pluings
