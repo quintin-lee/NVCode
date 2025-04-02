@@ -34,6 +34,9 @@ return {
         })
     end,
     config = function()
+        vim.api.nvim_set_hl(0, "NvimTreeNormal", { bg = "none" })
+        vim.api.nvim_set_hl(0, "NvimTreeEndOfBuffer", { bg = "none" })   -- 隐藏 \~ 符号区域背景
+        vim.api.nvim_set_hl(0, "NvimTreeVertSplit", { bg = "none" })     -- 垂直分割线背景透明
         require("nvim-tree").setup {}
     end,
 }
