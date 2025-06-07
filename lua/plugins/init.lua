@@ -1,5 +1,6 @@
 -- 加载所有插件模块
 return {
+    require("plugins.header"),      -- 头文件相关插件
     require("plugins.ui"),          -- 界面美化相关
     require("plugins.editor"),      -- 编辑器功能增强
     require("plugins.coding"),      -- 代码编写相关
