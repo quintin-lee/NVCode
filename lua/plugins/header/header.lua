@@ -58,10 +58,10 @@ end
 
 -- 注册模板
 local templates = {
-  ['*.py'] = '/lua/header/templates/python.txt',
-  ['*.sh'] = '/lua/header/templates/bash.txt',
-  ['*.c'] = '/lua/header/templates/c.txt',
-  ['*.cpp'] = '/lua/header/templates/cpp.txt',
+  ['*.py'] = '/lua/plugins/header/templates/python.txt',
+  ['*.sh'] = '/lua/plugins/header/templates/bash.txt',
+  ['*.c'] = '/lua/plugins/header/templates/c.txt',
+  ['*.cpp'] = '/lua/plugins/header/templates/cpp.txt',
 }
 
 -- 注册所有模板

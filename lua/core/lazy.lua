@@ -16,6 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('core.basic')
+require("plugins.header.header")
 
 vim.loader.enable()
 
