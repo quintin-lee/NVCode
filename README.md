@@ -246,7 +246,65 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 | avante.nvim            | https://github.com/yetone/avante.nvim                         | Simulates the behavior of Cursor AI IDE. Provides AI-driven code suggestions to the user. |
 | leap.nvim              | https://github.com/ggandor/leap.nvim                          | Cursor Jumping Plugin  |
 
-## 5. References
+---
+
+### Plugin Function Overview
+
+| Category      | Main Plugins                                      | Description                                    |
+| ------------- | ------------------------------------------------- | ---------------------------------------------- |
+| UI            | bufferline, lualine, dressing, themify, dashboard | Status bar, buffer bar, themes, dashboard      |
+| Coding        | nvim-cmp, luasnip, treesitter, tabnine, neogen    | Completion, snippets, syntax, AI, docgen       |
+| LSP           | nvim-lspconfig, mason, lspsaga, null-ls           | Language server, install, UI, format/lint      |
+| Debug         | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual    | Debugger, UI, install, virtual text            |
+| Git           | gitsigns, diffview, lazygit                       | Git signs, diff view, lazygit integration      |
+| Tools         | telescope, nvim-tree, fterm, translate, workspaces| Fuzzy find, file tree, terminal, translate     |
+| Editor        | comment, pairs, ufo, markdown, todo, illuminate   | Comment, autopairs, fold, markdown, todo, hl   |
+| AI            | avante, tabnine                                   | AI code suggestion, chat, completion           |
+
+---
+
+## 5. FAQ (Frequently Asked Questions)
+
+**Q1: Plugin installation fails or is slow?**
+- A: Try using a proxy for GitHub, or check your network connection. You can also manually clone plugins.
+
+**Q2: LSP or completion not working?**
+- A: Make sure all dependencies are installed. Run `:checkhealth` in Neovim for diagnostics. Check if the language server is in your PATH.
+
+**Q3: Font or icon display is abnormal?**
+- A: Make sure you have installed Nerd Fonts and set your terminal font to a Nerd Font (e.g., JetBrainsMono Nerd Font).
+
+**Q4: How to update plugins?**
+- A: Use `:Lazy update` or `:Lazy sync` in Neovim to update all plugins.
+
+**Q5: How to reset or clean plugins?**
+- A: Use `:Lazy clean` to remove unused plugins.
+
+**Q6: How to enable AI code suggestions?**
+- A: Set the required environment variables (`AVANTE_API_ENDPOINT`, `AVANTE_MODEL_NAME`, `AVANTE_API_KEY`) as described above.
+
+**Q7: How to quickly restore the default configuration?**
+- A: Delete `~/.config/nvim` and re-clone the repository.
+
+---
+
+## 6. One-click Installation Script
+
+You can use the provided `install.sh` script for automatic installation of all dependencies, fonts, and plugins:
+
+```sh
+cd ~/.config/nvim
+bash install.sh -i
+```
+
+- `-i` or `--install`: Install Neovim, dependencies, fonts, and plugins.
+- `-u` or `--uninstall`: Uninstall plugins.
+
+The script will detect your OS (Manjaro/Archlinux) and install all required packages. Please check the script for details and customize if needed.
+
+---
+
+## 7. References
 
 [awesome neovim][2]
 

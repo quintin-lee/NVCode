@@ -245,7 +245,65 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 | avante.nvim            | https://github.com/yetone/avante.nvim                         | 模拟 Cursor AI IDE 的行为。为用户提供 AI 驱动的代码建议。 |
 | leap.nvim              | https://github.com/ggandor/leap.nvim                          | 光标跳转 |
 
-## 5. 参考
+---
+
+### 插件功能简述
+
+| 分类        | 主要插件                                             | 说明                                        |
+| ----------- | ---------------------------------------------------- | ------------------------------------------- |
+| UI         | bufferline, lualine, dressing, themify, dashboard    | 状态栏、Buffer栏、主题、美化、启动页        |
+| Coding     | nvim-cmp, luasnip, treesitter, tabnine, neogen       | 补全、片段、语法高亮、AI、注释生成          |
+| LSP        | nvim-lspconfig, mason, lspsaga, null-ls              | 语言服务器、安装、UI增强、格式化/诊断       |
+| Debug      | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual       | 调试器、UI、安装、虚拟文本                  |
+| Git        | gitsigns, diffview, lazygit                          | Git 标记、差异视图、lazygit 集成            |
+| Tools      | telescope, nvim-tree, fterm, translate, workspaces   | 模糊查找、文件树、终端、翻译、工作区         |
+| Editor     | comment, pairs, ufo, markdown, todo, illuminate      | 注释、自动配对、折叠、markdown、TODO、高亮   |
+| AI         | avante, tabnine                                      | AI 代码建议、聊天、补全                     |
+
+---
+
+## 5. 常见问题（FAQ）
+
+**Q1: 插件安装失败或很慢？**
+- A: 建议使用 GitHub 代理，或检查网络连接。也可以手动克隆插件。
+
+**Q2: LSP 或补全无效？**
+- A: 请确保所有依赖已安装。在 Neovim 中运行 `:checkhealth` 进行诊断。检查语言服务器是否在 PATH 中。
+
+**Q3: 字体或图标显示异常？**
+- A: 请确保已安装 Nerd Fonts，并将终端字体设置为 Nerd Font（如 JetBrainsMono Nerd Font）。
+
+**Q4: 如何更新插件？**
+- A: 在 Neovim 中使用 `:Lazy update` 或 `:Lazy sync` 更新所有插件。
+
+**Q5: 如何重置或清理插件？**
+- A: 使用 `:Lazy clean` 移除未使用插件。
+
+**Q6: 如何启用 AI 代码建议？**
+- A: 按上述说明设置所需环境变量（`AVANTE_API_ENDPOINT`、`AVANTE_MODEL_NAME`、`AVANTE_API_KEY`）。
+
+**Q7: 如何快速恢复默认配置？**
+- A: 删除 `~/.config/nvim` 并重新克隆本仓库。
+
+---
+
+## 6. 一键安装脚本
+
+你可以使用提供的 `install.sh` 脚本自动安装所有依赖、字体和插件：
+
+```sh
+cd ~/.config/nvim
+bash install.sh -i
+```
+
+- `-i` 或 `--install`：安装 Neovim、依赖、字体和插件。
+- `-u` 或 `--uninstall`：卸载插件。
+
+脚本会自动检测你的操作系统（Manjaro/Archlinux）并安装所有必需软件包。请根据需要查看脚本并自定义。
+
+---
+
+## 7. 参考
 
 [awesome neovim][2]
 
