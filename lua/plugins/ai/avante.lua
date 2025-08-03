@@ -15,13 +15,19 @@ return {
                 edit = "ne", -- edit
                 refresh = "nr", -- refresh
             },
-            vendors = {
+            -- vendors = {
+            providers = {
                 openrouter = {
                     __inherited_from = "openai",
                     api_key_name = "AVANTE_API_KEY",
                     endpoint = endpoint,
                     model = model,
-                    max_tokens = 4096,
+                    -- max_tokens = 4096,
+                    use_xml_format = false,
+                    extra_request_body = {
+                        max_tokens = 4096,
+                        temperature = 0.7,
+                    },
                 },
             }
         })
