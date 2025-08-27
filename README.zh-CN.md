@@ -34,7 +34,7 @@
 
 ## 1. 依赖
 
-+ neovim > 0.10
++ neovim > 0.11
 + patched font ([nerd fonts](https://github.com/ryanoasis/nerd-fonts))
 + translate-shell
 + lazygit
