@@ -79,6 +79,9 @@ vim.o.pumheight = 10
 vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
+-- 长文本换行显示
+vim.opt.wrap = true
+vim.opt.linebreak = true
 
 -- 记录文件上次编辑和浏览位置
 vim.cmd [[

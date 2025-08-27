@@ -63,8 +63,9 @@ return {
         })
 
         require('mason-lspconfig').setup({
-            ensure_installed = lsp_servers,
-            automatic_installation = true,
+            --ensure_installed = lsp_servers,
+            --automatic_installation = true,
+            automatic_enable = lsp_servers,
         })
 
         -- 加载每个语言的配置
@@ -78,14 +79,15 @@ return {
 
         for server, config in pairs(lsp_config) do
             if config.enabled then
-                lspconfig[server].setup {
+                vim.lsp.config(server, {
                     settings = config.settings,
                     on_attach = function(client, bufnr)
                         require "lsp_signature".on_attach()
                     end,
                     capabilities = capabilities,
                     single_file_support = true,
-                }
+                })
+                vim.lsp.enable(server)
             end
         end
     end,
