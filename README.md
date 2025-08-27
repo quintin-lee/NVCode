@@ -34,7 +34,7 @@ English | [中文版](README.zh-CN.md)
 
 ## 1. Dependencies
 
-+ neovim > 0.10
++ neovim > 0.11
 + patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
 + translate-shell
 + lazygit
