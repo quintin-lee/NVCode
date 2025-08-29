@@ -9,12 +9,6 @@ return {
     -- uncomment this if you don't want mcp-hub to be available globally or can't use -g
     -- build = "bundled_build.lua",  -- Use this and set use_bundled_binary = true in opts  (see Advanced configuration)
     config = function()
-      require("mcphub").setup({
-          extensions = {
-              avante = {
-                  auto_approve_mcp_tool_calls = false, -- Auto approves mcp tool calls
-              }
-          }
-      })
+      require("mcphub").setup()
     end,
 }
