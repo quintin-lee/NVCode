@@ -60,6 +60,7 @@ return {
             'clangd',
             'cmake',
             'rust_analyzer',
+            'gopls',
         })
 
         require('mason-lspconfig').setup({
@@ -70,7 +71,7 @@ return {
 
         -- 加载每个语言的配置
         for _, server in ipairs(lsp_servers) do
-            local ok, lang_config = pcall(require, 'plugins.lsp.langs.' .. server)
+            local ok, _ = pcall(require, 'plugins.lsp.langs.' .. server)
             if not ok then
                 vim.notify('Failed to load LSP config for ' .. server, vim.log.levels.ERROR)
             end
@@ -90,5 +91,25 @@ return {
                 vim.lsp.enable(server)
             end
         end
+
+        vim.diagnostic.config({
+            float = {
+                border = "double"  -- 可选值有 "single", "double", "rounded", "solid", "shadow"
+            }
+        })
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = function()
+                local found_float = false
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                    if vim.api.nvim_win_get_config(win).relative ~= "" then
+                        vim.api.nvim_win_close(win, true)
+                        found_float = true
+                    end
+                end
+                if not found_float then
+                    vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+                end
+            end
+        })
     end,
 }

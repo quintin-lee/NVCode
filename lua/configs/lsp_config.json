@@ -47,5 +47,9 @@
     "rust_analyzer": {
         "enabled": true,
         "settings": {}
+    },
+    "gopls": {
+        "enabled": true,
+        "settings": {}
     }
 } 

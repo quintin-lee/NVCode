@@ -27,8 +27,8 @@
 - 保存时自动格式化，确保代码整洁。
 - 智能自动补全，提高生产力。
 - 利用 Neovim 内置的 LSP，提供强大的语言支持。
-- 支持多种语言，包括 C/C++、Shell、Python、Lua、Java、Rust 和 Markdown。
-- 支持 C/C++、Python 等语言的调试。
+- 支持多种语言，包括 C/C++、Shell、Python、Lua、Java、Rust、Go 和 Markdown。
+- 支持 C/C++、Python、Java、Go  等语言的调试。
 - 集成 REST 客户端，适用于 web 开发和测试。
 - 默认主题：OneDark，现代而时尚的界面。
 
@@ -49,6 +49,8 @@
 + fzf
 + lua-language-server
 + vscode-cpp-tools
++ vscode-go
++ delve
 + cmake-language-server
 + jdtls
 + rust-analyzer
@@ -91,6 +93,7 @@ sudo pacman -S noto-fonts-emoji --noconfirm
 sudo pacman -S rust-analyzer
 sudo pacman -S luarocks
 sudo pacman -S btop
+sudo pacman -S delve
 yay -S jdtls
 yay -S noto-color-emoji-fontconfig-no-binding
 
@@ -104,6 +107,14 @@ unzip ../cpptools-linux.vsix
 popd
 mv vscode-cpptools ~/.local/
 chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
+
+## 安装 vscode-go 为 go 调试
+wget https://github.com/golang/vscode-go/releases/download/v0.49.1/go-0.49.1.vsix
+mkdir vscode-go
+pushd vscode-go
+unzip ../go-0.49.1.vsix
+popd
+mv vscode-go ~/.local/
 ```
 
 ## 安装 lombok.jar 为 java lsp

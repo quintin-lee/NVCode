@@ -27,8 +27,8 @@ English | [中文版](README.zh-CN.md)
 - Automatic formatting on save for a clean codebase.
 - Intelligent autocompletion for increased productivity.
 - Utilizes Neovim's built-in LSP for robust language support.
-- Comprehensive language support including C/C++, Shell, Python, Lua, Java, Rust, and Markdown.
-- Debugging support for C/C++, Python, and other languages.
+- Comprehensive language support including C/C++, Shell, Python, Lua, Java, Rust, Go and Markdown.
+- Debugging support for C/C++, Python, Java, Go and other languages.
 - Integrated REST client for web development and testing.
 - Default theme: OneDark, for a modern and sleek interface.
 
@@ -49,6 +49,8 @@ English | [中文版](README.zh-CN.md)
 + fzf
 + lua-language-server
 + vscode-cpp-tools
++ vscode-go
++ delve
 + cmake-language-server
 + jdtls
 + rust-analyzer
@@ -91,6 +93,7 @@ sudo pacman -S noto-fonts-emoji --noconfirm
 sudo pacman -S rust-analyzer
 sudo pacman -S luarocks
 sudo pacman -S btop
+sudo pacman -S delve
 yay -S jdtls
 yay -S noto-color-emoji-fontconfig-no-binding
 
@@ -105,6 +108,13 @@ popd
 mv vscode-cpptools ~/.local/
 chmod +x  ~/.local/vscode-cpptools/extension/debugAdapters/bin/OpenDebugAD7
 
+## Install vscode-go for debugging go
+wget https://github.com/golang/vscode-go/releases/download/v0.49.1/go-0.49.1.vsix
+mkdir vscode-go
+pushd vscode-go
+unzip ../go-0.49.1.vsix
+popd
+mv vscode-go ~/.local/
 
 ## Install lombok.jar for lsp java
 wget https://projectlombok.org/downloads/lombok.jar

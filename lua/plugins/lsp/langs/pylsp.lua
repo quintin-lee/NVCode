@@ -7,7 +7,7 @@ lspconfig.pylsp.setup {
                 pycodestyle = {
                     maxLineLength = 120,
                     indentSize = 4,
-                    ignore = {'E302', 'E305', 'E121', 'E126'}
+                    ignore = {'E302', 'E305', 'E121', 'E126', 'E226', 'E41'}
                 }
             }
         }

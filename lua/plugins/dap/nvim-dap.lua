@@ -51,6 +51,7 @@ return {
         require("plugins.dap.lang.cpp")
         require("plugins.dap.lang.python")
         require("plugins.dap.lang.java")
+        require("plugins.dap.lang.go")
 
         dapui.setup({
             icons = { expanded = "▾", collapsed = "▸" },
