@@ -22,28 +22,35 @@ return {
         -- config and sign
         local dap_breakpoint = {
             breakpoint = {
-                text = "",
+                text = "🛑",
                 texthl = "LspDiagnosticsSignError",
                 linehl = '',
                 numhl = ''
             },
             rejected = {
-                text = "",
+                text = "🚫",
                 texthl = "LspDiagnosticsSignHint",
                 linehl = "",
                 numhl = "",
             },
             stoped = {
-                text = "",
+                text = "👉",
                 texthl = "LspDiagnosticsSignInformation",
                 linehl = "DiagnosticUnderlineInfo",
                 numhl = "LspDiagnosticsSignInformation",
-            }
+            },
+            condition = {
+                text = "❓",
+                texthl = "LspDiagnosticsSignInformation",
+                linehl = "",
+                numhl = "",
+            },
         }
 
         vim.fn.sign_define('DapBreakpoint', dap_breakpoint.breakpoint)
-        vim.fn.sign_define('DapBreakpoint', dap_breakpoint.rejected)
+        vim.fn.sign_define('DapBreakpointRejected', dap_breakpoint.rejected)
         vim.fn.sign_define('DapStopped', dap_breakpoint.stoped)
+        vim.fn.sign_define('DapBreakpointCondition', dap_breakpoint.condition)
 
         -- 支持 .vscode/launch.json
         require('dap.ext.vscode').load_launchjs()
