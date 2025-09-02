@@ -97,17 +97,37 @@ return {
                 border = "double"  -- 可选值有 "single", "double", "rounded", "solid", "shadow"
             }
         })
-        vim.api.nvim_create_autocmd("CursorHold", {
-            callback = function()
-                local found_float = false
-                for _, win in ipairs(vim.api.nvim_list_wins()) do
-                    if vim.api.nvim_win_get_config(win).relative ~= "" then
-                        vim.api.nvim_win_close(win, true)
-                        found_float = true
+
+        -- 创建一个函数来检查并关闭由当前代码创建的悬浮窗口
+        local function close_my_float_wins()
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+                if vim.api.nvim_win_is_valid(win) then
+                    local config = vim.api.nvim_win_get_config(win)
+                    if config.relative ~= "" then
+                        local ok, my_float = pcall(vim.api.nvim_win_get_var, win, "diagnostic_float")
+                        if ok and my_float == "true" then
+                            vim.api.nvim_win_close(win, true)
+                        end
                     end
                 end
-                if not found_float then
-                    vim.diagnostic.open_float(nil, { focus = false, scope = "cursor" })
+            end
+        end
+
+        -- 创建一个函数来标记当前代码创建的悬浮窗口
+        local function mark_my_float_win(win_id)
+            if vim.api.nvim_win_is_valid(win_id) then
+                vim.api.nvim_win_set_var(win_id, "diagnostic_float", "true")
+            end
+        end
+
+        -- 注册 CursorHold 自动命令
+        vim.api.nvim_create_autocmd("CursorHold", {
+            callback = function()
+                close_my_float_wins() -- 关闭由当前代码创建的悬浮窗口
+                local opts = { focus = false, scope = "cursor" }
+                local win_id = vim.diagnostic.open_float(nil, opts)
+                if win_id then
+                    mark_my_float_win(win_id) -- 标记当前代码创建的悬浮窗口
                 end
             end
         })
