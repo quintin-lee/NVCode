@@ -52,9 +52,6 @@ return {
         vim.fn.sign_define('DapStopped', dap_breakpoint.stoped)
         vim.fn.sign_define('DapBreakpointCondition', dap_breakpoint.condition)
 
-        -- 支持 .vscode/launch.json
-        require('dap.ext.vscode').load_launchjs()
-
         require("plugins.dap.lang.cpp")
         require("plugins.dap.lang.python")
         require("plugins.dap.lang.java")
