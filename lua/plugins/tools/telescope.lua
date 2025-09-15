@@ -90,18 +90,93 @@ return {
 
                                 local scope_msg = string.format("%s(%s):", entry.key, scope)
 
-                                vim.ui.input({ prompt = "Enter commit msg: " .. entry.value .. " "}, function(msg)
-                                    if not msg then
+                                -- Open a floating, multi-line buffer for composing the commit message
+                                local buf = vim.api.nvim_create_buf(false, true) -- listed = false, scratch = true
+
+                                local width = math.max(50, math.floor(vim.o.columns * 0.7))
+                                local height = math.max(8, math.floor(vim.o.lines * 0.5))
+                                local row = math.floor((vim.o.lines - height) / 2)
+                                local col = math.floor((vim.o.columns - width) / 2)
+
+                                local win = vim.api.nvim_open_win(buf, true, {
+                                    relative = 'editor',
+                                    width = width,
+                                    height = height,
+                                    row = row,
+                                    col = col,
+                                    style = 'minimal',
+                                    border = 'rounded',
+                                })
+
+                                vim.api.nvim_buf_set_option(buf, 'filetype', 'gitcommit')
+                                vim.api.nvim_buf_set_option(buf, 'buftype', 'acwrite')
+                                vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+
+                                -- Pre-fill buffer: first line is the conventional subject line
+                                local subject = string.format('%s %s', entry.value, scope_msg)
+                                vim.api.nvim_buf_set_lines(buf, 0, -1, false, { subject, '', '' })
+
+                                -- Place cursor at the end of the first line
+                                vim.api.nvim_win_set_cursor(win, {1, #subject})
+
+                                local function cleanup()
+                                    if vim.api.nvim_win_is_valid(win) then
+                                        pcall(vim.api.nvim_win_close, win, true)
+                                    end
+                                    if vim.api.nvim_buf_is_valid(buf) then
+                                        pcall(vim.api.nvim_buf_delete, buf, { force = true })
+                                    end
+                                end
+
+                                local function do_commit()
+                                    if not vim.api.nvim_buf_is_valid(buf) then
+                                        return
+                                    end
+                                    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+                                    -- remove leading/trailing empty lines
+                                    while #lines > 0 and lines[#lines] == '' do
+                                        table.remove(lines)
+                                    end
+                                    while #lines > 0 and lines[1] == '' do
+                                        table.remove(lines, 1)
+                                    end
+
+                                    if #lines == 0 then
+                                        vim.notify('Empty commit message, aborting', vim.log.levels.WARN)
+                                        cleanup()
                                         return
                                     end
 
-                                    local git_tool = ":!git"
+                                    local tmp = vim.fn.tempname()
+                                    -- writefile accepts list-of-lines
+                                    vim.fn.writefile(lines, tmp)
+
+                                    local git_tool = ':!git'
                                     if vim.g.loaded_fugitive then
-                                        git_tool = ":G"
+                                        git_tool = ':G'
                                     end
 
-                                    vim.cmd(string.format('%s commit -m "%s %s %s"', git_tool, entry.value, scope_msg, msg))
-                                end)
+                                    -- Use -F to read the commit message from the temp file
+                                    local cmd = string.format('%s commit -F "%s"', git_tool, tmp)
+                                    vim.cmd(cmd)
+
+                                    -- try to remove temp file (ignore errors)
+                                    pcall(vim.loop.fs_unlink, tmp)
+
+                                    cleanup()
+                                end
+
+                                -- Buffer-local mappings: <C-s> to commit, <C-c> to cancel
+                                vim.keymap.set('n', '<C-s>', do_commit, { buffer = buf, silent = true })
+                                vim.keymap.set('i', '<C-s>', function()
+                                    vim.cmd('stopinsert')
+                                    do_commit()
+                                end, { buffer = buf, silent = true })
+
+                                vim.keymap.set({'n', 'i'}, '<C-c>', function()
+                                    cleanup()
+                                end, { buffer = buf, silent = true })
+
                             end)
                         end,
                     },
