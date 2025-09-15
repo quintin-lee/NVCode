@@ -98,38 +98,88 @@ return {
             }
         })
 
-        -- 创建一个函数来检查并关闭由当前代码创建的悬浮窗口
-        local function close_my_float_wins()
-            for _, win in ipairs(vim.api.nvim_list_wins()) do
-                if vim.api.nvim_win_is_valid(win) then
-                    local config = vim.api.nvim_win_get_config(win)
-                    if config.relative ~= "" then
-                        local ok, my_float = pcall(vim.api.nvim_win_get_var, win, "diagnostic_float")
-                        if ok and my_float == "true" then
-                            vim.api.nvim_win_close(win, true)
+        -- 改进：使用 LspAttach 在每个 buffer 上创建 buffer-local augroup，精确管理诊断浮窗
+        local float_win_by_buf = {}
+        local last_open_time = {}
+        local MIN_OPEN_INTERVAL_MS = 150
+
+        local function close_buf_float(bufnr)
+            local win = float_win_by_buf[bufnr]
+            if win and vim.api.nvim_win_is_valid(win) then
+                pcall(vim.api.nvim_win_close, win, true)
+            end
+            float_win_by_buf[bufnr] = nil
+            last_open_time[bufnr] = nil
+        end
+
+        vim.api.nvim_create_autocmd("LspAttach", {
+            callback = function(args)
+                local bufnr = args.buf
+                local client_id = args.data and args.data.client_id
+                if not client_id then
+                    return
+                end
+
+                -- 跳过非普通 buffer（terminal / nofile 等）
+                local buftype = vim.api.nvim_buf_get_option(bufnr, "buftype")
+                if buftype ~= "" then
+                    return
+                end
+
+                local augroup = vim.api.nvim_create_augroup("NVCodeLspDiagFloat" .. bufnr, { clear = true })
+
+                vim.api.nvim_create_autocmd({ "CursorHold" }, {
+                    group = augroup,
+                    buffer = bufnr,
+                    callback = function()
+                        -- 不在插入模式时显示
+                        if vim.fn.mode() == "i" then
+                            return
                         end
-                    end
-                end
-            end
-        end
 
-        -- 创建一个函数来标记当前代码创建的悬浮窗口
-        local function mark_my_float_win(win_id)
-            if vim.api.nvim_win_is_valid(win_id) then
-                vim.api.nvim_win_set_var(win_id, "diagnostic_float", "true")
-            end
-        end
+                        -- 节流：避免快速重复打开
+                        local now = vim.loop.now()
+                        if last_open_time[bufnr] and (now - last_open_time[bufnr] < MIN_OPEN_INTERVAL_MS) then
+                            return
+                        end
 
-        -- 注册 CursorHold 自动命令
-        vim.api.nvim_create_autocmd("CursorHold", {
-            callback = function()
-                close_my_float_wins() -- 关闭由当前代码创建的悬浮窗口
-                local opts = { focus = false, scope = "cursor" }
-                local win_id = vim.diagnostic.open_float(nil, opts)
-                if win_id then
-                    mark_my_float_win(win_id) -- 标记当前代码创建的悬浮窗口
-                end
-            end
+                        -- 仅当当前行有诊断时才打开浮窗
+                        local cursor = vim.api.nvim_win_get_cursor(0)
+                        local line = cursor[1] - 1
+                        local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
+                        if vim.tbl_isempty(diagnostics) then
+                            close_buf_float(bufnr)
+                            return
+                        end
+
+                        -- 如果已有有效浮窗则不重复打开
+                        local existing = float_win_by_buf[bufnr]
+                        if existing and vim.api.nvim_win_is_valid(existing) then
+                            return
+                        end
+
+                        -- 关闭旧浮窗并打开新浮窗
+                        close_buf_float(bufnr)
+                        local opts = { focus = false, scope = "cursor" }
+                        local ok, win = pcall(vim.diagnostic.open_float, bufnr, opts)
+                        if ok and win and vim.api.nvim_win_is_valid(win) then
+                            float_win_by_buf[bufnr] = win
+                            last_open_time[bufnr] = now
+                            -- 使用布尔标记（pcall 以防失败）
+                            pcall(vim.api.nvim_win_set_var, win, "diagnostic_float", true)
+                        end
+                    end,
+                })
+
+                -- 在这些事件发生时关闭该 buffer 的浮窗
+                vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "BufLeave", "BufWinLeave" }, {
+                    group = augroup,
+                    buffer = bufnr,
+                    callback = function()
+                        close_buf_float(bufnr)
+                    end,
+                })
+            end,
         })
     end,
 }
