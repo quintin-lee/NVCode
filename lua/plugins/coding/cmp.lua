@@ -61,12 +61,8 @@ return {
               end,
               completion = {
                   autocomplete = false,
-                  --autocomplete = {
-                  --    cmp.TriggerEvent.TextChanged,
-                  --    -- cmp.TriggerEvent.InsertEnter,
-                  --},
                   completeopt = "menuone,noinsert,noselect",
-                  keyword_length = 2,
+                  keyword_length = 3, -- increase minimum length to reduce accidental triggers
               },
               preselect = cmp.PreselectMode.None,
               snippet = {
@@ -82,9 +78,9 @@ return {
                   ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                   ['<C-f>'] = cmp.mapping.scroll_docs(4),
                   ['<C-Space>'] = cmp.mapping.complete(),
+                  -- Only confirm explicitly; avoid accepting by accidental Enter
                   ['<CR>'] = cmp.mapping.confirm {
-                      --behavior = cmp.ConfirmBehavior.Replace,
-                      select = true,
+                      select = false,
                   },
                   ['<Tab>'] = cmp.mapping(function(fallback)
                       if cmp.visible() then
@@ -119,14 +115,12 @@ return {
               confirm = function(option)
                   option = option or {}
                   local e = core.menu:get_selected_entry() or (option.select and core.menu:get_first_entry() or nil)
-                  -- vim.notify('confirm', vim.log.levels.INFO)
                   if e then
                       core.confirm(e, {
                           behavior = option.behavior,
                       }, function()
                           local myContext  =	core.get_context({ reason = cmp.ContextReason.TriggerOnly })
                           core.complete(myContext)
-                          --function() 自动增加()
                           if e and e.resolved_completion_item and (e.resolved_completion_item.kind==3 or e.resolved_completion_item.kind==2) then
                               vim.api.nvim_feedkeys(keymap.t('()<Left>'), 'n', true)
                           end
@@ -162,31 +156,64 @@ return {
               })
           })
 
-          vim.api.nvim_create_autocmd(
-              {"TextChangedI", "TextChangedP"},
-              {
+          -- 更加稳健的自动触发：防抖 + 明确触发字符或词长阈值 + 忽略注释/字符串
+          do
+              local debounce_timers = {}
+              local DEBOUNCE_MS = 150
+
+              vim.api.nvim_create_autocmd({"TextChangedI"}, {
                   callback = function()
-                      local line = vim.api.nvim_get_current_line()
-                      local cursor = vim.api.nvim_win_get_cursor(0)[2]
+                      local bufnr = vim.api.nvim_get_current_buf()
 
-                      local current = string.sub(line, cursor, cursor + 1)
-                      if cursor == 0 or current == "," or current == " " or current == "/" or current == "*"
-                          or current == ";" or current == ":" or current == "{" or current == ")" or current == "}" or current == "]" then
-                          require('cmp').close()
-                          return
+                      -- 取消已存在的计时器
+                      if debounce_timers[bufnr] then
+                          pcall(function()
+                              debounce_timers[bufnr]:stop()
+                              debounce_timers[bufnr]:close()
+                          end)
+                          debounce_timers[bufnr] = nil
                       end
 
-                      local before_line = string.sub(line, 1, cursor + 1)
-                      local after_line = string.sub(line, cursor + 1, -1)
-                      if not string.match(before_line, '^%s+$') then
-                          if after_line == "" or after_line == ";" or after_line == "}" or after_line == ")" or after_line == "]"
-                              or string.match(before_line, " $") or string.match(before_line, "%.$") then
-                              require('cmp').complete()
+                      local timer = vim.loop.new_timer()
+                      timer:start(DEBOUNCE_MS, 0, vim.schedule_wrap(function()
+                          debounce_timers[bufnr] = nil
+
+                          local context = require 'cmp.config.context'
+                          -- 在注释或字符串中不触发
+                          if context.in_treesitter_capture("comment") or context.in_treesitter_capture("string") then
+                              require('cmp').close()
+                              return
                           end
-                      end
+
+                          local line = vim.api.nvim_get_current_line()
+                          local col = vim.api.nvim_win_get_cursor(0)[2]
+                          local before = string.sub(line, 1, col)
+
+                          -- 明确触发字符（支持多字符触发，如 :: 和 ->）
+                          local trigger_patterns = {"%.$", ">%>", ":%:$", "%->$", "::%s*$"}
+                          -- 更稳妥的逐项检查（也检查常见的单字符触发）
+                          local should_trigger = false
+
+                          if string.match(before, "%.$") or string.match(before, "%->$") or string.match(before, "::%s*$") or string.match(before, ":%:$") then
+                              should_trigger = true
+                          end
+
+                          -- 如果单词长度超过阈值也触发
+                          local word = before:match("[%w_]+$") or ""
+                          if #word >= 3 then
+                              should_trigger = true
+                          end
+
+                          if should_trigger then
+                              require('cmp').complete()
+                          else
+                              require('cmp').close()
+                          end
+                      end))
+
+                      debounce_timers[bufnr] = timer
                   end,
-                  --pattern = "*"
-              }
-          )
+              })
+          end
     end,
 }
