@@ -88,7 +88,7 @@ return {
                                     return
                                 end
 
-                                local scope_msg = string.format("%s(%s):", entry.key, scope)
+                                local scope_msg = string.format("%s(%s): ", entry.key, scope)
 
                                 -- Open a floating, multi-line buffer for composing the commit message
                                 local buf = vim.api.nvim_create_buf(false, true) -- listed = false, scratch = true
@@ -112,6 +112,55 @@ return {
                                 vim.api.nvim_buf_set_option(buf, 'buftype', 'acwrite')
                                 vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
 
+                                -- Create a small, persistent hint window just below the commit floating window
+                                local hint_buf, hint_win
+                                do
+                                    hint_buf = vim.api.nvim_create_buf(false, true) -- scratch
+                                    local hint_text = "Press <C-s> to commit, <C-c> to cancel"
+                                    vim.api.nvim_buf_set_lines(hint_buf, 0, -1, false, { hint_text })
+                                    vim.api.nvim_buf_set_option(hint_buf, 'bufhidden', 'wipe')
+                                    vim.api.nvim_buf_set_option(hint_buf, 'modifiable', false)
+
+                                    -- Position hint relative to the commit floating window so it reliably appears
+                                    -- right below it. Use relative='win' and target the commit win id.
+                                    local ok, winid = pcall(function() return win end)
+                                    if ok and vim.api.nvim_win_is_valid(winid) then
+                                        -- place the hint immediately below the floating window (row = height)
+                                        hint_win = vim.api.nvim_open_win(hint_buf, false, {
+                                            relative = 'win',
+                                            win = winid,
+                                            width = width,
+                                            height = 1,
+                                            row = height,
+                                            col = 0,
+                                            style = 'minimal',
+                                            border = 'none',
+                                            focusable = false,
+                                            zindex = 200,
+                                        })
+                                    else
+                                        -- fallback to editor-relative placement
+                                        local hint_row = row + height
+                                        if hint_row + 1 > vim.o.lines then
+                                            hint_row = math.max(0, row + height - 1)
+                                        end
+                                        hint_win = vim.api.nvim_open_win(hint_buf, false, {
+                                            relative = 'editor',
+                                            width = width,
+                                            height = 1,
+                                            row = hint_row,
+                                            col = col,
+                                            style = 'minimal',
+                                            border = 'none',
+                                            focusable = false,
+                                            zindex = 200,
+                                        })
+                                    end
+
+                                    -- make hint slightly transparent so it looks elegant
+                                    pcall(vim.api.nvim_win_set_option, hint_win, 'winblend', 10)
+                                end
+
                                 -- Pre-fill buffer: first line is the conventional subject line
                                 local subject = string.format('%s %s', entry.value, scope_msg)
                                 vim.api.nvim_buf_set_lines(buf, 0, -1, false, { subject, '', '' })
@@ -125,6 +174,12 @@ return {
                                     end
                                     if vim.api.nvim_buf_is_valid(buf) then
                                         pcall(vim.api.nvim_buf_delete, buf, { force = true })
+                                    end
+                                    if hint_win and vim.api.nvim_win_is_valid(hint_win) then
+                                        pcall(vim.api.nvim_win_close, hint_win, true)
+                                    end
+                                    if hint_buf and vim.api.nvim_buf_is_valid(hint_buf) then
+                                        pcall(vim.api.nvim_buf_delete, hint_buf, { force = true })
                                     end
                                 end
 
