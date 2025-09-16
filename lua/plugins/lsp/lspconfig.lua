@@ -73,7 +73,7 @@ return {
         for _, server in ipairs(lsp_servers) do
             local ok, _ = pcall(require, 'plugins.lsp.langs.' .. server)
             if not ok then
-                vim.notify('Failed to load LSP config for ' .. server, vim.log.levels.ERROR)
+                vim.notify('Failed to load LSP config for ' .. server, vim.log.levels.WARN)
             end
         end
         require("plugins.lsp.langs")       -- 语言服务器

@@ -1,6 +1,6 @@
 local lspconfig = require('lspconfig')
 
-lspconfig.bashls.setup {
+lspconfig.clangd.setup {
     on_attach = function(client, bufnr)
         require "lsp_signature".on_attach()
     end,
