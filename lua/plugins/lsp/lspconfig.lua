@@ -61,6 +61,7 @@ return {
             'cmake',
             'rust_analyzer',
             'gopls',
+            'openscad_lsp',
         })
 
         require('mason-lspconfig').setup({
@@ -68,15 +69,6 @@ return {
             --automatic_installation = true,
             automatic_enable = lsp_servers,
         })
-
-        -- 加载每个语言的配置
-        for _, server in ipairs(lsp_servers) do
-            local ok, _ = pcall(require, 'plugins.lsp.langs.' .. server)
-            if not ok then
-                vim.notify('Failed to load LSP config for ' .. server, vim.log.levels.WARN)
-            end
-        end
-        require("plugins.lsp.langs")       -- 语言服务器
 
         for server, config in pairs(lsp_config) do
             if config.enabled then
