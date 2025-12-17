@@ -137,6 +137,8 @@ return {
         { "<leader>to", '<cmd>lua require("FTerm").toggle()<cr>', desc = "open" },
         { "<leader>tb", '<cmd>FTermBtop<cr>', desc = "Open Btop" },
         { "<leader>tc", '<CMD>FTermClose<CR>', desc = "Close FTerm" },
+        { "<leader>tvsp", '<cmd>40vsplit | terminal<CR>', desc = "Open Terminal by vsplit" },
+        { "<leader>tsp", '<cmd>10split | terminal<CR>', desc = "Open Terminal by split" },
         { "<leader>w", group = "Workspace" },
         { "<leader>wa", function() workspaces.add() end, desc = "add" },
         { "<leader>wl", function() workspaces.list() end, desc = "list" },
