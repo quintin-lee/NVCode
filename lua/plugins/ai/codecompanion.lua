@@ -1,5 +1,7 @@
 return {
 	"olimorris/codecompanion.nvim",
+	event = "VeryLazy", -- Added lazy loading to prevent startup impact
+	lazy = true, -- Added explicit lazy loading
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",

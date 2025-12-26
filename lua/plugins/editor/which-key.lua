@@ -214,5 +214,10 @@ return {
 			},
 			{ "<leader>ws", "<cmd>SessionsSave<cr>", desc = "save session" },
 		})
+
+		-- Set efficient global keymaps to avoid conflicts and improve performance
+		local opts = { noremap = true, silent = true }
+		vim.keymap.set("n", "<Space>", "<Nop>", opts)
+		vim.keymap.set("v", "<Space>", "<Nop>", opts)
 	end,
 }

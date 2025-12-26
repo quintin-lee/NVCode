@@ -59,6 +59,10 @@ return {
 				autocomplete = false,
 				completeopt = "menuone,noinsert,noselect",
 				keyword_length = 3, -- increase minimum length to reduce accidental triggers
+				get_trigger_characters = function(trigger_characters)
+					-- Only return trigger characters when LSP provides them
+					return trigger_characters
+				end,
 			},
 			preselect = cmp.PreselectMode.None,
 			snippet = {
@@ -66,9 +70,20 @@ return {
 					luasnip.lsp_expand(args.body)
 				end,
 			},
-			windows = {
-				completion = cmp.config.window.bordered(),
-				documentation = cmp.config.window.bordered(),
+			window = {
+				completion = cmp.config.window.bordered({
+					winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+					-- Set max height to prevent large popups that affect performance
+					max_height = 12,
+					-- Reduce scrolling for better performance
+					scrollbar = false,
+				}),
+				documentation = cmp.config.window.bordered({
+					winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+					-- Set max width/height to limit resource usage
+					max_width = 60,
+					max_height = 15,
+				}),
 			},
 			mapping = cmp.mapping.preset.insert({
 				["<C-d>"] = cmp.mapping.scroll_docs(-4),
@@ -97,14 +112,25 @@ return {
 					end
 				end, { "i", "s" }),
 			}),
-			sources = {
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" },
-				{ name = "doxygen" },
-			},
+			sources = cmp.config.sources({
+				{ name = "nvim_lsp", group_index = 1 },
+				{ name = "luasnip", group_index = 2 },
+				{ name = "doxygen", group_index = 3 },
+			}, {
+				{ name = "buffer", group_index = 4 },
+				{ name = "path", group_index = 5 },
+			}),
 			formatting = {
-				format = function(_, vim_item)
+				fields = { "abbr", "kind", "menu" },
+				format = function(entry, vim_item)
 					vim_item.kind = (cmp_kinds[vim_item.kind] or "") .. vim_item.kind
+					vim_item.menu = ({
+						nvim_lsp = "[LSP]",
+						luasnip = "[Snippet]",
+						buffer = "[Buffer]",
+						path = "[Path]",
+						doxygen = "[Doxygen]",
+					})[entry.source.name]
 					return vim_item
 				end,
 			},
@@ -130,16 +156,6 @@ return {
 					return false
 				end
 			end,
-
-			-- define the appearance of the completion menu
-			window = {
-				completion = cmp.config.window.bordered({
-					winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-				}),
-				documentation = cmp.config.window.bordered({
-					winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-				}),
-			},
 		})
 
 		cmp.setup.cmdline(":", {

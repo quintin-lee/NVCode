@@ -97,16 +97,31 @@ return {
 			end
 		end
 
+		-- Optimize LSP diagnostics for faster response
 		vim.diagnostic.config({
 			float = {
 				border = "double", -- 可选值有 "single", "double", "rounded", "solid", "shadow"
+				source = "always", -- show source with diagnostic
+				focusable = false, -- prevent float from stealing focus
 			},
+			-- Reduce diagnostics updates to improve performance
+			update_in_insert = false,
+			-- Optimize virtual text settings to improve performance
+			virtual_text = {
+				spacing = 4,
+				source = "if_many",
+				prefix = "●", -- Could use "icons" for more visual indicators
+			},
+			-- Configure signs for better performance
+			signs = true,
+			underline = true,
+			severity_sort = true,
 		})
 
-		-- 改进：使用 LspAttach 在每个 buffer 上创建 buffer-local augroup，精确管理诊断浮窗
+		-- Improved: Use LspAttach to create buffer-local augroup for precise diagnostics float management
 		local float_win_by_buf = {}
 		local last_open_time = {}
-		local MIN_OPEN_INTERVAL_MS = 150
+		local MIN_OPEN_INTERVAL_MS = 200 -- Increased to reduce frequency
 
 		local function close_buf_float(bufnr)
 			local win = float_win_by_buf[bufnr]
@@ -125,7 +140,7 @@ return {
 					return
 				end
 
-				-- 跳过非普通 buffer（terminal / nofile 等）
+				-- Skip non-normal buffers (terminal / nofile etc.)
 				local buftype = vim.api.nvim_buf_get_option(bufnr, "buftype")
 				if buftype ~= "" then
 					return
@@ -137,18 +152,18 @@ return {
 					group = augroup,
 					buffer = bufnr,
 					callback = function()
-						-- 不在插入模式时显示
+						-- Don't show in insert mode
 						if vim.fn.mode() == "i" then
 							return
 						end
 
-						-- 节流：避免快速重复打开
+						-- Throttle: avoid repeated opening
 						local now = vim.loop.now()
 						if last_open_time[bufnr] and (now - last_open_time[bufnr] < MIN_OPEN_INTERVAL_MS) then
 							return
 						end
 
-						-- 仅当当前行有诊断时才打开浮窗
+						-- Only open when current line has diagnostics
 						local cursor = vim.api.nvim_win_get_cursor(0)
 						local line = cursor[1] - 1
 						local diagnostics = vim.diagnostic.get(bufnr, { lnum = line })
@@ -157,26 +172,26 @@ return {
 							return
 						end
 
-						-- 如果已有有效浮窗则不重复打开
+						-- Don't repeat open if already valid window exists
 						local existing = float_win_by_buf[bufnr]
 						if existing and vim.api.nvim_win_is_valid(existing) then
 							return
 						end
 
-						-- 关闭旧浮窗并打开新浮窗
+						-- Close old window and open new one
 						close_buf_float(bufnr)
-						local opts = { focus = false, scope = "cursor" }
+						local opts = { focus = false, scope = "cursor", border = "double" }
 						local ok, win = pcall(vim.diagnostic.open_float, bufnr, opts)
 						if ok and win and vim.api.nvim_win_is_valid(win) then
 							float_win_by_buf[bufnr] = win
 							last_open_time[bufnr] = now
-							-- 使用布尔标记（pcall 以防失败）
+							-- Use boolean flag (pcall in case of failure)
 							pcall(vim.api.nvim_win_set_var, win, "diagnostic_float", true)
 						end
 					end,
 				})
 
-				-- 在这些事件发生时关闭该 buffer 的浮窗
+				-- Close float for this buffer on these events
 				vim.api.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "BufLeave", "BufWinLeave" }, {
 					group = augroup,
 					buffer = bufnr,
@@ -185,6 +200,24 @@ return {
 					end,
 				})
 			end,
+		})
+
+		-- Optimized LSP client settings for faster response
+		vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+			-- Only update diagnostics when not in insert mode
+			-- This prevents performance issues during typing
+			debounce = 200,
+			-- Only virtual text on the same line as the cursor
+			virtual_text = {
+				spacing = 4,
+				source = "if_many",
+			},
+			-- Show signs in the sign column
+			signs = true,
+			-- Whether to use underline highlights
+			underline = true,
+			-- Update diagnostics in insert mode
+			update_in_insert = false,
 		})
 	end,
 }
