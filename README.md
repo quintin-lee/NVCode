@@ -31,35 +31,38 @@ English | [中文版](README.zh-CN.md)
 - Debugging support for C/C++, Python, Java, Go and other languages.
 - Integrated REST client for web development and testing.
 - Default theme: OneDark, for a modern and sleek interface.
+- Performance optimizations with lazy loading for faster startup.
+- AI-powered coding assistance with Avante and CodeCompanion.
+- Enhanced UI with optimized scrollbar and notification handling.
 
 ## 1. Dependencies
 
-+ neovim > 0.11
-+ patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
-+ translate-shell
-+ lazygit
-+ clangd
-+ bash-language-server
-+ pylsp
-+ go
-+ gopls
-+ npm
-+ ripgrep
-+ fd
-+ fzf
-+ lua-language-server
-+ vscode-cpp-tools
-+ vscode-go
-+ delve
-+ cmake-language-server
-+ jdtls
-+ rust-analyzer
-+ xsel
-+ zathura
-+ noto-fonts-emoji
-+ noto-color-emoji-fontconfig-no-binding
-+ luarocks
-+ btop
+- neovim > 0.11
+- patched font (see [nerd fonts](https://github.com/ryanoasis/nerd-fonts))
+- translate-shell
+- lazygit
+- clangd
+- bash-language-server
+- pylsp
+- go
+- gopls
+- npm
+- ripgrep
+- fd
+- fzf
+- lua-language-server
+- vscode-cpp-tools
+- vscode-go
+- delve
+- cmake-language-server
+- jdtls
+- rust-analyzer
+- xsel
+- zathura
+- noto-fonts-emoji
+- noto-color-emoji-fontconfig-no-binding
+- luarocks
+- btop
 
 ## 2. Installation on Manjaro/Archlinux
 
@@ -147,7 +150,11 @@ bash install_fonts.sh
 
 ### 2.5 AI Code Suggestions Configuration
 
-To configure the OpenAI API interface directly, set the following environment variables.
+To configure AI-powered coding assistance, you can set up either Avante or CodeCompanion.
+
+#### Avante Configuration
+
+For Avante, set the following environment variables:
 
 ```
 AVANTE_API_ENDPOINT
@@ -155,7 +162,7 @@ AVANTE_MODEL_NAME
 AVANTE_API_KEY
 ```
 
-+ As an example, configuring with ZhiPu Qingyan:
+- As an example, configuring with ZhiPu Qingyan:
 
 [Official Documentation of ZhiPu Qingyan](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
 
@@ -188,6 +195,10 @@ export AVANTE_MODEL_NAME=GLM-4
 export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (use your own API_KEY)
 ```
 
+#### CodeCompanion Configuration
+
+CodeCompanion supports multiple AI providers including OpenAI, Anthropic, and local models. Configure using environment variables specific to your provider.
+
 ## 3. Docker
 
 [quintinlee/neovim][1] is the Docker image of NVCode based on Archlinux. You can quickly experience the joy brought by NVCode without installing NVCode.
@@ -196,104 +207,113 @@ export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (use your own AP
 docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspace -w /workspace crpi-cofuzswrnwwx9atk.cn-beijing.personal.cr.aliyuncs.com/quintinlee/nvcode:0.10 /opt/nvcode/bin/nvcode
 ```
 
-
 ## 4. Plugin List
 
-| Plugin Name            | Plugin Address                                                | Notes              |
-| ---------------------- | ------------------------------------------------------------- | --------------- |
-| lazy                   | https://github.com/folke/lazy.nvim                            | Plugin Manager           |
-| DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | Debuggers Manager    |
-| LuaSnip                | https://github.com/L3MON4D3/LuaSnip                           |                 |
-| bufferline             | https://github.com/akinsho/bufferline.nvim                    | Buffer Bar        |
-| cmp-cmdline            | https://github.com/hrsh7th/cmp-cmdline                        |                 |
-| cmp-nvim-lsp           | https://github.com/hrsh7th/cmp-nvim-lsp                       |                 |
-| cmp-path               | https://github.com/hrsh7th/cmp-path                           |                 |
-| cmp_luasnip            | https://github.com/saadparwaiz1/cmp_luasnip                   |                 |
-| completion             | https://github.com/nvim-lua/completion-nvim                   | Auto Completion            |
-| dashboard              | https://github.com/glepnir/dashboard-nvim                     | Startup screen             |
-| diffview               | https://github.com/sindrets/diffview.nvim                     | git diff        |
-| dressing               | https://github.com/stevearc/dressing.nvim                     | Optimized tui          |
-| FTerm                  | https://github.com/numToStr/FTerm.nvim                        | Floating Terminal            |
-| git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | Display git blame    |
-| gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | Display git File Changes     |
-| indent-blankline       | https://github.com/lukas-reineke/indent-blankline.nvim        | Alignment Line             |
-| lazygit                | https://github.com/kdheepak/lazygit.nvim                      | lazygit         |
-| lualine                | https://github.com/nvim-lualine/lualine.nvim                  | Status Bar             |
-| neogen                 | https://github.com/danymat/neogen                             | Generate Comments            |
-| nightfox               | https://github.com/EdenEast/nightfox.nvim                     | Theme              |
-| nlua                   | https://github.com/tjdevries/nlua.nvim                        |                 |
-| nvim-cmp               | https://github.com/hrsh7th/nvim-cmp                           |                 |
-| nvim-code-action-menu  | https://github.com/weilbith/nvim-code-action-menu             |                 |
-| nvim-comment           | https://github.com/terrortylor/nvim-comment                   | Toggle comments |
-| nvim-dap               | https://github.com/mfussenegger/nvim-dap                      | Debugging Plugin            |
-| nvim-dap-python        | https://github.com/mfussenegger/nvim-dap-python               |                 |
-| nvim-dap-ui            | https://github.com/rcarriga/nvim-dap-ui                       |                 |
-| nvim-dap-virtual-text  | https://github.com/theHamsta/nvim-dap-virtual-text            |                 |
-| nvim-lsp-installer     | https://github.com/williamboman/nvim-lsp-installer            |                 |
-| nvim-lspconfig         | https://github.com/neovim/nvim-lspconfig                      | lsp Client         |
-| nvim-tree              | https://github.com/kyazdani42/nvim-tree.lua                   | File Tree             |
-| nvim-treesitter        | https://github.com/nvim-treesitter/nvim-treesitter            | Enhanced Syntax Highlighting          |
-| nvim-web-devicons      | https://github.com/kyazdani42/nvim-web-devicons               | Text Icons            |
-| onedark                | https://github.com/navarasu/onedark.nvim                      | Theme              |
-| plenary                | https://github.com/nvim-lua/plenary.nvim                      |                 |
-| rest                   | https://github.com/NTBBloodbath/rest.nvim                     | REST Client        |
-| sessions               | https://github.com/natecraddock/sessions.nvim                 | Session Management      |
-| smart-pairs            | https://github.com/ZhiyuanLck/smart-pairs                     | Smart Parentheses            |
-| sqlite                 | https://github.com/tami5/sqlite.lua                           |                 |
-| telescope-file-browser | https://github.com/nvim-telescope/telescope-file-browser.nvim | File Browsing            |
-| telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | Search Recently Visited Files |
-| telescope-fzf-native   | https://github.com/nvim-telescope/telescope-fzf-native.nvim   |                 |
-| telescope              | https://github.com/nvim-telescope/telescope.nvim              | Search Plugin            |
-| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | Search Character Icons        |
-| telescope-gitmoji      | https://github.com/olacin/telescope-gitmoji.nvim              | gitmoji Support        |
-| todo-comments          | https://github.com/folke/todo-comments.nvim                   | TODO Comment Highlighting       |
-| translate              | https://github.com/translate.nvim                             | Translation              |
-| vim-illuminate         | https://github.com/RRethy/vim-illuminate                      | Highlight Word Under Cursor         |
-| which-key              | https://github.com/folke/which-key.nvim                       | Shortcut Binding           |
-| workspaces             | https://github.com/natecraddock/workspaces.nvim               | Workspace Management          |
-| nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | Optimized Quickfix Window   |
-| openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | Support OpenSCAD Syntax   |
+| Plugin Name            | Plugin Address                                                | Notes                                                                                     |
+| ---------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| lazy                   | https://github.com/folke/lazy.nvim                            | Plugin Manager                                                                            |
+| DAPInstall             | https://github.com/ravenxrz/DAPInstall.nvim                   | Debuggers Manager                                                                         |
+| LuaSnip                | https://github.com/L3MON4D3/LuaSnip                           |                                                                                           |
+| bufferline             | https://github.com/akinsho/bufferline.nvim                    | Buffer Bar                                                                                |
+| cmp-cmdline            | https://github.com/hrsh7th/cmp-cmdline                        |                                                                                           |
+| cmp-nvim-lsp           | https://github.com/hrsh7th/cmp-nvim-lsp                       |                                                                                           |
+| cmp-path               | https://github.com/hrsh7th/cmp-path                           |                                                                                           |
+| cmp_luasnip            | https://github.com/saadparwaiz1/cmp_luasnip                   |                                                                                           |
+| completion             | https://github.com/nvim-lua/completion-nvim                   | Auto Completion                                                                           |
+| dashboard              | https://github.com/glepnir/dashboard-nvim                     | Startup screen                                                                            |
+| diffview               | https://github.com/sindrets/diffview.nvim                     | git diff                                                                                  |
+| dressing               | https://github.com/stevearc/dressing.nvim                     | Optimized tui                                                                             |
+| FTerm                  | https://github.com/numToStr/FTerm.nvim                        | Floating Terminal                                                                         |
+| git-blame-virt         | https://github.com/robert-oleynik/git-blame-virt.nvim         | Display git blame                                                                         |
+| gitsigns               | https://github.com/lewis6991/gitsigns.nvim                    | Display git File Changes                                                                  |
+| indent-blankline       | https://github.com/lukas-reineke/indent-blankline.nvim        | Alignment Line                                                                            |
+| lazygit                | https://github.com/kdheepak/lazygit.nvim                      | lazygit                                                                                   |
+| lualine                | https://github.com/nvim-lualine/lualine.nvim                  | Status Bar                                                                                |
+| neogen                 | https://github.com/danymat/neogen                             | Generate Comments                                                                         |
+| nightfox               | https://github.com/EdenEast/nightfox.nvim                     | Theme                                                                                     |
+| nlua                   | https://github.com/tjdevries/nlua.nvim                        |                                                                                           |
+| nvim-cmp               | https://github.com/hrsh7th/nvim-cmp                           |                                                                                           |
+| nvim-code-action-menu  | https://github.com/weilbith/nvim-code-action-menu             |                                                                                           |
+| nvim-comment           | https://github.com/terrortylor/nvim-comment                   | Toggle comments                                                                           |
+| nvim-dap               | https://github.com/mfussenegger/nvim-dap                      | Debugging Plugin                                                                          |
+| nvim-dap-python        | https://github.com/mfussenegger/nvim-dap-python               |                                                                                           |
+| nvim-dap-ui            | https://github.com/rcarriga/nvim-dap-ui                       |                                                                                           |
+| nvim-dap-virtual-text  | https://github.com/theHamsta/nvim-dap-virtual-text            |                                                                                           |
+| nvim-lsp-installer     | https://github.com/williamboman/nvim-lsp-installer            |                                                                                           |
+| nvim-lspconfig         | https://github.com/neovim/nvim-lspconfig                      | lsp Client                                                                                |
+| nvim-tree              | https://github.com/kyazdani42/nvim-tree.lua                   | File Tree                                                                                 |
+| nvim-treesitter        | https://github.com/nvim-treesitter/nvim-treesitter            | Enhanced Syntax Highlighting                                                              |
+| nvim-web-devicons      | https://github.com/kyazdani42/nvim-web-devicons               | Text Icons                                                                                |
+| onedark                | https://github.com/navarasu/onedark.nvim                      | Theme                                                                                     |
+| plenary                | https://github.com/nvim-lua/plenary.nvim                      |                                                                                           |
+| rest                   | https://github.com/NTBBloodbath/rest.nvim                     | REST Client                                                                               |
+| sessions               | https://github.com/natecraddock/sessions.nvim                 | Session Management                                                                        |
+| smart-pairs            | https://github.com/ZhiyuanLck/smart-pairs                     | Smart Parentheses                                                                         |
+| sqlite                 | https://github.com/tami5/sqlite.lua                           |                                                                                           |
+| telescope-file-browser | https://github.com/nvim-telescope/telescope-file-browser.nvim | File Browsing                                                                             |
+| telescope-frecency     | https://github.com/nvim-telescope/telescope-frecency.nvim     | Search Recently Visited Files                                                             |
+| telescope-fzf-native   | https://github.com/nvim-telescope/telescope-fzf-native.nvim   |                                                                                           |
+| telescope              | https://github.com/nvim-telescope/telescope.nvim              | Search Plugin                                                                             |
+| telescope-symbols      | https://github.com/nvim-telescope/telescope-symbols.nvim      | Search Character Icons                                                                    |
+| telescope-gitmoji      | https://github.com/olacin/telescope-gitmoji.nvim              | gitmoji Support                                                                           |
+| todo-comments          | https://github.com/folke/todo-comments.nvim                   | TODO Comment Highlighting                                                                 |
+| translate              | https://github.com/translate.nvim                             | Translation                                                                               |
+| vim-illuminate         | https://github.com/RRethy/vim-illuminate                      | Highlight Word Under Cursor                                                               |
+| which-key              | https://github.com/folke/which-key.nvim                       | Shortcut Binding                                                                          |
+| workspaces             | https://github.com/natecraddock/workspaces.nvim               | Workspace Management                                                                      |
+| nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | Optimized Quickfix Window                                                                 |
+| openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | Support OpenSCAD Syntax                                                                   |
 | avante.nvim            | https://github.com/yetone/avante.nvim                         | Simulates the behavior of Cursor AI IDE. Provides AI-driven code suggestions to the user. |
-| leap.nvim              | https://github.com/ggandor/leap.nvim                          | Cursor Jumping Plugin  |
+| codecompanion          | https://github.com/olimorris/codecompanion.nvim               | AI-powered coding assistant with multi-provider support                                   |
+| leap.nvim              | https://github.com/ggandor/leap.nvim                          | Cursor Jumping Plugin                                                                     |
+| noice.nvim             | https://github.com/folke/noice.nvim                           | Modern noice UI with improved notifications                                               |
+| nvim-scrollbar         | https://github.com/petertriho/nvim-scrollbar                  | Enhanced scrollbar with diagnostic indicators                                             |
 
 ---
 
 ### Plugin Function Overview
 
-| Category      | Main Plugins                                      | Description                                    |
-| ------------- | ------------------------------------------------- | ---------------------------------------------- |
-| UI            | bufferline, lualine, dressing, themify, dashboard | Status bar, buffer bar, themes, dashboard      |
-| Coding        | nvim-cmp, luasnip, treesitter, tabnine, neogen    | Completion, snippets, syntax, AI, docgen       |
-| LSP           | nvim-lspconfig, mason, lspsaga, null-ls           | Language server, install, UI, format/lint      |
-| Debug         | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual    | Debugger, UI, install, virtual text            |
-| Git           | gitsigns, diffview, lazygit                       | Git signs, diff view, lazygit integration      |
-| Tools         | telescope, nvim-tree, fterm, translate, workspaces| Fuzzy find, file tree, terminal, translate     |
-| Editor        | comment, pairs, ufo, markdown, todo, illuminate   | Comment, autopairs, fold, markdown, todo, hl   |
-| AI            | avante, tabnine                                   | AI code suggestion, chat, completion           |
+| Category | Main Plugins                                                                  | Description                                                         |
+| -------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| UI       | bufferline, lualine, dressing, themify, dashboard, noice.nvim, nvim-scrollbar | Status bar, buffer bar, themes, dashboard, notifications, scrollbar |
+| Coding   | nvim-cmp, luasnip, treesitter, tabnine, neogen                                | Completion, snippets, syntax, AI, docgen                            |
+| LSP      | nvim-lspconfig, mason, lspsaga, null-ls                                       | Language server, install, UI, format/lint                           |
+| Debug    | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual                                | Debugger, UI, install, virtual text                                 |
+| Git      | gitsigns, diffview, lazygit                                                   | Git signs, diff view, lazygit integration                           |
+| Tools    | telescope, nvim-tree, fterm, translate, workspaces                            | Fuzzy find, file tree, terminal, translate                          |
+| Editor   | comment, pairs, ufo, markdown, todo, illuminate                               | Comment, autopairs, fold, markdown, todo, hl                        |
+| AI       | avante, codecompanion, tabnine                                                | AI code suggestion, chat, completion                                |
 
 ---
 
 ## 5. FAQ (Frequently Asked Questions)
 
 **Q1: Plugin installation fails or is slow?**
+
 - A: Try using a proxy for GitHub, or check your network connection. You can also manually clone plugins.
 
 **Q2: LSP or completion not working?**
+
 - A: Make sure all dependencies are installed. Run `:checkhealth` in Neovim for diagnostics. Check if the language server is in your PATH.
 
 **Q3: Font or icon display is abnormal?**
+
 - A: Make sure you have installed Nerd Fonts and set your terminal font to a Nerd Font (e.g., JetBrainsMono Nerd Font).
 
 **Q4: How to update plugins?**
+
 - A: Use `:Lazy update` or `:Lazy sync` in Neovim to update all plugins.
 
 **Q5: How to reset or clean plugins?**
+
 - A: Use `:Lazy clean` to remove unused plugins.
 
 **Q6: How to enable AI code suggestions?**
+
 - A: Set the required environment variables (`AVANTE_API_ENDPOINT`, `AVANTE_MODEL_NAME`, `AVANTE_API_KEY`) as described above.
 
 **Q7: How to quickly restore the default configuration?**
+
 - A: Delete `~/.config/nvim` and re-clone the repository.
 
 ---
@@ -318,7 +338,5 @@ The script will detect your OS (Manjaro/Archlinux) and install all required pack
 
 [awesome neovim][2]
 
-
 [1]: https://cr.console.aliyun.com/repository/cn-beijing/quintinlee/nvcode
 [2]: https://github.com/rockerBOO/awesome-neovim/blob/main/README.md
-

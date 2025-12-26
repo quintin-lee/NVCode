@@ -31,6 +31,9 @@
 - 支持 C/C++、Python、Java、Go  等语言的调试。
 - 集成 REST 客户端，适用于 web 开发和测试。
 - 默认主题：OneDark，现代而时尚的界面。
+- 性能优化，使用懒加载实现更快的启动速度。
+- AI 驱动的编码辅助，支持 Avante 和 CodeCompanion。
+- 增强的 UI，包括优化的滚动条和通知处理。
 
 ## 1. 依赖
 
@@ -147,7 +150,10 @@ bash install_fonts.sh
 
 ### 2.5 AI 配置
 
-通过环境变量配置 OpenAI API 接口
+要配置 AI 驱动的编码辅助功能，您可以设置 Avante 或 CodeCompanion。
+
+#### Avante 配置
+对于 Avante，设置以下环境变量：
 
 ```
 AVANTE_API_ENDPOINT
@@ -155,7 +161,7 @@ AVANTE_MODEL_NAME
 AVANTE_API_KEY
 ```
 
-+ 以智谱清言为例配置如下:
+- 以智谱清言为例配置如下:
 
 [智谱清言官方文档](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
 
@@ -187,6 +193,9 @@ export AVANTE_API_ENDPOINT=https://open.bigmodel.cn/api/paas/v4
 export AVANTE_MODEL_NAME=GLM-4
 export AVANTE_API_KEY=f1xxxxxxxxxxxxx05aa5b9b9.wLgWjdxxxxxxRwr  (use your own API_KEY)
 ```
+
+#### CodeCompanion 配置
+CodeCompanion 支持多种 AI 提供商，包括 OpenAI、Anthropic 和本地模型。根据不同提供商配置相应的环境变量。
 
 ## 3. Docker
 
@@ -254,7 +263,10 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 | nvim-bqf               | https://github.com/kevinhwang91/nvim-bqf                      | 优化 Quickfix Window   |
 | openscad.nvim          | https://github.com/salkin-mada/openscad.nvim                  | 支持 OpenSCAD 语法   |
 | avante.nvim            | https://github.com/yetone/avante.nvim                         | 模拟 Cursor AI IDE 的行为。为用户提供 AI 驱动的代码建议。 |
+| codecompanion          | https://github.com/olimorris/codecompanion.nvim               | AI 驱动的编码助手，支持多提供商 |
 | leap.nvim              | https://github.com/ggandor/leap.nvim                          | 光标跳转 |
+| noice.nvim             | https://github.com/folke/noice.nvim                           | 现代通知 UI，改进的通知体验 |
+| nvim-scrollbar         | https://github.com/petertriho/nvim-scrollbar                  | 增强的滚动条，带诊断指示器 |
 
 ---
 
@@ -262,14 +274,14 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 
 | 分类        | 主要插件                                             | 说明                                        |
 | ----------- | ---------------------------------------------------- | ------------------------------------------- |
-| UI         | bufferline, lualine, dressing, themify, dashboard    | 状态栏、Buffer栏、主题、美化、启动页        |
+| UI         | bufferline, lualine, dressing, themify, dashboard, noice.nvim, nvim-scrollbar | 状态栏、Buffer栏、主题、美化、启动页、通知、滚动条 |
 | Coding     | nvim-cmp, luasnip, treesitter, tabnine, neogen       | 补全、片段、语法高亮、AI、注释生成          |
 | LSP        | nvim-lspconfig, mason, lspsaga, null-ls              | 语言服务器、安装、UI增强、格式化/诊断       |
 | Debug      | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual       | 调试器、UI、安装、虚拟文本                  |
 | Git        | gitsigns, diffview, lazygit                          | Git 标记、差异视图、lazygit 集成            |
 | Tools      | telescope, nvim-tree, fterm, translate, workspaces   | 模糊查找、文件树、终端、翻译、工作区         |
 | Editor     | comment, pairs, ufo, markdown, todo, illuminate      | 注释、自动配对、折叠、markdown、TODO、高亮   |
-| AI         | avante, tabnine                                      | AI 代码建议、聊天、补全                     |
+| AI         | avante, codecompanion, tabnine                       | AI 代码建议、聊天、补全                     |
 
 ---
 
