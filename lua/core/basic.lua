@@ -1,6 +1,6 @@
 -- utf8
 vim.g.encoding = "UTF-8"
-vim.o.fileencodings ="utf8,ucs-bom,gbk,cp936,gb2312,gb18030"
+vim.o.fileencodings = "utf8,ucs-bom,gbk,cp936,gb2312,gb18030"
 -- jk移动时光标下上方保留8行
 vim.o.scrolloff = 8
 vim.o.sidescrolloff = 8
@@ -10,7 +10,7 @@ vim.wo.relativenumber = true
 -- 高亮所在行
 vim.wo.cursorline = true
 -- 显示左侧图标指示列，并设置固定宽度
-vim.wo.signcolumn = "yes:2"  -- 使用自动模式，避免不必要的宽度
+vim.wo.signcolumn = "yes:2" -- 使用自动模式，避免不必要的宽度
 -- 右侧参考线，超过表示代码太长了，考虑换行
 vim.wo.colorcolumn = "120"
 -- 缩进2个空格等于一个Tab
@@ -41,11 +41,8 @@ vim.o.cmdheight = 2
 -- 当文件被外部程序修改时，自动加载
 vim.o.autoread = true
 vim.bo.autoread = true
--- 禁止折行
-vim.o.wrap = false
-vim.wo.wrap = false
 -- 行结尾可以跳到下一行
-vim.o.whichwrap = 'b,s,<,>,[,],h,l'
+vim.o.whichwrap = "b,s,<,>,[,],h,l"
 -- 允许隐藏被修改过的buffer
 vim.o.hidden = true
 -- 鼠标模式设置
@@ -73,28 +70,29 @@ vim.opt.termguicolors = true
 -- 补全增强
 vim.o.wildmenu = true
 -- Dont' pass messages to |ins-completin menu|
-vim.o.shortmess = vim.o.shortmess .. 'c'
+vim.o.shortmess = vim.o.shortmess .. "c"
 vim.o.pumheight = 10
 -- always show tabline
 vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
--- 长文本换行显示
+-- 长文本换行显示 (保持开启折行，但不显示折行标志)
 vim.opt.wrap = true
 vim.opt.linebreak = true
+vim.opt.breakindent = true -- 在折行时保持缩进
 
 -- 记录文件上次编辑和浏览位置
-vim.cmd [[
+vim.cmd([[
     if has("autocmd")
         au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
     endif
-]]
+]])
 
 -- helps jumps out of the difinition without too many C-o
-vim.cmd [[
+vim.cmd([[
     set tagfunc=v:lua.vim.lsp.tagfunc
     set jumpoptions+=stack
-]]
+]])
 
 -- 默认不折叠代码
 vim.o.foldenable = true
