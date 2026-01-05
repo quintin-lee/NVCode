@@ -44,7 +44,7 @@ return {
 		require("nvim-tree").setup({
 			update_focused_file = {
 				enable = true, -- 启用实时定位
-				update_root = true, -- 如果当前文件不在当前根目录下，自动切换根目录
+				update_root = false, -- 如果当前文件不在当前根目录下，自动切换根目录
 				ignore_list = {}, -- 忽略定位的文件类型
 			},
 		})
