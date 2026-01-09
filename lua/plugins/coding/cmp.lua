@@ -58,7 +58,7 @@ return {
 			completion = {
 				autocomplete = false,
 				completeopt = "menuone,noinsert,noselect",
-				keyword_length = 3, -- increase minimum length to reduce accidental triggers
+				keyword_length = 2, -- Reduced to improve responsiveness while maintaining accuracy
 				get_trigger_characters = function(trigger_characters)
 					-- Only return trigger characters when LSP provides them
 					return trigger_characters
@@ -172,73 +172,47 @@ return {
 			}),
 		})
 
-		-- 更加稳健的自动触发：防抖 + 明确触发字符或词长阈值 + 忽略注释/字符串
-		do
-			local debounce_timers = {}
-			local DEBOUNCE_MS = 150
-
-			vim.api.nvim_create_autocmd({ "TextChangedI" }, {
-				callback = function()
-					local bufnr = vim.api.nvim_get_current_buf()
-
-					-- 取消已存在的计时器
-					if debounce_timers[bufnr] then
-						pcall(function()
-							debounce_timers[bufnr]:stop()
-							debounce_timers[bufnr]:close()
-						end)
-						debounce_timers[bufnr] = nil
-					end
-
-					local timer = vim.loop.new_timer()
-					timer:start(
-						DEBOUNCE_MS,
-						0,
-						vim.schedule_wrap(function()
-							debounce_timers[bufnr] = nil
-
-							local context = require("cmp.config.context")
-							-- 在注释或字符串中不触发
-							if context.in_treesitter_capture("comment") or context.in_treesitter_capture("string") then
-								require("cmp").close()
-								return
-							end
-
-							local line = vim.api.nvim_get_current_line()
-							local col = vim.api.nvim_win_get_cursor(0)[2]
-							local before = string.sub(line, 1, col)
-
-							-- 明确触发字符（支持多字符触发，如 :: 和 ->）
-							local trigger_patterns = { "%.$", ">%>", ":%:$", "%->$", "::%s*$" }
-							-- 更稳妥的逐项检查（也检查常见的单字符触发）
-							local should_trigger = false
-
-							if
-								string.match(before, "%.$")
-								or string.match(before, "%->$")
-								or string.match(before, "::%s*$")
-								or string.match(before, ":%:$")
-							then
-								should_trigger = true
-							end
-
-							-- 如果单词长度超过阈值也触发
-							local word = before:match("[%w_]+$") or ""
-							if #word >= 3 then
-								should_trigger = true
-							end
-
-							if should_trigger then
-								require("cmp").complete()
-							else
-								require("cmp").close()
-							end
-						end)
-					)
-
-					debounce_timers[bufnr] = timer
-				end,
-			})
+		-- Optimized auto-trigger to reduce performance overhead
+		local check_backspace = function()
+			local col = vim.fn.col(".") - 1
+			return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
 		end
+
+		vim.api.nvim_create_autocmd({ "TextChangedI" }, {
+			callback = function()
+				-- Prevent triggering in comments or strings
+				local context = require("cmp.config.context")
+				if context.in_treesitter_capture("comment") or context.in_treesitter_capture("string") then
+					require("cmp").close()
+					return
+				end
+
+				-- Check if we have typed something meaningful after a trigger character
+				local line = vim.api.nvim_get_current_line()
+				local col = vim.api.nvim_win_get_cursor(0)[2]
+				local before = string.sub(line, 1, col)
+
+				-- Check for trigger characters
+				local has_trigger = string.match(before, "%.$")
+					or string.match(before, "%->$")
+					or string.match(before, "::%s*$")
+					or string.match(before, ":%:$")
+
+				-- Check for word completion
+				local word = before:match("[%w_][%w_%p]-$") or before:match("[%w_]+$") or ""
+				local should_trigger = has_trigger or (#word >= 2 and not check_backspace())
+
+				if should_trigger then
+					vim.defer_fn(function()
+						if
+							vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt"
+							and require("cmp").visible() == false
+						then
+							require("cmp").complete()
+						end
+					end, 100) -- Small delay to prevent excessive triggering
+				end
+			end,
+		})
 	end,
 }

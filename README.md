@@ -15,7 +15,7 @@ English | [中文版](README.zh-CN.md)
 
 <p float="center" align="middle">
   <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/startup.png" width="33%" />
-  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/autocomp.png" width="33%" /> 
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/autocomp.png" width="33%" />
   <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/filebrowser.png " width="33%" />
   <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/debug.png " width="33%" />
 </p>
@@ -125,7 +125,7 @@ wget https://projectlombok.org/downloads/lombok.jar
 mv lombok.jar $XDG_DATA_HOME/mason/packages/jdtls/lombok.jar
 ```
 
-### 2.3 Install pluings
+### 2.3 Install plugins
 
 ```shell
 git clone https://github.com/quintin-lee/NVCode.git ~/.config/nvim
@@ -207,7 +207,44 @@ CodeCompanion supports multiple AI providers including OpenAI, Anthropic, and lo
 docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspace -w /workspace crpi-cofuzswrnwwx9atk.cn-beijing.personal.cr.aliyuncs.com/quintinlee/nvcode:0.10 /opt/nvcode/bin/nvcode
 ```
 
-## 4. Plugin List
+## 4. AI Tool Configuration
+
+This configuration allows you to choose which AI tool to use to avoid performance issues from having multiple AI tools running simultaneously.
+
+### Available Options
+
+- `avante`: Uses the Avante AI assistant
+- `copilot`: Uses GitHub Copilot
+- `tabnine`: Uses Tabnine
+- `codecompanion`: Uses CodeCompanion (default)
+- `all`: Uses all AI tools (not recommended for performance)
+- `none`: Disables all AI tools
+
+### How to Set Your Preferred AI Tool
+
+Set the `AI_PROVIDER` environment variable in your shell profile (e.g., `.bashrc`, `.zshrc`):
+
+```bash
+export AI_PROVIDER=codecompanion  # To use CodeCompanion (default)
+# or
+export AI_PROVIDER=avante  # To use Avante
+# or
+export AI_PROVIDER=copilot  # To use Copilot
+# or
+export AI_PROVIDER=tabnine  # To use Tabnine
+```
+
+Alternatively, you can set it when starting Neovim:
+
+```bash
+AI_PROVIDER=copilot nvim
+```
+
+### Default Behavior
+
+If no environment variable is set, the configuration defaults to using CodeCompanion.
+
+## 5. Plugin List
 
 | Plugin Name            | Plugin Address                                                | Notes                                                                                     |
 | ---------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
@@ -273,20 +310,20 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 
 ### Plugin Function Overview
 
-| Category | Main Plugins                                                                  | Description                                                         |
-| -------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| UI       | bufferline, lualine, dressing, themify, dashboard, noice.nvim, nvim-scrollbar | Status bar, buffer bar, themes, dashboard, notifications, scrollbar |
-| Coding   | nvim-cmp, luasnip, treesitter, tabnine, neogen                                | Completion, snippets, syntax, AI, docgen                            |
-| LSP      | nvim-lspconfig, mason, lspsaga, null-ls                                       | Language server, install, UI, format/lint                           |
-| Debug    | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual                                | Debugger, UI, install, virtual text                                 |
-| Git      | gitsigns, diffview, lazygit                                                   | Git signs, diff view, lazygit integration                           |
-| Tools    | telescope, nvim-tree, fterm, translate, workspaces                            | Fuzzy find, file tree, terminal, translate                          |
-| Editor   | comment, pairs, ufo, markdown, todo, illuminate                               | Comment, autopairs, fold, markdown, todo, hl                        |
-| AI       | avante, codecompanion, tabnine                                                | AI code suggestion, chat, completion                                |
+| Category | Main Plugins                                                                               | Description                                                         |
+| -------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- |
+| UI       | bufferline, lualine, dressing, themify, dashboard, noice.nvim, nvim-scrollbar              | Status bar, buffer bar, themes, dashboard, notifications, scrollbar |
+| Coding   | nvim-cmp, luasnip, treesitter, tabnine, neogen                                             | Completion, snippets, syntax, AI, docgen                            |
+| LSP      | nvim-lspconfig, mason, lspsaga, null-ls                                                    | Language server, install, UI, format/lint                           |
+| Debug    | nvim-dap, nvim-dap-ui, DAPInstall, dap-virtual                                             | Debugger, UI, install, virtual text                                 |
+| Git      | gitsigns, diffview, lazygit                                                                | Git signs, diff view, lazygit integration                           |
+| Tools    | telescope, nvim-tree, fterm, translate, workspaces                                         | Fuzzy find, file tree, terminal, translate                          |
+| Editor   | comment, pairs, ufo, markdown, todo, illuminate                                            | Comment, autopairs, fold, markdown, todo, hl                        |
+| AI       | avante, codecompanion, copilot (selected via environment variable, default: codecompanion) | AI code suggestion, chat, completion                                |
 
 ---
 
-## 5. FAQ (Frequently Asked Questions)
+## 6. FAQ (Frequently Asked Questions)
 
 **Q1: Plugin installation fails or is slow?**
 
@@ -310,7 +347,7 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 
 **Q6: How to enable AI code suggestions?**
 
-- A: Set the required environment variables (`AVANTE_API_ENDPOINT`, `AVANTE_MODEL_NAME`, `AVANTE_API_KEY`) as described above.
+- A: Set the required environment variables (`AVANTE_API_ENDPOINT`, `AVANTE_MODEL_NAME`, `AVANTE_API_KEY`) as described in the AI Tool Configuration section.
 
 **Q7: How to quickly restore the default configuration?**
 
@@ -318,7 +355,7 @@ docker run -it --rm --privileged -e TERM=screen-256color -v ~/workspace:/workspa
 
 ---
 
-## 6. One-click Installation Script
+## 7. One-click Installation Script
 
 You can use the provided `install.sh` script for automatic installation of all dependencies, fonts, and plugins:
 
@@ -334,7 +371,7 @@ The script will detect your OS (Manjaro/Archlinux) and install all required pack
 
 ---
 
-## 7. References
+## 8. References
 
 [awesome neovim][2]
 

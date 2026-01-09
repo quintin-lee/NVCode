@@ -3,23 +3,17 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
         local null_ls = require('null-ls')
-        local formatting = null_ls.builtins.formatting
 
         null_ls.setup({
             sources = {
-                formatting.prettier,
-                formatting.stylua,
+                -- Keep null-ls active only for diagnostics and code actions if needed
+                -- Remove all formatting sources to prevent conflicts with conform.nvim
             },
-            -- on_attach = function(client)
-            --     if client.server_capabilities.documentFormattingProvider then
-            --         vim.cmd([[
-            --             augroup LspFormatting
-            --                 autocmd! * <buffer>
-            --                 autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-            --             augroup END
-            --         ]])
-            --     end
-            -- end,
+            on_attach = function(client, bufnr)
+                -- Explicitly disable formatting capabilities for null-ls to prevent conflicts
+                client.server_capabilities.documentFormattingProvider = false
+                client.server_capabilities.documentRangeFormattingProvider = false
+            end,
         })
     end,
 }

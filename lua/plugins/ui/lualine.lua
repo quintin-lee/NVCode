@@ -16,7 +16,21 @@ return {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = { { "filename", path = 1 } },
-				lualine_x = { "copilot", "tabnine", "encoding", "fileformat", "filetype" },
+				lualine_x = {
+					-- Only show AI indicators that are active
+					function()
+						if package.loaded["copilot"] then
+							return "copilot"
+						elseif package.loaded["tabnine"] then
+							return "tabnine"
+						else
+							return "" -- Return empty if no AI tool is active
+						end
+					end,
+					"encoding",
+					"fileformat",
+					"filetype"
+				},
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},

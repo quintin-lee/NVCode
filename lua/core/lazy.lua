@@ -22,10 +22,14 @@ vim.loader.enable()
 
 -- Preload common modules to improve startup time
 local preload_modules = {
+	"plenary.nvim",
+	"nvim-web-devicons",
 	"nvim-treesitter",
 	"lualine",
 	"telescope",
 	"nvim-lspconfig",
+	"nvim-cmp",
+	"cmp-nvim-lsp",
 }
 for _, module in ipairs(preload_modules) do
 	pcall(require, module)
@@ -35,7 +39,7 @@ end
 require("lazy").setup(require("plugins"), {
 	-- Configure default options for lazy.nvim
 	defaults = {
-		lazy = false, -- Should plugins be lazy-loaded by default?
+		lazy = false, -- Disable lazy loading by default to ensure plugins work as expected
 	},
 	performance = {
 		cache = {
@@ -45,16 +49,6 @@ require("lazy").setup(require("plugins"), {
 		rtp = {
 			reset = true,
 			paths = {}, -- Additional paths to include in the runtime path
-			names = {
-				-- Explicitly list which plugins should be loaded at startup
-				"plenary.nvim",
-				"nvim-web-devicons",
-				"nvim-treesitter",
-				"nvim-lspconfig",
-				"nvim-cmp",
-				"cmp-nvim-lsp",
-			},
 		},
 	},
 })
-

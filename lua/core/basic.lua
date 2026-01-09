@@ -76,6 +76,18 @@ vim.o.pumheight = 10
 vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
+vim.g.clipboard = {
+	name = "xclip",
+	copy = {
+		["+"] = "xclip -selection clipboard",
+		["*"] = "xclip -selection clipboard",
+	},
+	paste = {
+		["+"] = "xclip -selection clipboard -o",
+		["*"] = "xclip -selection clipboard -o",
+	},
+	cache_enabled = 0,
+}
 -- 长文本换行显示 (保持开启折行，但不显示折行标志)
 vim.opt.wrap = true
 vim.opt.linebreak = true

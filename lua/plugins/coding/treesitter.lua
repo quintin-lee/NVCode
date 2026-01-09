@@ -1,6 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-	event = "VeryLazy",
+	event = "BufReadPost",
 	build = ":TSUpdate",
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter-textobjects",
@@ -20,11 +20,16 @@ return {
 				"java",
 				"rust",
 				"javascript",
-				"latex",
+				"typescript",
+				"tsx",
 				"markdown",
 				"vim",
 				"vimdoc",
-				"go",
+				"html",
+				"css",
+				"yaml",
+				"dockerfile",
+				"sql",
 			},
 
 			-- Install parsers asynchronously (only applied to `ensure_installed`) - faster startup
@@ -32,9 +37,6 @@ return {
 			-- Automatically install missing parsers when entering buffer
 			-- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
 			auto_install = true,
-
-			-- List of parsers to ignore installing (for "all")
-			--ignore_install = { "javascript" },
 
 			-- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
 			disable = function(lang, buf)
@@ -48,12 +50,6 @@ return {
 			highlight = {
 				-- `false` will disable the whole extension
 				enable = true,
-
-				-- NOTE: these are the names of the parsers and not the filetype. (for example if you want to
-				-- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
-				-- the name of the parser)
-				-- list of language that will be disabled
-				-- disable = { "c", "rust" },
 
 				-- Setting this to true will run `:h syntax` and tree-sitter at the same time.
 				-- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).

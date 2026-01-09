@@ -1,6 +1,3 @@
-return {
-	require("plugins.ai.avante"),
-	require("plugins.ai.copilot"),
-	require("plugins.ai.mcphub"),
-	require("plugins.ai.codecompanion"),
-}
+-- AI plugin selection based on AI_PROVIDER environment variable
+local ai_manager = require("plugins.ai.ai-manager")
+return ai_manager.setup()
