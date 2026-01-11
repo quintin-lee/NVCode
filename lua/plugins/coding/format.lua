@@ -5,7 +5,8 @@ return {
         formatters_by_ft = {
             -- 1. 原有语言
             go = { "goimports", "gofmt" },
-            python = { "ruff_format", "ruff_organize_imports" },
+            -- 使用black作为主要Python格式化工具，避免与LSP冲突
+            python = { "black", "ruff_organize_imports" },
             c = { "clang-format" },
             cpp = { "clang-format" },
 
@@ -41,6 +42,19 @@ return {
         },
         -- 针对不同语言的格式化器自定义配置
         formatters = {
+            black = {
+                -- Black选项配置
+                prepend_args = {
+                    "--line-length=88", -- 行长度限制
+                    "--skip-string-normalization", -- 保留字符串引号格式
+                },
+            },
+            ruff_organize_imports = {
+                -- Ruff导入排序配置
+                prepend_args = {
+                    "--line-length=88",
+                },
+            },
             ["clang-format"] = {
                 -- 如果 CUDA 文件没有被识别，可以强制指定风格
                 prepend_args = { "--style=file" },
