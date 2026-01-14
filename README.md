@@ -63,6 +63,7 @@ English | [中文版](README.zh-CN.md)
 - noto-color-emoji-fontconfig-no-binding
 - luarocks
 - btop
+- wl-clipboard
 
 ## 2. Installation on Manjaro/Archlinux
 
@@ -99,6 +100,7 @@ sudo pacman -S btop
 sudo pacman -S delve
 yay -S jdtls
 yay -S noto-color-emoji-fontconfig-no-binding
+yay -S wl-clipboard
 
 pip install cmake-language-server
 
