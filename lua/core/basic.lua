@@ -77,14 +77,14 @@ vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
 vim.g.clipboard = {
-	name = "xclip",
+	name = "wl-copy",
 	copy = {
-		["+"] = "xclip -selection clipboard",
-		["*"] = "xclip -selection clipboard",
+		["+"] = "wl-copy",
+		["*"] = "wl-copy",
 	},
 	paste = {
-		["+"] = "xclip -selection clipboard -o",
-		["*"] = "xclip -selection clipboard -o",
+		["+"] = "wl-paste --no-newline",
+		["*"] = "wl-paste --no-newline",
 	},
 	cache_enabled = 0,
 }
