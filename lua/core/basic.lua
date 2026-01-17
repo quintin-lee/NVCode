@@ -76,18 +76,45 @@ vim.o.pumheight = 10
 vim.o.showtabline = 2
 -- 配置剪切板
 vim.opt.clipboard = "unnamedplus"
-vim.g.clipboard = {
-	name = "wl-copy",
-	copy = {
-		["+"] = "wl-copy",
-		["*"] = "wl-copy",
-	},
-	paste = {
-		["+"] = "wl-paste --no-newline",
-		["*"] = "wl-paste --no-newline",
-	},
-	cache_enabled = 0,
-}
+local function get_clipboard_config()
+	-- 优先检测 Wayland (wl-copy)
+	if os.getenv("WAYLAND_DISPLAY") and vim.fn.executable("wl-copy") == 1 then
+		return {
+			name = "wl-copy",
+			copy = {
+				["+"] = "wl-copy",
+				["*"] = "wl-copy",
+			},
+			paste = {
+				["+"] = "wl-paste --no-newline",
+				["*"] = "wl-paste --no-newline",
+			},
+			cache_enabled = 0,
+		}
+	-- 其次检测 X11 (xclip)
+	elseif os.getenv("DISPLAY") and vim.fn.executable("xclip") == 1 then
+		return {
+			name = "xclip",
+			copy = {
+				["+"] = "xclip -selection clipboard",
+				["*"] = "xclip -selection primary",
+			},
+			paste = {
+				["+"] = "xclip -selection clipboard -o",
+				["*"] = "xclip -selection primary -o",
+			},
+			cache_enabled = 0,
+		}
+	end
+	-- 如果都没找到，返回 nil 让 Neovim 使用内置检测
+	return nil
+end
+
+local clipboard_cfg = get_clipboard_config()
+if clipboard_cfg then
+	vim.g.clipboard = clipboard_cfg
+end
+
 -- 长文本换行显示 (保持开启折行，但不显示折行标志)
 vim.opt.wrap = true
 vim.opt.linebreak = true
