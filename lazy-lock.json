@@ -60,6 +60,7 @@
   "rustaceanvim": { "branch": "master", "commit": "63c744d92f1d7428bc9acc26054331f85891d822" },
   "snacks.nvim": { "branch": "main", "commit": "fe7cfe9800a182274d0f868a74b7263b8c0c020b" },
   "telescope-gitmoji.nvim": { "branch": "master", "commit": "ed5e3bc41e353d881cf4a93776c48e3ab8b6d0e2" },
+  "telescope.nvim": { "branch": "master", "commit": "a8c2223ea6b185701090ccb1ebc7f4e41c4c9784" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "tokyonight.nvim": { "branch": "main", "commit": "5da1b76e64daf4c5d410f06bcb6b9cb640da7dfd" },
   "trouble.nvim": { "branch": "main", "commit": "bd67efe408d4816e25e8491cc5ad4088e708a69a" },
