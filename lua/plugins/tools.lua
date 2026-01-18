@@ -18,158 +18,115 @@ return {
       opts.extensions.gitmoji = {
         commit_type = require("tools.emojis"), -- 确保该文件路径正确
         action = function(entry)
-          vim.ui.input({ prompt = "Enter scope msg: " .. entry.key .. " " }, function(scope)
+          vim.ui.input({ prompt = "Scope: " .. entry.key .. " " }, function(scope)
             if not scope then
               return
             end
 
-            local scope_msg = string.format("%s(%s): ", entry.key, scope)
+            local subject = string.format("%s(%s): %s ", entry.key, scope, entry.value)
 
-            -- Open a floating, multi-line buffer for composing the commit message
-            local buf = vim.api.nvim_create_buf(false, true) -- listed = false, scratch = true
+            -- 1. 窗口布局计算
+            local width = math.floor(vim.o.columns * 0.7)
+            local height = math.floor(vim.o.lines * 0.5)
 
-            local width = math.max(50, math.floor(vim.o.columns * 0.7))
-            local height = math.max(8, math.floor(vim.o.lines * 0.5))
-            local row = math.floor((vim.o.lines - height) / 2)
-            local col = math.floor((vim.o.columns - width) / 2)
-
-            local win = vim.api.nvim_open_win(buf, true, {
-              relative = "editor",
-              width = width,
-              height = height,
-              row = row,
-              col = col,
-              style = "minimal",
-              border = "rounded",
-            })
-
+            -- 2. 创建主缓冲区
+            local buf = vim.api.nvim_create_buf(false, true)
             vim.bo[buf].filetype = "gitcommit"
             vim.bo[buf].buftype = "acwrite"
             vim.bo[buf].bufhidden = "wipe"
 
-            -- Create a small, persistent hint window just below the commit floating window
-            local hint_buf, hint_win
-            do
-              hint_buf = vim.api.nvim_create_buf(false, true) -- scratch
-              local hint_text = "Press <C-s> to commit, <C-c> to cancel"
-              vim.api.nvim_buf_set_lines(hint_buf, 0, -1, false, { hint_text })
-              vim.bo[hint_buf].bufhidden = "wipe"
-              vim.bo[hint_buf].modifiable = false
+            -- 3. 开启主浮动窗口
+            local win = vim.api.nvim_open_win(buf, true, {
+              relative = "editor",
+              width = width,
+              height = height,
+              row = (vim.o.lines - height) / 2,
+              col = (vim.o.columns - width) / 2,
+              style = "minimal",
+              border = "rounded",
+              title = " Git Commit Message ",
+              title_pos = "center",
+            })
+            -- 设置透明度级别 (0 为不透明，100 为全透明)
+            -- 通常设置为 10-20 效果最佳
+            vim.wo[win].winblend = 10
 
-              -- Position hint relative to the commit floating window so it reliably appears
-              -- right below it. Use relative='win' and target the commit win id.
-              local ok, winid = pcall(function()
-                return win
-              end)
-              if ok and vim.api.nvim_win_is_valid(winid) then
-                -- place the hint immediately below the floating window (row = height)
-                hint_win = vim.api.nvim_open_win(hint_buf, false, {
-                  relative = "win",
-                  win = winid,
-                  width = width,
-                  height = 1,
-                  row = height,
-                  col = 0,
-                  style = "minimal",
-                  border = "none",
-                  focusable = false,
-                  zindex = 200,
-                })
-              else
-                -- fallback to editor-relative placement
-                local hint_row = row + height
-                if hint_row + 1 > vim.o.lines then
-                  hint_row = math.max(0, row + height - 1)
-                end
-                hint_win = vim.api.nvim_open_win(hint_buf, false, {
-                  relative = "editor",
-                  width = width,
-                  height = 1,
-                  row = hint_row,
-                  col = col,
-                  style = "minimal",
-                  border = "none",
-                  focusable = false,
-                  zindex = 200,
-                })
-              end
+            -- 将窗口背景与普通背景链接，确保透明效果生效
+            -- NormalFloat 是浮动窗口背景，FloatBorder 是边框
+            vim.wo[win].winhighlight = "NormalFloat:Normal,FloatBorder:FloatBorder"
 
-              -- make hint slightly transparent so it looks elegant
-              pcall(function()
-                vim.wo[hint_win].winblend = 10
-              end)
-            end
+            -- 4. 辅助提示窗 (Hint Box)
+            local hint_buf = vim.api.nvim_create_buf(false, true)
+            vim.api.nvim_buf_set_lines(hint_buf, 0, -1, false, { " [   C-s] Commit | [   C-c] Cancel " })
+            vim.bo[hint_buf].modifiable = false
 
-            -- Pre-fill buffer: first line is the conventional subject line
-            local subject = string.format("%s %s", entry.value, scope_msg)
+            local hint_win = vim.api.nvim_open_win(hint_buf, false, {
+              relative = "win",
+              win = win,
+              width = width,
+              height = 1,
+              row = height,
+              col = -1, -- 贴合在底部边框
+              style = "minimal",
+              border = "rounded",
+              focusable = false,
+            })
+            vim.wo[hint_win].winblend = 15
+
+            -- 5. 初始化内容
             vim.api.nvim_buf_set_lines(buf, 0, -1, false, { subject, "", "" })
-
-            -- Place cursor at the end of the first line
             vim.api.nvim_win_set_cursor(win, { 1, #subject })
+            vim.cmd("startinsert!") -- 自动进入插入模式并移动到行尾
 
+            -- 6. 清理逻辑封装
             local function cleanup()
-              if vim.api.nvim_win_is_valid(win) then
-                pcall(vim.api.nvim_win_close, win, true)
-              end
-              if vim.api.nvim_buf_is_valid(buf) then
-                pcall(vim.api.nvim_buf_delete, buf, { force = true })
-              end
-              if hint_win and vim.api.nvim_win_is_valid(hint_win) then
-                pcall(vim.api.nvim_win_close, hint_win, true)
-              end
-              if hint_buf and vim.api.nvim_buf_is_valid(hint_buf) then
-                pcall(vim.api.nvim_buf_delete, hint_buf, { force = true })
+              local wins = { win, hint_win }
+              for _, w in ipairs(wins) do
+                if w and vim.api.nvim_win_is_valid(w) then
+                  vim.api.nvim_win_close(w, true)
+                end
               end
             end
 
+            -- 7. 提交逻辑
             local function do_commit()
-              if not vim.api.nvim_buf_is_valid(buf) then
-                return
-              end
               local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-              -- remove leading/trailing empty lines
-              while #lines > 0 and lines[#lines] == "" do
-                table.remove(lines)
-              end
-              while #lines > 0 and lines[1] == "" do
-                table.remove(lines, 1)
-              end
-
+              -- 过滤空行
+              lines = vim.tbl_filter(function(line)
+                return line ~= ""
+              end, lines)
               if #lines == 0 then
-                vim.notify("Empty commit message, aborting", vim.log.levels.WARN)
-                cleanup()
+                vim.notify("Commit message is empty!", vim.log.levels.ERROR)
                 return
               end
 
               local tmp = vim.fn.tempname()
-              -- writefile accepts list-of-lines
               vim.fn.writefile(lines, tmp)
 
-              local git_tool = ":!git"
-              if vim.g.loaded_fugitive then
-                git_tool = ":G"
-              end
-
-              -- Use -F to read the commit message from the temp file
-              local cmd = string.format('%s commit -F "%s"', git_tool, tmp)
+              -- 优先使用 Fugitive，否则使用系统 git
+              local cmd = (vim.g.loaded_fugitive and "G" or "!git") .. " commit -F " .. tmp
               vim.cmd(cmd)
 
-              -- try to remove temp file (ignore errors)
               pcall(vim.uv.fs_unlink, tmp)
-
               cleanup()
+              vim.notify("🚀 Commit successful!", vim.log.levels.INFO)
             end
 
-            -- Buffer-local mappings: <C-s> to commit, <C-c> to cancel
-            vim.keymap.set("n", "<C-s>", do_commit, { buffer = buf, silent = true })
-            vim.keymap.set("i", "<C-s>", function()
+            -- 8. 快捷键映射 (Buffer-local)
+            local map_opts = { buffer = buf, remap = false, silent = true }
+            vim.keymap.set({ "n", "i" }, "<C-s>", function()
               vim.cmd("stopinsert")
               do_commit()
-            end, { buffer = buf, silent = true })
+            end, map_opts)
 
-            vim.keymap.set({ "n", "i" }, "<C-c>", function()
-              cleanup()
-            end, { buffer = buf, silent = true })
+            vim.keymap.set({ "n", "i" }, "<C-c>", cleanup, map_opts)
+
+            -- 9. 自动命令：如果窗口被意外关闭，清理提示窗
+            vim.api.nvim_create_autocmd("WinClosed", {
+              buffer = buf,
+              once = true,
+              callback = cleanup,
+            })
           end)
         end,
       }
