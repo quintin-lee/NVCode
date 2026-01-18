@@ -1,3 +1,14 @@
+<h1 align="center">NVCode</h1>
+<h2 align="center">实现现代 IDE 强大功能的 Neovim 配置</h2>
+
+<p align="center">
+  <img alt="Stargazers" src="https://img.shields.io/github/stars/quintin-lee/NVCode?logo=starship" />
+  <img alt="Made with lua" src="https://img.shields.io/badge/Made%20with%20Lua-blue.svg?logo=lua" />
+  <img alt="Minimum neovim version" src="https://img.shields.io/badge/Neovim-0.10.0+-blueviolet.svg?logo=Neovim" />
+  <img alt="forks" src="https://img.shields.io/github/forks/quintin-lee/NVCode?logo=forks" />
+  <img alt="Issues" src="https://img.shields.io/github/issues/quintin-lee/NVCode?logo=gitbook" />
+</p>
+
 [English](README.md) | 中文版
 
 # 💤 nvcode - 增强版 LazyVim 配置
