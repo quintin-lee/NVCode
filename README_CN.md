@@ -102,6 +102,27 @@ nvcode/
 3. 首次启动后使用 `:Lazy sync` 安装插件
 4. 通过修改 `lua/plugins/` 目录中的文件来自定义插件
 
+## 📁 环境配置
+
+为了实现适当的隔离和便携性，此配置使用自定义环境变量来重定向 Neovim 的目录：
+
+```bash
+#!/bin/bash
+
+NVIM_PATH=$(readlink -f $0)
+NVIM_BIN_PATH=$(dirname ${NVIM_PATH})
+NVIM_DIR=${NVIM_BIN_PATH}/../
+
+NVIM_APPNAME=nvcode
+XDG_CONFIG_HOME=${NVIM_DIR}/config
+XDG_DATA_HOME=${NVIM_DIR}/share
+XDG_STATE_HOME=${NVIM_DIR}/state
+
+NVIM_APPNAME=$NVIM_APPNAME XDG_CONFIG_HOME=$XDG_CONFIG_HOME XDG_DATA_HOME=$XDG_DATA_HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR XDG_STATE_HOME=$XDG_STATE_HOME ${NVIM_BIN_PATH}/nvim-linux-x86_64.appimage "$@"
+```
+
+此脚本确保所有配置、数据和状态文件都包含在 nvcode 目录结构中，保持系统清洁有序。
+
 ## 📝 文件头模板
 
 多种语言的自动文件头生成：
@@ -146,4 +167,3 @@ nvcode/
 ## 🌐 贡献
 
 欢迎 Fork 并自定义此配置以满足您的需求。欢迎提交改进的拉取请求！
-

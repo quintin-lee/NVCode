@@ -102,6 +102,27 @@ Before installing this configuration, ensure you have the following system depen
 3. Install plugins with `:Lazy sync` after first launch
 4. Customize plugins by modifying files in the `lua/plugins/` directory
 
+## 📁 Environment Configuration
+
+For proper isolation and portability, this configuration uses custom environment variables to redirect Neovim's directories:
+
+```bash
+#!/bin/bash
+
+NVIM_PATH=$(readlink -f $0)
+NVIM_BIN_PATH=$(dirname ${NVIM_PATH})
+NVIM_DIR=${NVIM_BIN_PATH}/../
+
+NVIM_APPNAME=nvcode
+XDG_CONFIG_HOME=${NVIM_DIR}/config
+XDG_DATA_HOME=${NVIM_DIR}/share
+XDG_STATE_HOME=${NVIM_DIR}/state
+
+NVIM_APPNAME=$NVIM_APPNAME XDG_CONFIG_HOME=$XDG_CONFIG_HOME XDG_DATA_HOME=$XDG_DATA_HOME XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR XDG_STATE_HOME=$XDG_STATE_HOME ${NVIM_BIN_PATH}/nvim-linux-x86_64.appimage "$@"
+```
+
+This script ensures that all configuration, data, and state files are contained within the nvcode directory structure, keeping your system clean and organized.
+
 ## 📝 File Header Templates
 
 Automatic file header generation for multiple languages:
