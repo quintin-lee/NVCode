@@ -1,0 +1,19 @@
+/*
+ * File:   {{FILENAME}}
+ * Author: {{AUTHOR}}
+ *
+ * Created on {{DATE}}
+ *
+ * <Add a brief description of the file here>
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Define your functions here */
+
+int main(int argc, char *argv[]) {
+    // Your main function code here
+    <!-- CURSOR -->
+    return 0;
+}
