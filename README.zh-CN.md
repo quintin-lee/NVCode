@@ -1,3 +1,5 @@
+[English](README.md) | 中文版
+
 # 💤 nvcode - 增强版 LazyVim 配置
 
 一个基于 [LazyVim](https://github.com/LazyVim/LazyVim) 的全面 Neovim 配置，包含额外的自定义功能和工具，旨在提高工作效率。

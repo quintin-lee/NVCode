@@ -1,3 +1,5 @@
+English | [中文版](README.zh-CN.md)
+
 # 💤 nvcode - Enhanced LazyVim Configuration
 
 A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyVim/LazyVim) with additional customizations and tools tailored for enhanced productivity.
