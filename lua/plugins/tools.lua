@@ -155,7 +155,7 @@ return {
               vim.cmd(cmd)
 
               -- try to remove temp file (ignore errors)
-              pcall(vim.loop.fs_unlink, tmp)
+              pcall(vim.uv.fs_unlink, tmp)
 
               cleanup()
             end
