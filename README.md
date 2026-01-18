@@ -78,6 +78,23 @@ nvcode/
 └── README.md
 ```
 
+## 🛠️ System Dependencies
+
+Before installing this configuration, ensure you have the following system dependencies:
+
+- **Neovim**: Version 0.11+ (required)
+- **Git**: Version 2.19+ (required for plugin management)
+- **Node.js**: Latest LTS version (for LSP and formatters)
+- **npm** or **yarn**: Package managers for JavaScript/TypeScript tools
+- **Python**: Version 3.8+ with `pynvim` (for Python LSP)
+- **ripgrep**: `rg` command for telescope fuzzy finder
+- **fzf**: Fuzzy finder command-line tool
+- **GCC/G++**: For compiling certain plugins and LSP servers
+- **CMake**: For building some Neovim plugins
+- **Go**: If you plan to work with Go projects (optional)
+- **Java JDK**: For Java LSP support (optional)
+- **LazyGit**: For enhanced git functionality (optional)
+
 ## 🛠️ Setup
 
 1. This configuration requires Neovim 0.9+ and Git
