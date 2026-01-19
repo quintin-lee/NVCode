@@ -15,6 +15,13 @@ English | [中文版](README.zh-CN.md)
 
 A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyVim/LazyVim) with additional customizations and tools tailored for enhanced productivity.
 
+<p float="center" align="middle">
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/startup.png" width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/autocomp.png" width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/filebrowser.png " width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/debug.png " width="33%" />
+</p>
+
 ## 🚀 Features
 
 ### Core Enhancements

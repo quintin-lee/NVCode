@@ -15,6 +15,13 @@
 
 一个基于 [LazyVim](https://github.com/LazyVim/LazyVim) 的全面 Neovim 配置，包含额外的自定义功能和工具，旨在提高工作效率。
 
+<p float="center" align="middle">
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/startup.png" width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/autocomp.png" width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/filebrowser.png " width="33%" />
+  <img src="https://raw.githubusercontent.com/quintin-lee/NVCode/master/screenshots/debug.png " width="33%" />
+</p>
+
 ## 🚀 功能特性
 
 ### 核心增强
