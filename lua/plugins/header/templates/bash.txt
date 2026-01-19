@@ -1,7 +1,0 @@
-#!/usr/bin/bash
-# Author: {{AUTHOR}}
-# Date: {{DATE}}
-
-# Description: This is a Shell script.
-
-<!-- CURSOR -->
