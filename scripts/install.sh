@@ -109,13 +109,13 @@ install_deps() {
             case "$ID" in
             arch | manjaro)
                 sudo pacman -Syu --needed --noconfirm base-devel git curl wget unzip ripgrep fd fzf lazygit \
-                    sqlite lua51 luarocks nodejs npm python-pip imagemagick clang stylua shfmt
+                    sqlite lua51 luarocks nodejs npm python-pip imagemagick clang stylua shfmt fuse2
                 ;;
             debian | ubuntu | pop | linuxmint)
                 sudo apt-get update
                 sudo apt-get install -y build-essential git curl wget unzip ripgrep fd-find fzf \
                     sqlite3 libsqlite3-dev lua5.1 liblua5.1-0-dev luarocks nodejs npm \
-                    python3-pip python3-venv imagemagick clang
+                    python3-pip python3-venv imagemagick clang libfuse2
                 ;;
             fedora | rhel | centos)
                 sudo dnf groupinstall -y "Development Tools"
