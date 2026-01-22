@@ -2,6 +2,9 @@ return {
   -- 浮动终端
   {
     "numToStr/FTerm.nvim",
+    keys = {
+      { "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>', mode = { "n", "t" }, desc = "Toggle Terminal" },
+    },
     opts = { border = "double", dimensions = { height = 0.9, width = 0.9 } },
   },
   {

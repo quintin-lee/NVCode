@@ -122,4 +122,3 @@ M.get_gitmoji_config = function()
 end
 
 return M
-
