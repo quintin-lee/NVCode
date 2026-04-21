@@ -2,6 +2,12 @@
 -- File: {{FILENAME}}
 -- Author: {{AUTHOR}}
 -- Date: {{DATE}}
+-- Last Modified: {{DATE}}
 -- Description: 
 --
 
+local M = {}
+
+<!-- CURSOR -->
+
+return M

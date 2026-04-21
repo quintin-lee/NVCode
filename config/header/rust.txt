@@ -1,8 +1,10 @@
 // File: {{FILENAME}}
 // Author: {{AUTHOR}}
 // Date: {{DATE}}
+// Last Modified: {{DATE}}
 // Description: 
 
 fn main() {
+    <!-- CURSOR -->
     println!("Hello, world!");
 }

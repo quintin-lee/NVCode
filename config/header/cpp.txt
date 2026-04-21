@@ -1,20 +1,19 @@
 /*
  * File:   {{FILENAME}}
  * Author: {{AUTHOR}}
+ * Date:   {{DATE}}
+ * Last Modified: {{DATE}}
  *
- * Created on {{DATE}}
- *
- * <Add a brief description of the file here>
+ * Description: <Add a brief description of the file here>
  */
 
 #include <iostream>
 #include <vector>
 #include <string>
 
-/* Define your functions here */
+using namespace std;
 
 int main(int argc, char *argv[]) {
-    // Your main function code here
     <!-- CURSOR -->
     return 0;
 }

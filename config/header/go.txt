@@ -1,6 +1,14 @@
 // File: {{FILENAME}}
 // Author: {{AUTHOR}}
 // Date: {{DATE}}
+// Last Modified: {{DATE}}
 // Description: 
 
 package main
+
+import "fmt"
+
+func main() {
+    <!-- CURSOR -->
+    fmt.Println("Hello, World!")
+}
