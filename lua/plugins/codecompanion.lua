@@ -23,6 +23,7 @@ return {
     { "<leader>Cf", "<cmd>CodeCompanion /fix<cr>", mode = "v", desc = "Fix Code" },
     { "<leader>Cl", "<cmd>CodeCompanion /lsp<cr>", mode = "n", desc = "Explain LSP Diagnostics" },
     { "<leader>Cm", "<cmd>CodeCompanion /commit<cr>", mode = "n", desc = "Generate Commit Message" },
+    { "<leader>Ct", "<cmd>CodeCompanionToggleModel<cr>", mode = "n", desc = "Toggle AI Model (Gemini/Qwen)" },
   },
   opts = {
     adapters = {
@@ -45,13 +46,31 @@ return {
             },
           })
         end,
+        gemini_cli = function()
+          return require("codecompanion.adapters").extend("gemini_cli", {
+            commands = {
+              default = { "gemini", "--experimental-acp" },
+            },
+            defaults = {
+              auth_method = "gemini-oauth",
+              oauth_credentials_path = vim.fs.abspath("~/.gemini/oauth_creds.json"),
+              timeout = 20000,
+            },
+            handlers = {
+              auth = function(self)
+                local oauth_path = self.defaults.oauth_credentials_path
+                return (oauth_path and vim.fn.filereadable(oauth_path)) == 1
+              end,
+            },
+          })
+        end,
       },
     },
     strategies = {
       chat = {
-        adapter = "qwen_cli",
+        adapter = "gemini_cli",
         roles = {
-          llm = "  Qwen",
+          llm = "  Gemini",
           user = "  Me",
         },
         keymaps = {
@@ -76,7 +95,7 @@ return {
         },
       },
       inline = {
-        adapter = "qwen_cli",
+        adapter = "gemini_cli",
         keymaps = {
           accept = {
             modes = { n = "ga" },
@@ -92,7 +111,7 @@ return {
           },
         },
       },
-      cmd = { adapter = "qwen_cli" },
+      cmd = { adapter = "gemini_cli" },
     },
     display = {
       action_palette = {
@@ -115,7 +134,7 @@ return {
             wrap = true,
           },
         },
-        intro_message = "Qwen AI Assistant Active. Use /buffer or /files to add context.",
+        intro_message = "Gemini AI Assistant Active. Use /buffer or /files to add context.",
         show_settings = false,
       },
       diff = {
@@ -133,5 +152,54 @@ return {
     -- 在 LazyVim 环境下设置命令缩写
     vim.cmd([[cab cc CodeCompanion]])
     vim.cmd([[cab ccc CodeCompanionChat]])
+
+    -- 动态切换模型逻辑
+    vim.api.nvim_create_user_command("CodeCompanionToggleModel", function()
+      local ok, codecompanion = pcall(require, "codecompanion")
+      if not ok then
+        return
+      end
+      local config = require("codecompanion.config")
+      local active_config = config.config or config
+
+      -- CodeCompanion v19+ renamed 'strategies' to 'interactions'
+      local interface = active_config.interactions or active_config.strategies
+      if not interface then
+        vim.notify("CodeCompanion config structure not recognized", vim.log.levels.ERROR)
+        return
+      end
+
+      local current_adapter = interface.chat.adapter
+
+      if current_adapter == "gemini_cli" then
+        interface.chat.adapter = "qwen_cli"
+        if interface.inline then interface.inline.adapter = "qwen_cli" end
+        if interface.cmd then interface.cmd.adapter = "qwen_cli" end
+
+        if interface.chat.roles then
+          interface.chat.roles.llm = "  Qwen"
+        end
+
+        if active_config.display and active_config.display.chat then
+          active_config.display.chat.intro_message = "Qwen AI Assistant Active. Use /buffer or /files to add context."
+        end
+
+        vim.notify("CodeCompanion adapter switched to: Qwen", vim.log.levels.INFO)
+      else
+        interface.chat.adapter = "gemini_cli"
+        if interface.inline then interface.inline.adapter = "gemini_cli" end
+        if interface.cmd then interface.cmd.adapter = "gemini_cli" end
+
+        if interface.chat.roles then
+          interface.chat.roles.llm = "  Gemini"
+        end
+
+        if active_config.display and active_config.display.chat then
+          active_config.display.chat.intro_message = "Gemini AI Assistant Active. Use /buffer or /files to add context."
+        end
+
+        vim.notify("CodeCompanion adapter switched to: Gemini", vim.log.levels.INFO)
+      end
+    end, { desc = "Toggle CodeCompanion AI Model" })
   end,
 }
