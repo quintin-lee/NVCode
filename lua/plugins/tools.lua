@@ -2,6 +2,7 @@ return {
   -- 浮动终端
   {
     "numToStr/FTerm.nvim",
+    cmd = "FTerm",
     keys = {
       { "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>', mode = { "n", "t" }, desc = "Toggle Terminal" },
     },
@@ -9,11 +10,10 @@ return {
   },
   {
     "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
     dependencies = {
-      "quintin-lee/telescope-gitmoji.nvim", -- 将 gitmoji 设为依赖
+      "quintin-lee/telescope-gitmoji.nvim",
     },
-
-    -- gitmoji commit 快捷键配置
     keys = {
       { "<leader>gc", "<cmd>Telescope gitmoji<cr>", mode = { "n", "v" }, desc = "gitmoji commit" },
     },

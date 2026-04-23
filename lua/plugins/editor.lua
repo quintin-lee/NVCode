@@ -1,6 +1,7 @@
 return {
   {
     "lewis6991/gitsigns.nvim",
+    event = "LazyFile",
     enabled = true, -- <--- 显式添加这一行，强制启用插件
     opts = {
       current_line_blame = true, -- 显式开启
