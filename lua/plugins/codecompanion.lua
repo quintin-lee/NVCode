@@ -138,6 +138,36 @@ return {
     opts = {
       log_level = "ERROR",
     },
+    prompt_library = {
+      ["Generate Commit Message"] = {
+        strategy = "chat",
+        description = "Generate a commit message from the current staged changes",
+        opts = {
+          index = 9,
+          is_default = true,
+          is_slash_cmd = true,
+          short_name = "commit",
+          auto_submit = true,
+        },
+        prompts = {
+          {
+            role = "system",
+            content = "You are an expert at writing concise and meaningful commit messages. Use English only.",
+          },
+          {
+            role = "user",
+            content = function()
+              return "Generate a commit message for the following changes:\n\n```git\n"
+                .. vim.fn.system("git diff --staged")
+                .. "\n```"
+            end,
+            opts = {
+              contains_code = true,
+            },
+          },
+        },
+      },
+    },
   },
     config = function(_, opts)
       require("codecompanion").setup(opts)
