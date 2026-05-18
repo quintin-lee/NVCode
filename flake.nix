@@ -110,15 +110,14 @@
             fi
 
             # 解决部分驱动下的渲染问题
-            export MESA_LOADER_DRIVER_OVERRIDE="${MESA_LOADER_DRIVER_OVERRIDE:-}"
+            export MESA_LOADER_DRIVER_OVERRIDE="''${MESA_LOADER_DRIVER_OVERRIDE:-}"
 
             # 启动 Neovide
-            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "${ARGS[@]}"
+            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
           fi
 
           # 启动终端版 Neovim
-          exec "${neovim-pkg}/bin/nvim" "${ARGS[@]}"
-
+          exec "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
           EOF
           chmod +x $out/bin/nvcode
         '';
