@@ -117,7 +117,23 @@ Before installing this configuration, ensure you have the following system depen
 
 ## 🛠️ Setup
 
-1. This configuration requires Neovim 0.9+ and Git
+### Nix (Recommended)
+
+If you have [Nix](https://nixos.org/) installed, you can run NvCode directly without manually installing any dependencies:
+
+```bash
+# Run directly
+nix run github:quintin-lee/NVCode
+
+# Or if you have the repo cloned locally
+nix run .
+```
+
+This will automatically pull all required LSPs, formatters, and tools into an isolated environment.
+
+### Manual Installation
+
+1. This configuration requires Neovim 0.11+ and Git
 2. Clone LazyVim if not already installed (automatically handled by lazy.lua)
 3. Install plugins with `:Lazy sync` after first launch
 4. Customize plugins by modifying files in the `lua/plugins/` directory

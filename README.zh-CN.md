@@ -117,7 +117,23 @@ nvcode/
 
 ## 🛠️ 安装
 
-1. 此配置需要 Neovim 0.9+ 和 Git
+### Nix (推荐)
+
+如果您安装了 [Nix](https://nixos.org/)，可以直接运行 NvCode 而无需手动安装任何依赖：
+
+```bash
+# 直接运行
+nix run github:quintin-lee/NVCode
+
+# 或者如果您已在本地克隆了仓库
+nix run .
+```
+
+这将自动将所有必需的 LSP、格式化工具和工具拉取到隔离的环境中。
+
+### 手动安装
+
+1. 此配置需要 Neovim 0.11+ 和 Git
 2. 如果尚未安装，请克隆 LazyVim（由 lazy.lua 自动处理）
 3. 首次启动后使用 `:Lazy sync` 安装插件
 4. 通过修改 `lua/plugins/` 目录中的文件来自定义插件
