@@ -46,26 +46,50 @@ mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
 "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步中可能存在小警告，继续..."
 
 # --- 4. 生成离线启动脚本 ---
-echo "📝 阶段 3: 生成离线启动脚本..."
+echo "📝 阶段 3: 生成离线启动脚本 (终端 & 图形化)..."
+
+# 1. 终端启动脚本
 cat <<'EOF' > "${DIST_DIR}/run_offline.sh"
 #!/usr/bin/env bash
-# NvCode 离线启动器
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
-# 重定向所有路径到包内
 export NVIM_APPNAME="nvcode"
 export XDG_CONFIG_HOME="${BASE_DIR}/nvcode_data/config"
 export XDG_DATA_HOME="${BASE_DIR}/nvcode_data/share"
 export XDG_STATE_HOME="${BASE_DIR}/nvcode_data/state"
 export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
-
-# 告诉 Neovim 我们处于离线状态 (某些插件可以据此优化)
 export NVIM_OFFLINE=1
-
-# 启动二进制
 exec "${BASE_DIR}/nvcode_bin" "$@"
 EOF
 chmod +x "${DIST_DIR}/run_offline.sh"
+
+# 2. 图形化启动脚本 (调用 Neovide)
+cat <<'EOF' > "${DIST_DIR}/run_gui_offline.sh"
+#!/usr/bin/env bash
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export NVIM_APPNAME="nvcode"
+export XDG_CONFIG_HOME="${BASE_DIR}/nvcode_data/config"
+export XDG_DATA_HOME="${BASE_DIR}/nvcode_data/share"
+export XDG_STATE_HOME="${BASE_DIR}/nvcode_data/state"
+export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
+export NVIM_OFFLINE=1
+
+# 启动图形化模式 (--gui 标志由我们的包装脚本处理)
+exec "${BASE_DIR}/nvcode_bin" --gui "$@"
+EOF
+chmod +x "${DIST_DIR}/run_gui_offline.sh"
+
+# 3. 生成桌面快捷方式 (.desktop)
+cat <<EOF > "${DIST_DIR}/NvCode.desktop"
+[Desktop Entry]
+Name=NvCode IDE
+Comment=Graphical Neovim IDE (Offline)
+Exec=${DIST_DIR}/run_gui_offline.sh %F
+Icon=nvim
+Terminal=false
+Type=Application
+Categories=Development;TextEditor;
+EOF
+chmod +x "${DIST_DIR}/NvCode.desktop"
 
 # --- 5. 最终压缩 ---
 echo "📚 阶段 4: 正在压缩最终安装包..."

@@ -30,6 +30,9 @@
         shellcheck
         nil         # Nix LSP
         
+        # 图形化客户端
+        neovide
+        
         # 树解析器
         tree-sitter
       ];
@@ -55,33 +58,53 @@
       # 1. 自动处理 XDG 环境，实现配置隔离
       # 2. 将配置从 Nix Store 同步到可写的本地目录（LazyVim 需要写权限）
       # 3. 将所有依赖工具注入 PATH
-      nvcode-ide = pkgs.writeShellScriptBin "nvcode" ''
-        set -e
-        export NVIM_APPNAME="nvcode"
+      nvcode-ide = pkgs.stdenv.mkDerivation {
+        pname = "nvcode";
+        version = "1.0.0";
         
-        # 默认使用隔离路径
-        export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"
-        export XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}"
-        export XDG_STATE_HOME="''${XDG_STATE_HOME:-$HOME/.local/state}"
-        export XDG_CACHE_HOME="''${XDG_CACHE_HOME:-$HOME/.cache}"
-        
-        CONFIG_DIR="$XDG_CONFIG_HOME/$NVIM_APPNAME"
-        
-        # 如果目录不存在，创建它
-        mkdir -p "$CONFIG_DIR"
+        # 包装脚本不需要源码，我们直接在 installPhase 中生成
+        phases = [ "installPhase" ];
 
-        # 同步配置到本地可写目录
-        # 使用 -u (update) 仅同步较新的文件，保留本地可能存在的修改（如插件 lock 文件）
-        # 如果你想强制完全同步，可以使用 --delete
-        ${pkgs.rsync}/bin/rsync -rlptD --chmod=u+w "${nvcode-config}/nvcode/" "$CONFIG_DIR/"
+        installPhase = ''
+          mkdir -p $out/bin
+          cat <<'EOF' > $out/bin/nvcode
+          #!/usr/bin/env bash
+          set -e
+          export NVIM_APPNAME="nvcode"
+          
+          # 默认使用隔离路径
+          export XDG_CONFIG_HOME="''${XDG_CONFIG_HOME:-$HOME/.config}"
+          export XDG_DATA_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}"
+          export XDG_STATE_HOME="''${XDG_STATE_HOME:-$HOME/.local/state}"
+          export XDG_CACHE_HOME="''${XDG_CACHE_HOME:-$HOME/.cache}"
+          
+          CONFIG_DIR="$XDG_CONFIG_HOME/$NVIM_APPNAME"
+          
+          # 如果目录不存在，创建它
+          mkdir -p "$CONFIG_DIR"
 
-        # 注入依赖到 PATH
-        export PATH="${pkgs.lib.makeBinPath ide-tools}:$PATH"
-        
-        # 启动 Neovim
-        # 显式指定加载 init.lua 路径以防万一
-        exec "${neovim-pkg}/bin/nvim" "$@"
-      '';
+          # 同步配置到本地可写目录
+          # 使用 -u (update) 仅同步较新的文件，保留本地可能存在的修改
+          ${pkgs.rsync}/bin/rsync -rlptD --chmod=u+w "${nvcode-config}/nvcode/" "$CONFIG_DIR/"
+
+          # 注入依赖到 PATH
+          export PATH="${pkgs.lib.makeBinPath ide-tools}:$PATH"
+          
+          # 检查是否请求图形界面
+          for arg in "$@"; do
+            if [ "$arg" == "--gui" ]; then
+              # 移除 --gui 参数并启动 Neovide
+              shift
+              exec "${pkgs.neovide}/bin/neovide" --neovim-bin "$out/bin/nvcode" "$@"
+            fi
+          done
+
+          # 启动 Neovim
+          exec "${neovim-pkg}/bin/nvim" "$@"
+          EOF
+          chmod +x $out/bin/nvcode
+        '';
+      };
     in {
       packages = {
         default = nvcode-ide;
