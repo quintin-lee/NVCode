@@ -90,17 +90,25 @@
           # 注入依赖到 PATH
           export PATH="${pkgs.lib.makeBinPath ide-tools}:$PATH"
           
-          # 检查是否请求图形界面
+          # 检查是否请求图形界面 (--gui)
+          IS_GUI=false
+          ARGS=()
           for arg in "$@"; do
             if [ "$arg" == "--gui" ]; then
-              # 移除 --gui 参数并启动 Neovide
-              shift
-              exec "${pkgs.neovide}/bin/neovide" --neovim-bin "$out/bin/nvcode" "$@"
+              IS_GUI=true
+            else
+              ARGS+=("$arg")
             fi
           done
 
-          # 启动 Neovim
-          exec "${neovim-pkg}/bin/nvim" "$@"
+          if [ "$IS_GUI" = true ]; then
+            # 启动 Neovide
+            # 直接指向 store 中的 nvim 二进制文件，确保 Neovide 绝对能找到它
+            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
+          fi
+
+          # 启动终端版 Neovim
+          exec "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
           EOF
           chmod +x $out/bin/nvcode
         '';

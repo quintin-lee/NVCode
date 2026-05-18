@@ -73,7 +73,13 @@ export XDG_STATE_HOME="${BASE_DIR}/nvcode_data/state"
 export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
 export NVIM_OFFLINE=1
 
-# 启动图形化模式 (--gui 标志由我们的包装脚本处理)
+# 增加 GUI 稳定性环境变量
+# 强制使用 X11 后端 (在某些 Wayland 环境下更稳定)
+export WINIT_UNIX_BACKEND=x11
+# 修复部分显卡驱动下的显示问题
+export MESA_LOADER_DRIVER_OVERRIDE=
+
+# 启动图形化模式
 exec "${BASE_DIR}/nvcode_bin" --gui "$@"
 EOF
 chmod +x "${DIST_DIR}/run_gui_offline.sh"
