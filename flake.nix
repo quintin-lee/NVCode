@@ -102,18 +102,21 @@
           done
 
           if [ "$IS_GUI" = true ]; then
-            # 图形化增强：自动检测显示后端以提高兼容性
+            # 环境变量清理：防止宿主机的库干扰 Nix 打包的二进制
+            # 这在跨发行版运行时非常关键
+            unset LD_LIBRARY_PATH
+            
+            # 自动检测显示后端
             if [ -n "$WAYLAND_DISPLAY" ]; then
               export WINIT_UNIX_BACKEND=wayland
-            else
+            elif [ -n "$DISPLAY" ]; then
               export WINIT_UNIX_BACKEND=x11
             fi
 
-            # 解决部分驱动下的渲染问题
-            export MESA_LOADER_DRIVER_OVERRIDE="''${MESA_LOADER_DRIVER_OVERRIDE:-}"
-
             # 启动 Neovide
-            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
+            exec "${pkgs.neovide}/bin/neovide" \
+              --neovim-bin "${neovim-pkg}/bin/nvim" \
+              "''${ARGS[@]}"
           fi
 
           # 启动终端版 Neovim
