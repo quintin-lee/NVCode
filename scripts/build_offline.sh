@@ -25,9 +25,14 @@ mkdir -p "$OFFLINE_DATA_DIR"
 
 # --- 2. 构建 Nix 自包含二进制 ---
 echo "📦 阶段 1: 正在通过 Nix 构建自包含二进制文件 (AppImage 模式)..."
-# 注意：这里使用 toAppImage bundler 以获得最好的兼容性
-# 如果你的机器没有安装这个 bundler，Nix 会自动下载
-nix bundle --bundler github:NixOS/bundlers#toAppImage "${PROJECT_ROOT}#nvcode" -o "$BUNDLE_BIN"
+# 使用临时位置存放软链接
+TMP_BIN="${DIST_DIR}/nvcode_tmp_bin"
+nix bundle --bundler github:NixOS/bundlers#toAppImage "${PROJECT_ROOT}#nvcode" -o "$TMP_BIN"
+
+# 将软链接指向的真实文件拷贝出来，确保包内是原始文件而非链接
+cp -L "$TMP_BIN" "$BUNDLE_BIN"
+rm "$TMP_BIN"
+chmod +x "$BUNDLE_BIN"
 
 # --- 3. 预同步插件和依赖 ---
 echo "📥 阶段 2: 正在预下载所有插件和 Tree-sitter 依赖 (需要联网)..."
