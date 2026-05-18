@@ -89,7 +89,7 @@
 
           # 注入依赖到 PATH
           export PATH="${pkgs.lib.makeBinPath ide-tools}:$PATH"
-          
+
           # 检查是否请求图形界面 (--gui)
           IS_GUI=false
           ARGS=()
@@ -102,13 +102,23 @@
           done
 
           if [ "$IS_GUI" = true ]; then
+            # 图形化增强：自动检测显示后端以提高兼容性
+            if [ -n "$WAYLAND_DISPLAY" ]; then
+              export WINIT_UNIX_BACKEND=wayland
+            else
+              export WINIT_UNIX_BACKEND=x11
+            fi
+
+            # 解决部分驱动下的渲染问题
+            export MESA_LOADER_DRIVER_OVERRIDE="${MESA_LOADER_DRIVER_OVERRIDE:-}"
+
             # 启动 Neovide
-            # 直接指向 store 中的 nvim 二进制文件，确保 Neovide 绝对能找到它
-            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
+            exec "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "${ARGS[@]}"
           fi
 
           # 启动终端版 Neovim
-          exec "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
+          exec "${neovim-pkg}/bin/nvim" "${ARGS[@]}"
+
           EOF
           chmod +x $out/bin/nvcode
         '';
