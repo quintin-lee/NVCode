@@ -41,10 +41,12 @@
         xorg.libXi
         xorg.libXrender
         libGL
+        libglvnd
         libxkbcommon
         wayland
         fontconfig
         vulkan-loader
+        mesa
         
         # 树解析器
         tree-sitter
@@ -115,35 +117,35 @@
           done
 
           if [ "$IS_GUI" = true ]; then
-            # 策略：将 Nix 的库路径附加到末尾，优先使用宿主机的驱动库 (如 NVIDIA/Mesa 驱动)
-            # 这解决了 libGL 版本不匹配导致的 display handle 错误
-            NIX_GUI_LIBS="${pkgs.lib.makeLibraryPath (with pkgs; [ xorg.libX11 libGL libxkbcommon wayland fontconfig vulkan-loader ])}"
-            export LD_LIBRARY_PATH="''${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$NIX_GUI_LIBS"
+            # 协议与核心库 (Nix 提供)
+            NIX_GUI_LIBS="${pkgs.lib.makeLibraryPath (with pkgs; [ xorg.libX11 libGL libglvnd libxkbcommon wayland fontconfig vulkan-loader mesa ])}"
             
-            # 确保关键环境变量存在
+            # 策略：优先使用 Nix 的协议库，同时允许系统驱动路径作为补充
+            export LD_LIBRARY_PATH="$NIX_GUI_LIBS:''${LD_LIBRARY_PATH:-}"
             export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp}"
             
             # 尝试启动函数
             run_neovide() {
               export WINIT_UNIX_BACKEND="$1"
-              # 如果是 Wayland，设置对应的环境变量
               [ "$1" == "wayland" ] && export QT_QPA_PLATFORM=wayland || export QT_QPA_PLATFORM=xcb
               
-              echo "正在尝试以 $1 后端启动 Neovide..."
+              echo "正在尝试以 $1 后端启动 Neovide (软件渲染: ''${LIBGL_ALWAYS_SOFTWARE:-0})..."
               "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
             }
 
-            # 优先尝试 X11，兼容性最强
-            if run_neovide x11; then
-              exit 0
-            fi
+            # 1. 尝试 X11
+            if run_neovide x11; then exit 0; fi
             
-            # 备选 Wayland
-            if run_neovide wayland; then
-              exit 0
-            fi
+            # 2. 尝试 Wayland
+            if run_neovide wayland; then exit 0; fi
+            
+            # 3. 最终兜底：尝试软件渲染 (Software Rendering)
+            # 这能解决 99% 的显卡驱动不匹配导致的 Panic 和段错误
+            echo "⚠️ 硬件加速启动失败，正在尝试软件渲染模式..."
+            export LIBGL_ALWAYS_SOFTWARE=1
+            if run_neovide x11; then exit 0; fi
 
-            echo "❌ 错误：所有图形后端启动均失败。"
+            echo "❌ 错误：所有图形后端（包括软件渲染）均启动失败。"
             exit 1
           fi
 
