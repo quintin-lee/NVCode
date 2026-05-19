@@ -49,16 +49,52 @@ Categories=Development;TextEditor;
 EOF
 chmod +x "$DESKTOP_FILE"
 
-# 4. 添加命令行快捷方式
-echo "正在创建命令行快捷方式 'nvcode'..."
-mkdir -p "$HOME/.local/bin"
-ln -sf "${DEST_DIR}/run_offline.sh" "$HOME/.local/bin/nvcode"
+# 4. 添加命令行快捷方式 (通过 Shell 别名或环境变量)
+echo "正在配置命令行快捷方式..."
+
+# 检测当前 Shell
+CURRENT_SHELL=$(basename "$SHELL")
+RC_FILE=""
+ALIAS_CMD="alias nvcode='${DEST_DIR}/run_offline.sh'"
+GUI_ALIAS_CMD="alias gnvcode='${DEST_DIR}/run_gui_offline.sh'"
+
+case "$CURRENT_SHELL" in
+    zsh)  RC_FILE="$HOME/.zshrc" ;;
+    bash) RC_FILE="$HOME/.bashrc" ;;
+    fish) RC_FILE="$HOME/.config/fish/config.fish" 
+          ALIAS_CMD="alias nvcode '${DEST_DIR}/run_offline.sh'"
+          GUI_ALIAS_CMD="alias gnvcode '${DEST_DIR}/run_gui_offline.sh'"
+          ;;
+    *)    RC_FILE="" ;;
+esac
+
+if [ -n "$RC_FILE" ]; then
+    echo "检测到 $CURRENT_SHELL，准备写入 $RC_FILE ..."
+    if ! grep -q "nvcode" "$RC_FILE"; then
+        echo -e "\n# NvCode IDE Aliases" >> "$RC_FILE"
+        echo "$ALIAS_CMD" >> "$RC_FILE"
+        echo "$GUI_ALIAS_CMD" >> "$RC_FILE"
+        echo "别名已添加到 $RC_FILE"
+    else
+        echo "别名已存在于 $RC_FILE，跳过写入。"
+    fi
+else
+    # 回退方案：创建一个绝对路径的包装脚本，而不是软链接
+    echo "未识别的 Shell，正在创建绝对路径包装脚本..."
+    mkdir -p "$HOME/.local/bin"
+    cat <<EOF > "$HOME/.local/bin/nvcode"
+#!/usr/bin/env bash
+exec "${DEST_DIR}/run_offline.sh" "\$@"
+EOF
+    chmod +x "$HOME/.local/bin/nvcode"
+fi
 
 # 5. 提示
 echo -e "\n${GREEN}==================================================${NC}"
 echo -e "${BOLD}安装成功！${NC}"
 echo -e "--------------------------------------------------"
 echo -e "1. 您现在可以在应用菜单中找到 ${BOLD}NvCode IDE${NC}。"
-echo -e "2. 您也可以在终端直接输入 ${BOLD}nvcode${NC} 启动。"
-echo -e "3. 安装位置: $DEST_DIR"
+echo -e "2. ${BOLD}请重启终端${NC} 或执行 ${BOLD}source $RC_FILE${NC} 以使命令生效。"
+echo -e "3. 终端命令: ${BOLD}nvcode${NC} (命令行) 或 ${BOLD}gnvcode${NC} (图形界面)"
+echo -e "4. 安装位置: $DEST_DIR"
 echo -e "${GREEN}==================================================${NC}\n"
