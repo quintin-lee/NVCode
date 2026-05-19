@@ -78,11 +78,12 @@ export XDG_STATE_HOME="${BASE_DIR}/nvcode_data/state"
 export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
 export NVIM_OFFLINE=1
 
-# 增加 GUI 稳定性环境变量
-# 强制使用 X11 后端 (在某些 Wayland 环境下更稳定)
+# --- 图形化稳定性增强 (离线包专用) ---
+# 强制使用 X11 后端 (通过 XWayland)。这在打包环境下是解决显示句柄错误最有效的办法。
 export WINIT_UNIX_BACKEND=x11
-# 修复部分显卡驱动下的显示问题
-export MESA_LOADER_DRIVER_OVERRIDE=
+export QT_QPA_PLATFORM=xcb
+
+echo "启动图形化界面 (强制 X11 模式以提高兼容性)..."
 
 # 启动图形化模式
 exec "${BASE_DIR}/nvcode_bin" --gui "$@"

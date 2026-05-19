@@ -102,17 +102,14 @@
           done
 
           if [ "$IS_GUI" = true ]; then
-            # 环境变量清理：防止宿主机的库干扰 Nix 打包的二进制
-            # 这在跨发行版运行时非常关键
-            unset LD_LIBRARY_PATH
+            # 图形化增强：在打包环境下，X11 (XWayland) 的兼容性远高于纯 Wayland
+            # 强制使用 x11 后端以解决 "display handle is not supported" 错误
+            export WINIT_UNIX_BACKEND=x11
+            export QT_QPA_PLATFORM=xcb
             
-            # 自动检测显示后端
-            if [ -n "$WAYLAND_DISPLAY" ]; then
-              export WINIT_UNIX_BACKEND=wayland
-            elif [ -n "$DISPLAY" ]; then
-              export WINIT_UNIX_BACKEND=x11
-            fi
-
+            # 允许使用宿主机的 GL 库（这对驱动支持至关重要）
+            # 但我们要确保 Nix 的库也在路径中
+            
             # 启动 Neovide
             exec "${pkgs.neovide}/bin/neovide" \
               --neovim-bin "${neovim-pkg}/bin/nvim" \
