@@ -33,7 +33,7 @@
         # 图形化客户端
         neovide
         
-        # 图形化基础库 (提高离线包兼容性)
+        # 图形化基础库 (全量协议支持)
         xorg.libX11
         xorg.libXcursor
         xorg.libXext
@@ -41,6 +41,9 @@
         xorg.libXi
         xorg.libXrender
         libGL
+        libxkbcommon
+        wayland
+        fontconfig
         vulkan-loader
         
         # 树解析器
@@ -112,29 +115,35 @@
           done
 
           if [ "$IS_GUI" = true ]; then
-            # 提高图形化兼容性的核心设置
-            # 允许使用宿主机的驱动，同时保留 Nix 的库
-            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (with pkgs; [ xorg.libX11 libGL vulkan-loader ])}:$LD_LIBRARY_PATH"
+            # 策略：将 Nix 的库路径附加到末尾，优先使用宿主机的驱动库 (如 NVIDIA/Mesa 驱动)
+            # 这解决了 libGL 版本不匹配导致的 display handle 错误
+            NIX_GUI_LIBS="${pkgs.lib.makeLibraryPath (with pkgs; [ xorg.libX11 libGL libxkbcommon wayland fontconfig vulkan-loader ])}"
+            export LD_LIBRARY_PATH="''${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$NIX_GUI_LIBS"
+            
+            # 确保关键环境变量存在
+            export XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/tmp}"
             
             # 尝试启动函数
             run_neovide() {
               export WINIT_UNIX_BACKEND="$1"
-              echo "尝试以 $1 后端启动图形界面..."
+              # 如果是 Wayland，设置对应的环境变量
+              [ "$1" == "wayland" ] && export QT_QPA_PLATFORM=wayland || export QT_QPA_PLATFORM=xcb
+              
+              echo "正在尝试以 $1 后端启动 Neovide..."
               "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
             }
 
-            # 策略：首选 X11 (通过 XWayland)，因为它在打包环境下最稳定
+            # 优先尝试 X11，兼容性最强
             if run_neovide x11; then
               exit 0
             fi
             
-            # 如果 X11 失败，尝试 Wayland
-            echo "X11 启动失败，尝试 Wayland..."
+            # 备选 Wayland
             if run_neovide wayland; then
               exit 0
             fi
 
-            echo "错误：图形界面启动失败。请检查是否安装了显卡驱动或处于图形环境下。"
+            echo "❌ 错误：所有图形后端启动均失败。"
             exit 1
           fi
 
