@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# ==============================================================================
+# NvCode 离线集成安装脚本 (makeself 专用)
+# 功能：将解压后的离线包永久安装到系统中
+# ==============================================================================
+
+set -euo pipefail
+
+# 默认安装路径
+DEFAULT_DEST="$HOME/.local/lib/nvcode"
+DEST_DIR="$DEFAULT_DEST"
+
+# 颜色定义
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+echo -e "${BLUE}${BOLD}NvCode IDE 一键安装向导${NC}"
+
+# 1. 确认安装路径
+read -p "程序将安装到 $DEST_DIR (Y/n): " confirm
+if [[ "$confirm" =~ ^[Nn]$ ]]; then
+    read -p "请输入自定义安装路径: " custom_path
+    DEST_DIR="${custom_path/#\~/$HOME}"
+fi
+
+# 2. 拷贝文件到永久目录
+echo "正在部署文件到 $DEST_DIR ..."
+mkdir -p "$DEST_DIR"
+# . (当前目录) 是 makeself 解压后的临时目录
+cp -r ./* "$DEST_DIR/"
+
+# 3. 注册桌面快捷方式
+echo "正在注册桌面快捷方式..."
+mkdir -p "$HOME/.local/share/applications"
+DESKTOP_FILE="$HOME/.local/share/applications/nvcode.desktop"
+
+cat <<EOF > "$DESKTOP_FILE"
+[Desktop Entry]
+Name=NvCode IDE
+Comment=Graphical Neovim IDE (Offline)
+Exec=${DEST_DIR}/run_gui_offline.sh %F
+Icon=nvim
+Terminal=false
+Type=Application
+Categories=Development;TextEditor;
+EOF
+chmod +x "$DESKTOP_FILE"
+
+# 4. 添加命令行快捷方式
+echo "正在创建命令行快捷方式 'nvcode'..."
+mkdir -p "$HOME/.local/bin"
+ln -sf "${DEST_DIR}/run_offline.sh" "$HOME/.local/bin/nvcode"
+
+# 5. 提示
+echo -e "\n${GREEN}==================================================${NC}"
+echo -e "${BOLD}安装成功！${NC}"
+echo -e "--------------------------------------------------"
+echo -e "1. 您现在可以在应用菜单中找到 ${BOLD}NvCode IDE${NC}。"
+echo -e "2. 您也可以在终端直接输入 ${BOLD}nvcode${NC} 启动。"
+echo -e "3. 安装位置: $DEST_DIR"
+echo -e "${GREEN}==================================================${NC}\n"

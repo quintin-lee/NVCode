@@ -15,7 +15,7 @@
         # 基础命令
         git ripgrep fd fzf lazygit sqlite
         gnumake gcc binutils coreutils
-        curl wget unzip cmake
+        curl wget unzip cmake makeself
         
         # 运行时
         nodejs

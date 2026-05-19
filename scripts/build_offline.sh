@@ -95,7 +95,7 @@ cat <<EOF > "${DIST_DIR}/NvCode.desktop"
 [Desktop Entry]
 Name=NvCode IDE
 Comment=Graphical Neovim IDE (Offline)
-Exec=${DIST_DIR}/run_gui_offline.sh %F
+Exec=run_gui_offline.sh %F
 Icon=nvim
 Terminal=false
 Type=Application
@@ -103,17 +103,23 @@ Categories=Development;TextEditor;
 EOF
 chmod +x "${DIST_DIR}/NvCode.desktop"
 
-# --- 5. 最终压缩 ---
-echo "📚 阶段 4: 正在压缩最终安装包..."
-TAR_NAME="nvcode_full_offline_$(date +%Y%m%d).tar.gz"
-tar -czf "$TAR_NAME" -C "$DIST_DIR" .
+# 4. 包含一键集成脚本
+cp "${PROJECT_ROOT}/scripts/setup_offline.sh" "${DIST_DIR}/setup.sh"
+chmod +x "${DIST_DIR}/setup.sh"
+
+# --- 5. 最终打包 ---
+echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
+INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
+
+# 使用 makeself 打包
+# 参数: <目录> <输出文件名> <描述> <解压后运行的命令>
+makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
 
 echo "=================================================="
-echo "🎉 离线包制作完成！"
-echo "文件名称: ${TAR_NAME}"
+echo "🎉 一键安装包制作完成！"
+echo "文件名称: ${INSTALLER_NAME}"
 echo "--------------------------------------------------"
 echo "如何使用："
-echo "1. 将此 .tar.gz 拷贝到离线 Linux 机器。"
-echo "2. 解压: tar -xzf ${TAR_NAME}"
-echo "3. 运行: ./run_offline.sh"
+echo "1. 将此 .run 文件拷贝到离线 Linux 机器。"
+echo "2. 运行: bash ${INSTALLER_NAME}"
 echo "=================================================="
