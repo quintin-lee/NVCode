@@ -33,6 +33,16 @@
         # 图形化客户端
         neovide
         
+        # 图形化基础库 (提高离线包兼容性)
+        xorg.libX11
+        xorg.libXcursor
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXi
+        xorg.libXrender
+        libGL
+        vulkan-loader
+        
         # 树解析器
         tree-sitter
       ];
@@ -102,18 +112,30 @@
           done
 
           if [ "$IS_GUI" = true ]; then
-            # 图形化增强：在打包环境下，X11 (XWayland) 的兼容性远高于纯 Wayland
-            # 强制使用 x11 后端以解决 "display handle is not supported" 错误
-            export WINIT_UNIX_BACKEND=x11
-            export QT_QPA_PLATFORM=xcb
+            # 提高图形化兼容性的核心设置
+            # 允许使用宿主机的驱动，同时保留 Nix 的库
+            export LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (with pkgs; [ xorg.libX11 libGL vulkan-loader ])}:$LD_LIBRARY_PATH"
             
-            # 允许使用宿主机的 GL 库（这对驱动支持至关重要）
-            # 但我们要确保 Nix 的库也在路径中
+            # 尝试启动函数
+            run_neovide() {
+              export WINIT_UNIX_BACKEND="$1"
+              echo "尝试以 $1 后端启动图形界面..."
+              "${pkgs.neovide}/bin/neovide" --neovim-bin "${neovim-pkg}/bin/nvim" "''${ARGS[@]}"
+            }
+
+            # 策略：首选 X11 (通过 XWayland)，因为它在打包环境下最稳定
+            if run_neovide x11; then
+              exit 0
+            fi
             
-            # 启动 Neovide
-            exec "${pkgs.neovide}/bin/neovide" \
-              --neovim-bin "${neovim-pkg}/bin/nvim" \
-              "''${ARGS[@]}"
+            # 如果 X11 失败，尝试 Wayland
+            echo "X11 启动失败，尝试 Wayland..."
+            if run_neovide wayland; then
+              exit 0
+            fi
+
+            echo "错误：图形界面启动失败。请检查是否安装了显卡驱动或处于图形环境下。"
+            exit 1
           fi
 
           # 启动终端版 Neovim
