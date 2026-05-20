@@ -5,7 +5,7 @@
 # 功能：
 # 1. 使用 Nix 构建自包含二进制文件 (跨系统版本支持)
 # 2. 预下载所有 Lazy.nvim 插件和 Treesitter 解析器
-# 3. 预下载 Mason 管理s LSP 及其依赖
+# 3. 预下载 Mason 管理的 LSP 及其依赖
 # 4. 最终打包成一个全量离线自解压安装包
 # ==============================================================================
 
@@ -70,19 +70,21 @@ find "$DIST_DIR" -type p -delete || true
 find "$DIST_DIR" -name ".git" -type d -prune -exec rm -rf {} + || true
 
 # 🚀 关键：解引用软链接 (dereferencing)
-# 我们使用 rsync -aL 将所有链接替换为实际文件，解决 "link name too long" 报错
-echo "🔗 正在解引用所有软链接..."
-TEMP_DEREF="${PROJECT_ROOT}/temp_deref"
-rm -rf "$TEMP_DEREF"
-mv "$DIST_DIR" "$TEMP_DEREF"
-mkdir -p "$DIST_DIR"
-# 使用 rsync 干净地解引用
-rsync -aL --delete "$TEMP_DEREF/" "$DIST_DIR/"
-rm -rf "$TEMP_DEREF"
+# 我们只解引用指向 /nix/store 的链接，避免体积爆炸。
+echo "🔗 正在解引用必要的软链接..."
+# 找出所有指向 Nix Store 的链接并替换为真实文件
+find "$DIST_DIR" -type l | while read -r link; do
+    target=$(readlink -f "$link")
+    if [[ "$target" == /nix/store/* ]]; then
+        rm "$link"
+        cp -a "$target" "$link"
+    fi
+done
 
 # 显示目录体积
-echo "📊 离线包最终体积："
+echo "📊 离线包最终体积详情："
 du -sh "$DIST_DIR"
+find "$DIST_DIR" -maxdepth 3 -exec du -sh {} + 2>/dev/null | sort -hr | head -n 10
 
 # --- 4. 生成离线启动脚本 (终端 & 图形化) ---
 echo "📝 阶段 3: 生成离线启动脚本..."
@@ -139,17 +141,22 @@ chmod +x "${DIST_DIR}/setup.sh"
 echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
 INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
 
-# 设置一个在当前工作区内的临时目录
+# 设置临时目录
 MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
 mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
 
 # 使用 POSIX 格式的 tar 提高兼容性
-export TAR_OPTIONS="--format=posix"
+export TAR="tar --format=posix"
 
-# 使用 makeself 打包
-# 参数: <目录> <输出文件名> <描述> <解解后运行的命令>
-makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
+# 🚀 尝试定位 makeself
+MAKESELF_CMD=$(command -v makeself || echo "")
+if [ -z "$MAKESELF_CMD" ]; then
+    echo "⚠️ 未在 PATH 中找到 makeself，尝试从 Nix 环境运行..."
+    nix shell nixpkgs#makeself --command makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
+else
+    $MAKESELF_CMD "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
+fi
 
 # 清理打包临时目录
 rm -rf "$MAKESELF_TMP"
