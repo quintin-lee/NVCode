@@ -57,7 +57,14 @@ else
     "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
 fi
 
-# --- 4. 生成离线启动脚本 ---
+# 清理同步产生的临时日志和数据，减小体积并提高兼容性
+echo "🧹 正在清理临时数据 (logs/shada)..."
+rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/"*.log
+rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada"
+rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode"
+
+# --- 4. 生成离线启动脚本 (终端 & 图形化)...
+
 echo "📝 阶段 3: 生成离线启动脚本 (终端 & 图形化)..."
 
 # 1. 终端启动脚本
@@ -117,6 +124,9 @@ chmod +x "${DIST_DIR}/setup.sh"
 # --- 5. 最终打包 ---
 echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
 INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
+
+# 设置临时目录，防止在某些环境（如 GitHub Actions）下因嵌套目录过深或权限问题导致打包失败
+export TMPDIR=/tmp
 
 # 使用 makeself 打包
 # 参数: <目录> <输出文件名> <描述> <解压后运行的命令>
