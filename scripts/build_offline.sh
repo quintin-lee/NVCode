@@ -58,10 +58,16 @@ else
 fi
 
 # 清理同步产生的临时日志和数据，减小体积并提高兼容性
-echo "🧹 正在清理临时数据 (logs/shada)..."
-rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/"*.log
-rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada"
-rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode"
+echo "🧹 正在清理打包环境 (logs/shada/sockets)..."
+# 彻底清理日志
+find "$DIST_DIR" -name "*.log" -type f -delete || true
+# 清理 Neovim 状态
+rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada" || true
+# 清理缓存
+rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
+# 关键：清理可能导致 tar 失败的套接字 (sockets) 和管道 (pipes)
+find "$DIST_DIR" -type s -delete || true
+find "$DIST_DIR" -type p -delete || true
 
 # --- 4. 生成离线启动脚本 (终端 & 图形化)...
 
@@ -125,12 +131,17 @@ chmod +x "${DIST_DIR}/setup.sh"
 echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
 INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
 
-# 设置临时目录，防止在某些环境（如 GitHub Actions）下因嵌套目录过深或权限问题导致打包失败
-export TMPDIR=/tmp
+# 设置一个在当前工作区内的临时目录，确保拥有完全的读写权限，避免 CI 环境下的权限限制
+MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
+mkdir -p "$MAKESELF_TMP"
+export TMPDIR="$MAKESELF_TMP"
 
 # 使用 makeself 打包
 # 参数: <目录> <输出文件名> <描述> <解压后运行的命令>
 makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
+
+# 清理打包临时目录
+rm -rf "$MAKESELF_TMP"
 
 echo "=================================================="
 echo "🎉 一键安装包制作完成！"
