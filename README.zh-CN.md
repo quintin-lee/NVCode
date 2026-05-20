@@ -131,6 +131,15 @@ nix run .
 
 这将自动将所有必需的 LSP、格式化工具和工具拉取到隔离的环境中。
 
+### 便携离线版 (一键式 & 离线使用)
+
+对于没有安装 Nix 或无法访问互联网的机器：
+
+1. 前往 [Releases](https://github.com/quintin-lee/NVCode/releases) 页面。
+2. 下载最新的 `nvcode_portable_*.zip`。
+3. 解压 ZIP 并运行 `./run_offline.sh` (终端版) 或 `./run_gui_offline.sh` (图形版)。
+4. 运行解压文件夹内的 `./install.sh` 进行全系统集成（快捷方式、别名等）。
+
 ### 手动安装
 
 1. 此配置需要 Neovim 0.11+ 和 Git

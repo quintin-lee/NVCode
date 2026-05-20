@@ -131,6 +131,15 @@ nix run .
 
 This will automatically pull all required LSPs, formatters, and tools into an isolated environment.
 
+### Portable Release (Offline & One-Click)
+
+For users on machines without Nix or internet access:
+
+1. Go to the [Releases](https://github.com/quintin-lee/NVCode/releases) page.
+2. Download the latest `nvcode_portable_*.zip`.
+3. Extract the ZIP and run `./run_offline.sh` (Terminal) or `./run_gui_offline.sh` (Graphical).
+4. Run `./install.sh` inside the extracted folder for full system integration.
+
 ### Manual Installation
 
 1. This configuration requires Neovim 0.11+ and Git
