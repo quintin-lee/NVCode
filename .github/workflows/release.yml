@@ -1,0 +1,67 @@
+# GitHub Actions Workflow for NvCode
+# 自动打包并发布离线安装程序 (.run)
+
+name: Build and Release NvCode
+
+on:
+  push:
+    tags:
+      - 'v*' # 当推送以 v 开头的标签时触发 (例如 v1.0.0)
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 允许上传 Release 资源
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Build Offline Installer
+        run: |
+          # 确保脚本可执行
+          chmod +x scripts/build_offline.sh
+          # 运行打包脚本
+          ./scripts/build_offline.sh
+
+      - name: Get Package Name
+        id: get_filename
+        run: |
+          # 获取生成的 .run 文件名
+          FILENAME=$(ls *.run | head -n 1)
+          echo "FILENAME=$FILENAME" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$FILENAME" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ${{ env.FILENAME }}
+          body: |
+            ## 🚀 NvCode 离线安装程序
+            
+            这是为您自动打包的自解压离线安装包。
+            
+            ### 📦 包含内容
+            - Neovim (最新版)
+            - 全量插件 (LazyVim + 自定义插件)
+            - 常用依赖 (rg, fd, fzf, LSPs)
+            - 图形化支持 (Neovide)
+            
+            ### 🛠️ 安装方法
+            1. 下载 `${{ env.FILENAME }}`。
+            2. 在终端运行: `bash ${{ env.FILENAME }}`。
+            3. 按照提示完成安装。
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

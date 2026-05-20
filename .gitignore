@@ -43,6 +43,14 @@ luac.out
 plugin/*
 .nvim/*
 
+# Build artifacts
+dist_offline/
+result
+*.run
+*.tar.gz
+tmp/
+nvcode-arx
+
 tt.*
 .tests
 doc/tags
