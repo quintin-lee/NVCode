@@ -169,7 +169,7 @@
 
       devShells.default = pkgs.mkShell {
         name = "nvcode-dev";
-        packages = [ nvcode-ide pkgs.gnutar pkgs.rsync pkgs.makeself ] ++ ide-tools;
+        packages = [ nvcode-ide pkgs.gnutar pkgs.rsync pkgs.makeself pkgs.zip ] ++ ide-tools;
         shellHook = ''
           export NVIM_APPNAME="nvcode"
           export XDG_CONFIG_HOME="$PWD/.config"

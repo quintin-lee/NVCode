@@ -36,8 +36,8 @@ jobs:
       - name: Get Package Name
         id: get_filename
         run: |
-          # 获取生成的 .run 文件名
-          FILENAME=$(ls *.run | head -n 1)
+          # 获取生成的 .zip 文件名
+          FILENAME=$(ls *.zip | head -n 1)
           echo "FILENAME=$FILENAME" >> $GITHUB_ENV
           echo "PACKAGE_NAME=$FILENAME" >> $GITHUB_OUTPUT
 
@@ -47,20 +47,20 @@ jobs:
         with:
           files: ${{ env.FILENAME }}
           body: |
-            ## 🚀 NvCode 离线安装程序
+            ## 🚀 NvCode 离线便携包 (Portable ZIP)
             
-            这是为您自动打包的自解压离线安装包。
+            这是为您自动打包的全量离线便携包。
             
             ### 📦 包含内容
             - Neovim (最新版)
-            - 全量插件 (LazyVim + 自定义插件)
+            - 全量插件 (已预同步)
             - 常用依赖 (rg, fd, fzf, LSPs)
             - 图形化支持 (Neovide)
             
-            ### 🛠️ 安装方法
-            1. 下载 `${{ env.FILENAME }}`。
-            2. 在终端运行: `bash ${{ env.FILENAME }}`。
-            3. 按照提示完成安装。
+            ### 🛠️ 使用方法
+            1. 下载 `${{ env.FILENAME }}` 并解压。
+            2. 运行 `./run_offline.sh` (终端模式) 或 `./run_gui_offline.sh` (图形模式)。
+            3. 或者执行 `./install.sh` 进行系统集成。
           draft: false
           prerelease: false
         env:
