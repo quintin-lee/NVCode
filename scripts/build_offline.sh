@@ -2,11 +2,6 @@
 
 # ==============================================================================
 # NvCode 离线全量打包脚本
-# 功能：
-# 1. 使用 Nix 构建自包含二进制文件 (跨系统版本支持)
-# 2. 预下载所有 Lazy.nvim 插件和 Treesitter 解析器
-# 3. 预下载 Mason 管理的 LSP 及其依赖
-# 4. 最终打包成一个全量离线自解压安装包
 # ==============================================================================
 
 set -euo pipefail
@@ -25,71 +20,63 @@ mkdir -p "$OFFLINE_DATA_DIR"
 
 # --- 2. 构建 Nix 自包含二进制 ---
 echo "📦 阶段 1: 正在通过 Nix 构建自包含二进制文件 (AppImage 模式)..."
-# 使用临时位置存放软链接
 TMP_BIN="${DIST_DIR}/nvcode_tmp_bin"
+# 确保使用最新的 flake 锁定
 nix bundle --bundler github:NixOS/bundlers#toAppImage "${PROJECT_ROOT}#nvcode" -o "$TMP_BIN"
-
-# 将软链接指向的真实文件拷贝出来，确保包内是原始文件而非链接
 cp -L "$TMP_BIN" "$BUNDLE_BIN"
 rm "$TMP_BIN"
 chmod +x "$BUNDLE_BIN"
 
 # --- 3. 预同步插件和依赖 ---
-echo "📥 阶段 2: 正在预下载所有插件和 Tree-sitter 依赖 (需要联网)..."
+echo "📥 阶段 2: 正在预下载插件 (需要联网)..."
 
-# 重定向 XDG 路径到我们的临时目录，以捕获所有下载的内容
 export NVIM_APPNAME="nvcode"
 export XDG_CONFIG_HOME="${OFFLINE_DATA_DIR}/config"
 export XDG_DATA_HOME="${OFFLINE_DATA_DIR}/share"
 export XDG_STATE_HOME="${OFFLINE_DATA_DIR}/state"
 export XDG_CACHE_HOME="${OFFLINE_DATA_DIR}/cache"
 
-# 确保配置目录存在并同步最新的配置
 mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
 
-# 在 CI 环境或本地有 Nix 的环境下，直接使用 nix run 来同步插件
+# 在 CI 环境下使用 nix run
 if command -v nix &>/dev/null; then
     echo "使用 nix run 进行插件同步..."
-    nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
+    nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || true
 else
-    echo "使用构建好的二进制进行插件同步..."
-    "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
+    "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || true
 fi
 
-# 🚀 关键：精细化清理以控制体积并提高兼容性
-echo "🧹 正在清理打包环境 (logs/shada/sockets/git)..."
-# 彻底清理日志
+# 🚀 关键：精细化清理
+echo "🧹 正在清理数据..."
 find "$DIST_DIR" -name "*.log" -type f -delete || true
-# 清理 Neovim 状态和缓存
+find "$DIST_DIR" -name ".git" -type d -exec rm -rf {} + || true
 rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada" || true
 rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
-# 关键：清理可能导致 tar 失败的套接字 (sockets) 和管道 (pipes)
-find "$DIST_DIR" -type s -delete || true
-find "$DIST_DIR" -type p -delete || true
-# 删除所有插件自带的 .git 目录以减小体积
-find "$DIST_DIR" -name ".git" -type d -prune -exec rm -rf {} + || true
 
-# 🚀 关键：解引用软链接 (dereferencing)
-# 我们只解引用指向 /nix/store 的链接，避免体积爆炸。
-echo "🔗 正在解引用必要的软链接..."
-# 找出所有指向 Nix Store 的链接并替换为真实文件
+# 🚀 关键：有选择性的解引用，防止体积爆炸 (避免拷贝大型 Nix Store 二进制)
+echo "🔗 正在解引用必要的软链接 (仅限小型文件)..."
+# 找出所有指向 Nix Store 的链接
 find "$DIST_DIR" -type l | while read -r link; do
     target=$(readlink -f "$link")
     if [[ "$target" == /nix/store/* ]]; then
-        rm "$link"
-        cp -a "$target" "$link"
+        # 只有当目标小于 10MB 时才解引用 (通常是 Lua 脚本、文本、配置)
+        # 大型二进制文件 (clangd, node) 应该已经包含在 AppImage 里的 PATH 了
+        size=$(stat -L -c %s "$target" 2>/dev/null || echo 0)
+        if [ "$size" -lt 10485760 ]; then
+            rm "$link"
+            cp -a "$target" "$link"
+        fi
     fi
 done
 
-# 显示目录体积
-echo "📊 离线包最终体积详情："
+# 显示体积详情
+echo "📊 离线包体积详情："
 du -sh "$DIST_DIR"
 find "$DIST_DIR" -maxdepth 3 -exec du -sh {} + 2>/dev/null | sort -hr | head -n 10
 
-# --- 4. 生成离线启动脚本 (终端 & 图形化) ---
+# --- 4. 生成启动脚本 ---
 echo "📝 阶段 3: 生成离线启动脚本..."
 
-# 1. 终端启动脚本
 cat <<'EOF' > "${DIST_DIR}/run_offline.sh"
 #!/usr/bin/env bash
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -103,7 +90,6 @@ exec "${BASE_DIR}/nvcode_bin" "$@"
 EOF
 chmod +x "${DIST_DIR}/run_offline.sh"
 
-# 2. 图形化启动脚本
 cat <<'EOF' > "${DIST_DIR}/run_gui_offline.sh"
 #!/usr/bin/env bash
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -115,12 +101,10 @@ export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
 export NVIM_OFFLINE=1
 export WINIT_UNIX_BACKEND=x11
 export QT_QPA_PLATFORM=xcb
-echo "启动图形化界面 (强制 X11 模式以提高兼容性)..."
 exec "${BASE_DIR}/nvcode_bin" --gui "$@"
 EOF
 chmod +x "${DIST_DIR}/run_gui_offline.sh"
 
-# 3. 生成桌面快捷方式 (.desktop)
 cat <<EOF > "${DIST_DIR}/NvCode.desktop"
 [Desktop Entry]
 Name=NvCode IDE
@@ -131,9 +115,7 @@ Terminal=false
 Type=Application
 Categories=Development;TextEditor;
 EOF
-chmod +x "${DIST_DIR}/NvCode.desktop"
 
-# 4. 包含一键集成脚本
 cp "${PROJECT_ROOT}/scripts/setup_offline.sh" "${DIST_DIR}/setup.sh"
 chmod +x "${DIST_DIR}/setup.sh"
 
@@ -143,29 +125,15 @@ INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
 
 # 设置临时目录
 MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
-mkdir -p "$MAKESELF_TMP"
+rm -rf "$MAKESELF_TMP" && mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
 
-# 使用 POSIX 格式的 tar 提高兼容性
+# 强制使用 gnutar 和 POSIX 格式
 export TAR="tar --format=posix"
 
-# 🚀 尝试定位 makeself
-MAKESELF_CMD=$(command -v makeself || echo "")
-if [ -z "$MAKESELF_CMD" ]; then
-    echo "⚠️ 未在 PATH 中找到 makeself，尝试从 Nix 环境运行..."
-    nix shell nixpkgs#makeself --command makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
-else
-    $MAKESELF_CMD "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
-fi
-
-# 清理打包临时目录
-rm -rf "$MAKESELF_TMP"
+# 执行打包 (确保 makeself 被调用)
+makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
 
 echo "=================================================="
-echo "🎉 一键安装包制作完成！"
-echo "文件名称: ${INSTALLER_NAME}"
-echo "--------------------------------------------------"
-echo "如何使用："
-echo "1. 将此 .run 文件拷贝到离线 Linux 机器。"
-echo "2. 运行: bash ${INSTALLER_NAME}"
+echo "🎉 一键安装包制作完成！: ${INSTALLER_NAME}"
 echo "=================================================="
