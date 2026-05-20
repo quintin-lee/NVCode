@@ -5,8 +5,8 @@
 # 功能：
 # 1. 使用 Nix 构建自包含二进制文件 (跨系统版本支持)
 # 2. 预下载所有 Lazy.nvim 插件和 Treesitter 解析器
-# 3. 预下载 Mason 管理的 LSP 及其依赖
-# 4. 最终打包成一个全量离线 tar.gz 包
+# 3. 预下载 Mason 管理s LSP 及其依赖
+# 4. 最终打包成一个全量离线自解压安装包
 # ==============================================================================
 
 set -euo pipefail
@@ -48,7 +48,6 @@ export XDG_CACHE_HOME="${OFFLINE_DATA_DIR}/cache"
 mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
 
 # 在 CI 环境或本地有 Nix 的环境下，直接使用 nix run 来同步插件
-# 这比运行打包后的 AppImage 更可靠，避免了权限和 FUSE 问题
 if command -v nix &>/dev/null; then
     echo "使用 nix run 进行插件同步..."
     nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
@@ -57,25 +56,36 @@ else
     "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
 fi
 
-# 清理同步产生的临时日志和数据，减小体积并提高兼容性
-echo "🧹 正在清理打包环境 (logs/shada/sockets)..."
+# 🚀 关键：精细化清理以控制体积并提高兼容性
+echo "🧹 正在清理打包环境 (logs/shada/sockets/git)..."
 # 彻底清理日志
 find "$DIST_DIR" -name "*.log" -type f -delete || true
-# 清理 Neovim 状态
+# 清理 Neovim 状态和缓存
 rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada" || true
-# 清理缓存
 rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
 # 关键：清理可能导致 tar 失败的套接字 (sockets) 和管道 (pipes)
 find "$DIST_DIR" -type s -delete || true
 find "$DIST_DIR" -type p -delete || true
+# 删除所有插件自带的 .git 目录以减小体积
+find "$DIST_DIR" -name ".git" -type d -prune -exec rm -rf {} + || true
+
+# 🚀 关键：解引用软链接 (dereferencing)
+# 我们使用 rsync -aL 将所有链接替换为实际文件，解决 "link name too long" 报错
+echo "🔗 正在解引用所有软链接..."
+TEMP_DEREF="${PROJECT_ROOT}/temp_deref"
+rm -rf "$TEMP_DEREF"
+mv "$DIST_DIR" "$TEMP_DEREF"
+mkdir -p "$DIST_DIR"
+# 使用 rsync 干净地解引用
+rsync -aL --delete "$TEMP_DEREF/" "$DIST_DIR/"
+rm -rf "$TEMP_DEREF"
 
 # 显示目录体积
-echo "📊 离线包原始体积："
+echo "📊 离线包最终体积："
 du -sh "$DIST_DIR"
 
-# --- 4. 生成离线启动脚本 (终端 & 图形化)...
-
-echo "📝 阶段 3: 生成离线启动脚本 (终端 & 图形化)..."
+# --- 4. 生成离线启动脚本 (终端 & 图形化) ---
+echo "📝 阶段 3: 生成离线启动脚本..."
 
 # 1. 终端启动脚本
 cat <<'EOF' > "${DIST_DIR}/run_offline.sh"
@@ -91,7 +101,7 @@ exec "${BASE_DIR}/nvcode_bin" "$@"
 EOF
 chmod +x "${DIST_DIR}/run_offline.sh"
 
-# 2. 图形化启动脚本 (调用 Neovide)
+# 2. 图形化启动脚本
 cat <<'EOF' > "${DIST_DIR}/run_gui_offline.sh"
 #!/usr/bin/env bash
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -101,15 +111,9 @@ export XDG_DATA_HOME="${BASE_DIR}/nvcode_data/share"
 export XDG_STATE_HOME="${BASE_DIR}/nvcode_data/state"
 export XDG_CACHE_HOME="${BASE_DIR}/nvcode_data/cache"
 export NVIM_OFFLINE=1
-
-# --- 图形化稳定性增强 (离线包专用) ---
-# 强制使用 X11 后端 (通过 XWayland)。这在打包环境下是解决显示句柄错误最有效的办法。
 export WINIT_UNIX_BACKEND=x11
 export QT_QPA_PLATFORM=xcb
-
 echo "启动图形化界面 (强制 X11 模式以提高兼容性)..."
-
-# 启动图形化模式
 exec "${BASE_DIR}/nvcode_bin" --gui "$@"
 EOF
 chmod +x "${DIST_DIR}/run_gui_offline.sh"
@@ -140,27 +144,15 @@ MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
 mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
 
-# 🚀 极其关键：创建一个 tar 包装器，强制解引用所有软链接并使用 POSIX 格式
-# 这解决了 "link name too long" 和离线环境下软链接失效的所有问题
-TAR_WRAPPER_BIN="${PROJECT_ROOT}/tar_wrapper"
-mkdir -p "$TAR_WRAPPER_BIN"
-cat <<EOF > "${TAR_WRAPPER_BIN}/tar"
-#!/usr/bin/env bash
-# 自动添加 --dereference (跟随链接) 和 --format=posix (支持长路径)
-exec /usr/bin/tar --dereference --format=posix "\$@"
-EOF
-chmod +x "${TAR_WRAPPER_BIN}/tar"
-
-# 将包装器加入 PATH 首位
-export PATH="${TAR_WRAPPER_BIN}:\$PATH"
+# 使用 POSIX 格式的 tar 提高兼容性
+export TAR_OPTIONS="--format=posix"
 
 # 使用 makeself 打包
-# 参数: <目录> <输出文件名> <描述> <解压后运行的命令>
+# 参数: <目录> <输出文件名> <描述> <解解后运行的命令>
 makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
 
-# 清理打包临时目录和包装器
+# 清理打包临时目录
 rm -rf "$MAKESELF_TMP"
-rm -rf "$TAR_WRAPPER_BIN"
 
 echo "=================================================="
 echo "🎉 一键安装包制作完成！"
