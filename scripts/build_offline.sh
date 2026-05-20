@@ -21,7 +21,6 @@ mkdir -p "$OFFLINE_DATA_DIR"
 # --- 2. 构建 Nix 自包含二进制 ---
 echo "📦 阶段 1: 正在通过 Nix 构建自包含二进制文件 (AppImage 模式)..."
 TMP_BIN="${DIST_DIR}/nvcode_tmp_bin"
-# 确保使用最新的 flake 锁定
 nix bundle --bundler github:NixOS/bundlers#toAppImage "${PROJECT_ROOT}#nvcode" -o "$TMP_BIN"
 cp -L "$TMP_BIN" "$BUNDLE_BIN"
 rm "$TMP_BIN"
@@ -38,7 +37,6 @@ export XDG_CACHE_HOME="${OFFLINE_DATA_DIR}/cache"
 
 mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
 
-# 在 CI 环境下使用 nix run
 if command -v nix &>/dev/null; then
     echo "使用 nix run 进行插件同步..."
     nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || true
@@ -53,16 +51,17 @@ find "$DIST_DIR" -name ".git" -type d -exec rm -rf {} + || true
 rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada" || true
 rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
 
-# 🚀 关键：有选择性的解引用，防止体积爆炸 (避免拷贝大型 Nix Store 二进制)
-echo "🔗 正在解引用必要的软链接 (仅限小型文件)..."
-# 找出所有指向 Nix Store 的链接
+# 🚀 关键：有选择性的解引用
+# 为了解决 "link name too long" 且保证离线可用，必须将链接转换为真实文件。
+# 但我们只处理普通文件 (-type f)，严禁处理目录链接，否则会导致体积爆炸。
+echo "🔗 正在解引用必要的软链接 (仅限文件)..."
 find "$DIST_DIR" -type l | while read -r link; do
     target=$(readlink -f "$link")
-    if [[ "$target" == /nix/store/* ]]; then
-        # 只有当目标小于 10MB 时才解引用 (通常是 Lua 脚本、文本、配置)
-        # 大型二进制文件 (clangd, node) 应该已经包含在 AppImage 里的 PATH 了
+    # 只处理指向 Nix Store 的链接，且目标必须是一个普通文件
+    if [[ "$target" == /nix/store/* ]] && [[ -f "$target" ]]; then
+        # 限制文件大小，避免意外拷贝超大文件
         size=$(stat -L -c %s "$target" 2>/dev/null || echo 0)
-        if [ "$size" -lt 10485760 ]; then
+        if [ "$size" -lt 20971520 ]; then # 限制在 20MB 以内
             rm "$link"
             cp -a "$target" "$link"
         fi
@@ -70,7 +69,7 @@ find "$DIST_DIR" -type l | while read -r link; do
 done
 
 # 显示体积详情
-echo "📊 离线包体积详情："
+echo "📊 离线包最终体积详情："
 du -sh "$DIST_DIR"
 find "$DIST_DIR" -maxdepth 3 -exec du -sh {} + 2>/dev/null | sort -hr | head -n 10
 
@@ -123,7 +122,6 @@ chmod +x "${DIST_DIR}/setup.sh"
 echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
 INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
 
-# 设置临时目录
 MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
 rm -rf "$MAKESELF_TMP" && mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
@@ -131,8 +129,10 @@ export TMPDIR="$MAKESELF_TMP"
 # 强制使用 gnutar 和 POSIX 格式
 export TAR="tar --format=posix"
 
-# 执行打包 (确保 makeself 被调用)
+# 运行打包
 makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
+
+rm -rf "$MAKESELF_TMP"
 
 echo "=================================================="
 echo "🎉 一键安装包制作完成！: ${INSTALLER_NAME}"
