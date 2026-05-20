@@ -46,9 +46,16 @@ export XDG_CACHE_HOME="${OFFLINE_DATA_DIR}/cache"
 
 # 确保配置目录存在并同步最新的配置
 mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
-# 我们直接运行一次同步命令
-# --headless 模式下运行 Lazy sync
-"$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步中可能存在小警告，继续..."
+
+# 在 CI 环境或本地有 Nix 的环境下，直接使用 nix run 来同步插件
+# 这比运行打包后的 AppImage 更可靠，避免了权限和 FUSE 问题
+if command -v nix &>/dev/null; then
+    echo "使用 nix run 进行插件同步..."
+    nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
+else
+    echo "使用构建好的二进制进行插件同步..."
+    "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略退出码)"
+fi
 
 # --- 4. 生成离线启动脚本 ---
 echo "📝 阶段 3: 生成离线启动脚本 (终端 & 图形化)..."

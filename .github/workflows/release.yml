@@ -30,8 +30,8 @@ jobs:
         run: |
           # 确保脚本可执行
           chmod +x scripts/build_offline.sh
-          # 运行打包脚本
-          ./scripts/build_offline.sh
+          # 使用 nix develop 进入开发环境运行，确保 makeself/rsync 可用
+          nix develop --command ./scripts/build_offline.sh
 
       - name: Get Package Name
         id: get_filename
