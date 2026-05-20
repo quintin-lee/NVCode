@@ -39,10 +39,9 @@ mkdir -p "${XDG_CONFIG_HOME}/${NVIM_APPNAME}"
 
 if command -v nix &>/dev/null; then
     echo "使用 nix run 进行插件同步..."
-    # 增加超时处理
-    nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略非关键警告)"
+    nix run "${PROJECT_ROOT}#nvcode" -- --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成"
 else
-    "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成 (忽略非关键警告)"
+    "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成"
 fi
 
 # 🚀 关键：清理数据
@@ -52,26 +51,9 @@ find "$DIST_DIR" -name ".git" -type d -exec rm -rf {} + || true
 rm -rf "${OFFLINE_DATA_DIR}/state/nvcode/shada" || true
 rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
 
-# 🚀 关键：全面解引用文件软链接，但保留目录链接（防止体积爆炸）
-# 这解决了 "link name too long" 报错，并确保插件代码离线可用
-echo "🔗 正在解引用所有文件软链接..."
-# 我们找出所有软链接
-find "$DIST_DIR" -type l | while read -r link; do
-    # 获取链接指向的绝对路径
-    target=$(readlink -f "$link")
-    # 如果目标是一个普通文件，则进行替换
-    if [[ -f "$target" ]]; then
-        rm "$link"
-        cp -a "$target" "$link"
-    fi
-    # 注意：目录链接被保留，因为它们通常指向 Nix Store 的大型目录
-    # 如果这些目录在离线时必须可用，我们应该在打包时处理它们
-done
-
 # 显示体积详情
 echo "📊 离线包体积详情："
 du -sh "$DIST_DIR"
-find "$DIST_DIR" -maxdepth 3 -exec du -sh {} + 2>/dev/null | sort -hr | head -n 10
 
 # --- 4. 生成启动脚本 ---
 echo "📝 阶段 3: 生成离线启动脚本..."
@@ -126,10 +108,13 @@ MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
 rm -rf "$MAKESELF_TMP" && mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
 
-# 强制使用 POSIX 格式的 tar 以解决路径过长问题
-export TAR="tar --format=posix"
+# 🚀 极致兼容方案：
+# 1. 强制使用 POSIX 格式 (支持超长路径)
+# 2. 强制解引用所有软链接 (-h / --dereference)，确保所有 Nix Store 文件都被物理打入包中
+# 3. 明确指定 tar 路径
+export TAR="tar -h --format=posix"
 
-# 直接运行 makeself (它应该已经在 devShell 的 PATH 中)
+# 运行打包
 makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
 
 rm -rf "$MAKESELF_TMP"
