@@ -69,18 +69,9 @@ rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
 find "$DIST_DIR" -type s -delete || true
 find "$DIST_DIR" -type p -delete || true
 
-# 🚀 关键步骤：解引用所有软链接
-# 由于 Neovim 插件和 Treesitter 经常使用复杂的软链接，
-# 且 tar 在处理长路径链接时会报错（link name too long），
-# 我们将所有的链接替换为真实文件。这也是离线运行的必然要求。
-echo "🔗 正在解引用所有软链接 (dereferencing symlinks)..."
-TEMP_DEREF="${PROJECT_ROOT}/temp_deref"
-rm -rf "$TEMP_DEREF"
-mv "$DIST_DIR" "$TEMP_DEREF"
-mkdir -p "$DIST_DIR"
-# 使用 cp -aL 将所有链接拷贝为真实文件
-cp -aL "$TEMP_DEREF"/* "$DIST_DIR/"
-rm -rf "$TEMP_DEREF"
+# 显示目录体积
+echo "📊 离线包原始体积："
+du -sh "$DIST_DIR"
 
 # --- 4. 生成离线启动脚本 (终端 & 图形化)...
 
@@ -144,17 +135,32 @@ chmod +x "${DIST_DIR}/setup.sh"
 echo "📚 阶段 4: 正在使用 makeself 制作自解压安装包..."
 INSTALLER_NAME="nvcode_installer_$(date +%Y%m%d).run"
 
-# 设置一个在当前工作区内的临时目录，确保拥有完全的读写权限，避免 CI 环境下的权限限制
+# 设置一个在当前工作区内的临时目录
 MAKESELF_TMP="${PROJECT_ROOT}/makeself_tmp"
 mkdir -p "$MAKESELF_TMP"
 export TMPDIR="$MAKESELF_TMP"
+
+# 🚀 极其关键：创建一个 tar 包装器，强制解引用所有软链接并使用 POSIX 格式
+# 这解决了 "link name too long" 和离线环境下软链接失效的所有问题
+TAR_WRAPPER_BIN="${PROJECT_ROOT}/tar_wrapper"
+mkdir -p "$TAR_WRAPPER_BIN"
+cat <<EOF > "${TAR_WRAPPER_BIN}/tar"
+#!/usr/bin/env bash
+# 自动添加 --dereference (跟随链接) 和 --format=posix (支持长路径)
+exec /usr/bin/tar --dereference --format=posix "\$@"
+EOF
+chmod +x "${TAR_WRAPPER_BIN}/tar"
+
+# 将包装器加入 PATH 首位
+export PATH="${TAR_WRAPPER_BIN}:\$PATH"
 
 # 使用 makeself 打包
 # 参数: <目录> <输出文件名> <描述> <解压后运行的命令>
 makeself "$DIST_DIR" "$INSTALLER_NAME" "NvCode IDE 离线安装程序" ./setup.sh
 
-# 清理打包临时目录
+# 清理打包临时目录和包装器
 rm -rf "$MAKESELF_TMP"
+rm -rf "$TAR_WRAPPER_BIN"
 
 echo "=================================================="
 echo "🎉 一键安装包制作完成！"
