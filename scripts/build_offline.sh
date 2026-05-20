@@ -69,6 +69,19 @@ rm -rf "${OFFLINE_DATA_DIR}/cache/nvcode" || true
 find "$DIST_DIR" -type s -delete || true
 find "$DIST_DIR" -type p -delete || true
 
+# 🚀 关键步骤：解引用所有软链接
+# 由于 Neovim 插件和 Treesitter 经常使用复杂的软链接，
+# 且 tar 在处理长路径链接时会报错（link name too long），
+# 我们将所有的链接替换为真实文件。这也是离线运行的必然要求。
+echo "🔗 正在解引用所有软链接 (dereferencing symlinks)..."
+TEMP_DEREF="${PROJECT_ROOT}/temp_deref"
+rm -rf "$TEMP_DEREF"
+mv "$DIST_DIR" "$TEMP_DEREF"
+mkdir -p "$DIST_DIR"
+# 使用 cp -aL 将所有链接拷贝为真实文件
+cp -aL "$TEMP_DEREF"/* "$DIST_DIR/"
+rm -rf "$TEMP_DEREF"
+
 # --- 4. 生成离线启动脚本 (终端 & 图形化)...
 
 echo "📝 阶段 3: 生成离线启动脚本 (终端 & 图形化)..."
