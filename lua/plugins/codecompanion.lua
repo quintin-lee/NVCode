@@ -24,7 +24,7 @@ return {
     { "<leader>Cf", "<cmd>CodeCompanion /fix<cr>", mode = "v", desc = "Fix Code" },
     { "<leader>Cl", "<cmd>CodeCompanion /lsp<cr>", mode = "n", desc = "Explain LSP Diagnostics" },
     { "<leader>Cm", "<cmd>CodeCompanion /commit<cr>", mode = "n", desc = "Generate Commit Message" },
-    { "<leader>Ct", "<cmd>CodeCompanionToggleModel<cr>", mode = "n", desc = "Toggle AI Model (Gemini/Qwen)" },
+    { "<leader>Ct", "<cmd>CodeCompanionToggleModel<cr>", mode = "n", desc = "Toggle AI Model (OpenCode/Gemini/Qwen)" },
   },
   opts = {
     adapters = {
@@ -61,9 +61,9 @@ return {
     },
     strategies = {
       chat = {
-        adapter = "gemini_cli",
+        adapter = "opencode",
         roles = {
-          llm = "  Gemini",
+          llm = "  OpenCode",
           user = "  Me",
         },
         keymaps = {
@@ -88,7 +88,7 @@ return {
         },
       },
       inline = {
-        adapter = "gemini_cli",
+        adapter = "opencode",
         keymaps = {
           accept = {
             modes = { n = "ga" },
@@ -104,7 +104,7 @@ return {
           },
         },
       },
-      cmd = { adapter = "gemini_cli" },
+      cmd = { adapter = "opencode" },
     },
     display = {
       action_palette = {
@@ -127,7 +127,7 @@ return {
             wrap = true,
           },
         },
-        intro_message = "Gemini AI Assistant Active. Use /buffer or /files to add context.",
+        intro_message = "OpenCode AI Assistant Active. Use /buffer or /files to add context.",
         show_settings = false,
       },
       diff = {
@@ -169,34 +169,47 @@ return {
       },
     },
   },
-    config = function(_, opts)
-      require("codecompanion").setup(opts)
+  config = function(_, opts)
+    require("codecompanion").setup(opts)
 
-      -- 设置命令缩写
-      vim.cmd([[cab cc CodeCompanion]])
-      vim.cmd([[cab ccc CodeCompanionChat]])
+    -- 设置命令缩写
+    vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd([[cab ccc CodeCompanionChat]])
 
-      -- 简化的模型切换
-      vim.api.nvim_create_user_command("CodeCompanionToggleModel", function()
-        local config = require("codecompanion.config")
-        local interface = config.config.interactions or config.config.strategies
-        
-        if not interface then return end
-        
-        local current_adapter = interface.chat.adapter
-        local new_adapter = (current_adapter == "gemini_cli") and "qwen_cli" or "gemini_cli"
-        
-        -- 切换所有适配器
-        for _, key in ipairs({ "chat", "inline", "cmd" }) do
-          if interface[key] then interface[key].adapter = new_adapter end
+    -- 简化的模型切换
+    vim.api.nvim_create_user_command("CodeCompanionToggleModel", function()
+      local config = require("codecompanion.config")
+      local interface = config.config.interactions or config.config.strategies
+
+      if not interface then
+        return
+      end
+
+      local current_adapter = interface.chat.adapter
+      local adapters_list = { "opencode", "gemini_cli", "qwen_cli" }
+      local idx = 1
+      for i, name in ipairs(adapters_list) do
+        if name == current_adapter then
+          idx = i % #adapters_list + 1
+          break
         end
-        
-        -- 更新显示信息
-        local model_names = { gemini_cli = "Gemini", qwen_cli = "Qwen" }
-        interface.chat.roles.llm = "  " .. model_names[new_adapter]
-        config.config.display.chat.intro_message = model_names[new_adapter] .. " AI Assistant Active. Use /buffer or /files to add context."
-        
-        vim.notify("CodeCompanion adapter switched to: " .. model_names[new_adapter], vim.log.levels.INFO)
-      end, { desc = "Toggle CodeCompanion AI Model" })
-    end,
+      end
+      local new_adapter = adapters_list[idx]
+
+      -- 切换所有适配器
+      for _, key in ipairs({ "chat", "inline", "cmd" }) do
+        if interface[key] then
+          interface[key].adapter = new_adapter
+        end
+      end
+
+      -- 更新显示信息
+      local model_names = { opencode = "OpenCode", gemini_cli = "Gemini", qwen_cli = "Qwen" }
+      interface.chat.roles.llm = "  " .. model_names[new_adapter]
+      config.config.display.chat.intro_message = model_names[new_adapter]
+        .. " AI Assistant Active. Use /buffer or /files to add context."
+
+      vim.notify("CodeCompanion adapter switched to: " .. model_names[new_adapter], vim.log.levels.INFO)
+    end, { desc = "Toggle CodeCompanion AI Model" })
+  end,
 }
