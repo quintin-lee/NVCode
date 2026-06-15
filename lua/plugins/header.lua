@@ -6,10 +6,13 @@ return {
     -- 预设占位符
     placeholders = {
       ["{{AUTHOR}}"] = function()
-        local handle = io.popen("git config user.name")
-        local git_name = handle:read("*a"):gsub("%s+", "")
-        handle:close()
-        return (git_name ~= "" and git_name) or os.getenv("USER")
+        if not vim.g.header_author then
+          local handle = io.popen("git config user.name 2>/dev/null")
+          local git_name = handle and handle:read("*a"):gsub("%s+", "") or ""
+          if handle then handle:close() end
+          vim.g.header_author = (git_name ~= "" and git_name) or os.getenv("USER") or "Unknown"
+        end
+        return vim.g.header_author
       end,
       ["{{DATE}}"] = function()
         return os.date("%Y-%m-%d %H:%M:%S")

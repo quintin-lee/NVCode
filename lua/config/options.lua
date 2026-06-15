@@ -14,3 +14,4 @@ opt.tabstop = 4
 opt.expandtab = true
 opt.clipboard = "unnamedplus" -- 共享系统剪贴板
 opt.cursorline = true -- 高亮当前行
+opt.cursorcolumn = true -- 高亮当前列

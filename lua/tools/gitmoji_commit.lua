@@ -93,12 +93,21 @@ M.get_gitmoji_config = function()
           vim.fn.writefile(lines, tmp)
 
           -- 优先使用 Fugitive，否则使用系统 git
-          local cmd = (vim.g.loaded_fugitive and "G" or "!git") .. " commit -F " .. tmp
-          vim.cmd(cmd)
-
-          pcall(vim.uv.fs_unlink, tmp)
-          cleanup()
-          vim.notify("🚀 Commit successful!", vim.log.levels.INFO)
+          if vim.g.loaded_fugitive then
+            vim.cmd("G commit -F " .. tmp)
+            pcall(vim.uv.fs_unlink, tmp)
+            cleanup()
+            vim.notify("🚀 Commit successful!", vim.log.levels.INFO)
+          else
+            local output = vim.fn.system({ "git", "commit", "-F", tmp })
+            pcall(vim.uv.fs_unlink, tmp)
+            cleanup()
+            if vim.v.shell_error ~= 0 then
+              vim.notify("Git commit failed:\n" .. output, vim.log.levels.ERROR)
+            else
+              vim.notify("🚀 Commit successful!", vim.log.levels.INFO)
+            end
+          end
         end
 
         -- 8. 快捷键映射 (Buffer-local)

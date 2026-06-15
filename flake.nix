@@ -61,6 +61,8 @@
           mkdir -p $out/nvcode
           # 复制核心配置文件
           cp -r init.lua lua config stylua.toml lazyvim.json $out/nvcode/
+          # 如果存在 after 目录也一并带走
+          [ -d after ] && cp -r after $out/nvcode/
           # 如果存在 lock 文件也一并带走
           [ -f lazy-lock.json ] && cp lazy-lock.json $out/nvcode/
         '';
