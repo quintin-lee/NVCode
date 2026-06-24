@@ -1,7 +1,6 @@
 return {
   {
     "kylechui/nvim-surround",
-    -- 使用 VeryLazy 确保不会延迟文件打开
     event = "VeryLazy",
     opts = {},
   },
@@ -9,30 +8,60 @@ return {
     "cbochs/grapple.nvim",
     event = "VeryLazy",
     dependencies = {
-      "nvim-tree/nvim-web-devicons", -- 在 tags 面板中显示图标
+      "nvim-tree/nvim-web-devicons",
     },
     opts = {
-      scope = "git", -- 按 Git 项目隔离 tag 列表
+      scope = "git",
     },
-    config = function(_, opts)
-      require("grapple").setup(opts)
-
-      -- 在 Telescope 中显示 grapple tags
-      -- 由于已迁移到 snacks_picker，这里不需要 telescope 集成
-    end,
     keys = {
-      -- 标记/取消标记当前文件
-      { "<leader>ga", "<cmd>Grapple toggle<cr>", desc = "Toggle tag" },
-
-      -- 按索引跳转（1-5 快速跳转）
+      { "<leader>ga", "<cmd>Grapple toggle<cr>", desc = "Tag file" },
       { "<leader>1", "<cmd>Grapple select index=1<cr>", desc = "Grapple 1" },
       { "<leader>2", "<cmd>Grapple select index=2<cr>", desc = "Grapple 2" },
       { "<leader>3", "<cmd>Grapple select index=3<cr>", desc = "Grapple 3" },
       { "<leader>4", "<cmd>Grapple select index=4<cr>", desc = "Grapple 4" },
       { "<leader>5", "<cmd>Grapple select index=5<cr>", desc = "Grapple 5" },
-
-      -- 打开 tags 侧边栏
       { "<leader>gt", "<cmd>Grapple toggle_tags<cr>", desc = "Toggle tags panel" },
+    },
+  },
+  {
+    "3rd/image.nvim",
+    event = "VeryLazy",
+    opts = {
+      backend = "kitty",
+      integrations = {
+        markdown = {
+          enabled = true,
+          filetypes = { "markdown", "vimwiki" },
+          clear_in_insert_mode = false,
+          only_render_image_at_cursor = false,
+        },
+      },
+      max_width_window_percentage = 100,
+      max_height_window_percentage = 50,
+      window_overlap_clear_enabled = true,
+      editor_only_render_when_focused = true,
+    },
+  },
+  {
+    "folke/edgy.nvim",
+    event = "VeryLazy",
+    opts = {
+      left = {
+        { ft = "neo-tree", title = "Explorer" },
+      },
+      right = {
+        { ft = "outline", title = "Outline" },
+      },
+      bottom = {
+        { ft = "snacks_terminal", title = "Terminal" },
+      },
+      animate = {
+        enabled = false, -- 禁用动画，避免与 Snacks 动画冲突
+      },
+      exit_when_last = false,
+    },
+    keys = {
+      { "<leader>te", "<cmd>EdgyToggle<cr>", desc = "Toggle Edgy" },
     },
   },
 }
