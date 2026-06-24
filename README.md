@@ -39,6 +39,15 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 - **Git Hunk Management**: Full gitsigns integration with hunk navigation, staging, blame, and diff
 - **Code Companion**: AI-assisted coding with OpenCode, Gemini, and Qwen adapters
 - **File Headers**: Automatic insertion of file headers with author/date info
+- **Quick File Jump**: grapple.nvim for cross-project file tagging with `<leader>1-5` navigation
+- **Text Objects**: nvim-surround for managing brackets, quotes, and HTML tags
+
+### UI/UX Improvements
+
+- **Modern Color Schemes**: Kanagawa (default) and OneDark themes
+- **Snacks.nvim**: Dashboard, notifications, animations, indent guides, and picker
+- **Edgy Panels**: IDE-style edge panels (neo-tree left, outline right) via `<leader>te`
+- **Image Rendering**: Inline image display in Kitty terminal via image.nvim
 
 ### UI/UX Improvements
 
@@ -78,6 +87,19 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 | Shortcut       | Description                  |
 | -------------- | ---------------------------- |
 | `<leader>gc`   | Open gitmoji commit selector |
+| `<leader>ga`   | Tag / untag file (grapple)   |
+| `<leader>1-5`  | Jump to tagged file by index |
+| `<leader>gt`   | Open grapple tags panel      |
+| `<leader>te`   | Toggle edgy side panels      |
+
+### Surround (nvim-surround)
+
+| Sequence      | Description                  |
+| ------------- | ---------------------------- |
+| `ysiw'`       | Wrap word with single quotes |
+| `cs'"`        | Change `'` to `"`            |
+| `ds"`         | Delete surrounding `"`       |
+| `yssb`        | Wrap line with parentheses   |
 
 ## 🔧 Custom Configuration
 
@@ -89,13 +111,14 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 
 ### Plugin Categories
 
-1. **UI**: Snacks.nvim for dashboard, picker, and terminal
+1. **UI**: Snacks.nvim (dashboard, picker, terminal, indent guides), edgy.nvim (edge panels)
 2. **Colorscheme**: Kanagawa (default) + OneDark
-3. **Git**: gitsigns (inline blame, hunk ops) + vgit.nvim (visual diff)
+3. **Git**: gitsigns (inline blame, hunk ops) + vgit.nvim (visual diff) + grapple.nvim (file tags)
 4. **AI**: copilot.lua (inline completion) + CodeCompanion (chat/edit/agent)
-5. **Code**: blink.cmp (completion), IDE features (treesitter-context, todo-comments)
-6. **Header**: Automatic file header templates
-7. **PlatformIO**: Embedded development toolchain
+5. **Code**: blink.cmp (completion), nvim-surround (text objects), IDE features (treesitter-context, todo-comments)
+6. **Media**: image.nvim (inline image rendering in Kitty terminal)
+7. **Header**: Automatic file header templates
+8. **PlatformIO**: Embedded development toolchain
 
 ## 📁 Project Structure
 
@@ -117,12 +140,13 @@ nvcode/
 │   │   ├── blink.lua       # Completion engine (blink.cmp)
 │   │   ├── codecompanion.lua # AI chat & agent configuration
 │   │   ├── colorscheme.lua # Theme configurations
+│   │   ├── editor.lua      # Editor enhancements (surround, grapple, image, edgy)
 │   │   ├── git.lua         # Git tools (gitsigns, vgit)
 │   │   ├── header.lua      # File header templates
 │   │   ├── ide.lua         # IDE enhancements (context, todos)
 │   │   ├── lsp.lua         # LSP server overrides
 │   │   ├── platformio.lua  # PlatformIO embedded dev
-│   │   └── ui.lua          # Snacks dashboard
+│   │   └── ui.lua          # Snacks dashboard & indent guides
 │   └── tools/
 │       ├── emojis.lua      # Gitmoji emoji data
 │       └── gitmoji_commit.lua # Gitmoji commit picker

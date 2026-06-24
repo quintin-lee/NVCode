@@ -39,12 +39,15 @@
 - **Git Hunk 管理**: 完整的 gitsigns 集成（hunk 导航、暂存、Blame、Diff）
 - **AI 编程助手**: 支持 OpenCode、Gemini、Qwen 等多种模型
 - **文件头**: 自动插入包含作者/日期信息的文件头
+- **快速文件跳转**: grapple.nvim 跨项目文件标记，`<leader>1-5` 编号直达
+- **文本对象**: nvim-surround 管理括号、引号、HTML 标签包围
 
 ### UI/UX 改进
 
 - **现代配色方案**: Kanagawa（默认）和 OneDark 主题
-- **Snacks.nvim**: 增强的仪表板、通知和动画
-- **双边框窗口**: 一致的浮动窗口样式
+- **Snacks.nvim**: 仪表板、通知、动画、缩进参考线、Picker
+- **Edgy 面板**: IDE 风格侧边栏（neo-tree 左 / outline 右）
+- **图片渲染**: Kitty 终端内嵌显示图片
 
 ## ⚙️ 关键绑定
 
@@ -78,6 +81,19 @@
 | 快捷键        | 描述                 |
 | ------------- | -------------------- |
 | `<leader>gc`  | 打开 Gitmoji 提交选择器 |
+| `<leader>ga`  | 标记/取消标记文件（grapple） |
+| `<leader>1-5` | 按编号跳转已标记文件 |
+| `<leader>gt`  | 打开 grapple tags 面板 |
+| `<leader>te`  | 切换 edgy 侧栏 |
+
+### Surround (nvim-surround)
+
+| 按键          | 描述                   |
+| ------------- | ---------------------- |
+| `ysiw'`       | 给单词加单引号          |
+| `cs'"`        | 双引号 → 单引号         |
+| `ds"`         | 删除周围双引号          |
+| `yssb`        | 给整行加括号            |
 
 ## 🔧 自定义配置
 
@@ -89,13 +105,14 @@
 
 ### 插件分类
 
-1. **UI**: Snacks.nvim（仪表板、Picker、终端）
+1. **UI**: Snacks.nvim（仪表板、Picker、终端、缩进参考线）、edgy.nvim（边缘面板）
 2. **颜色主题**: Kanagawa（默认）+ OneDark
-3. **Git**: gitsigns（行内 blame、hunk 操作）+ vgit.nvim（可视化 diff）
+3. **Git**: gitsigns（行内 blame、hunk 操作）+ vgit.nvim（可视化 diff）+ grapple.nvim（文件标记）
 4. **AI**: copilot.lua（行内补全）+ CodeCompanion（对话/编辑/Agent）
-5. **代码**: blink.cmp（补全引擎）、IDE 功能（上下文保持、TODO 高亮）
-6. **文件头**: 自动文件头模板
-7. **PlatformIO**: 嵌入式开发工具链
+5. **代码**: blink.cmp（补全引擎）、nvim-surround（文本对象）、IDE 功能（上下文保持、TODO 高亮）
+6. **多媒体**: image.nvim（Kitty 终端内嵌图片渲染）
+7. **文件头**: 自动文件头模板
+8. **PlatformIO**: 嵌入式开发工具链
 
 ## 📁 项目结构
 
@@ -117,12 +134,13 @@ nvcode/
 │   │   ├── blink.lua       # 补全引擎 (blink.cmp)
 │   │   ├── codecompanion.lua # AI 对话 & Agent 配置
 │   │   ├── colorscheme.lua # 主题配置
+│   │   ├── editor.lua      # 编辑增强 (surround, grapple, image, edgy)
 │   │   ├── git.lua         # Git 工具 (gitsigns, vgit)
 │   │   ├── header.lua      # 文件头模板
 │   │   ├── ide.lua         # IDE 增强 (context, todos)
 │   │   ├── lsp.lua         # LSP 服务器覆盖
 │   │   ├── platformio.lua  # PlatformIO 嵌入式开发
-│   │   └── ui.lua          # Snacks 仪表板
+│   │   └── ui.lua          # Snacks 仪表板与缩进参考线
 │   └── tools/
 │       ├── emojis.lua      # Gitmoji 表情数据
 │       └── gitmoji_commit.lua # Gitmoji 提交选择器
