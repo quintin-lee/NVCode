@@ -53,9 +53,6 @@ return {
       right = {
         { ft = "outline", title = "Outline" },
       },
-      bottom = {
-        { ft = "snacks_terminal", title = "Terminal" },
-      },
       animate = {
         enabled = false, -- 禁用动画，避免与 Snacks 动画冲突
       },
