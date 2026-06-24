@@ -28,48 +28,74 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 
 - **LazyVim Foundation**: Built on top of LazyVim's robust plugin ecosystem
 - **Custom Dashboard**: Beautiful ASCII art welcome screen using Snacks.nvim
-- **Enhanced Options**: Optimized settings including relative numbering, 4-space tabs, and clipboard integration
-- **Smart Keymaps**: Custom shortcuts including terminal toggle and gitmoji commits
+- **Enhanced Options**: Optimized settings including 4-space tabs and column cursor highlighting
+- **Smart Keymaps**: Custom shortcuts including dual-mode terminal and gitmoji commits
 
 ### Development Tools
 
-- **Floating Terminal**: FTerm.nvim for seamless terminal access with `<A-i>` shortcut
+- **Dual Terminal**: Floating terminal (`<A-i>`) and bottom split terminal (`<A-\>`) powered by Snacks
+- **Snacks Picker**: 40+ built-in picker sources for files, grep, buffers, LSP, git, and GitHub
 - **Gitmoji Integration**: Enhanced commit workflow with emoji selection via `<leader>gc`
-- **Code Companion**: AI-assisted coding capabilities
+- **Git Hunk Management**: Full gitsigns integration with hunk navigation, staging, blame, and diff
+- **Code Companion**: AI-assisted coding with OpenCode, Gemini, and Qwen adapters
 - **File Headers**: Automatic insertion of file headers with author/date info
 
 ### UI/UX Improvements
 
-- **Modern Color Schemes**: Multiple theme options including TokyoNight
-- **Snacks.nvim**: Enhanced dashboard and notifications
-- **Double Border Windows**: Consistent window styling
-- **Transparency Effects**: Subtle transparency for floating windows
+- **Modern Color Schemes**: Kanagawa (default) and OneDark themes
+- **Snacks.nvim**: Enhanced dashboard, notifications, animations
+- **Double Border Windows**: Consistent window styling for all floating elements
 
 ## ⚙️ Key Bindings
 
-| Mode     | Shortcut     | Description                  |
-| -------- | ------------ | ---------------------------- |
-| Normal   | `<A-i>`      | Toggle floating terminal     |
-| Terminal | `<A-i>`      | Close floating terminal      |
-| Normal   | `<leader>gc` | Open gitmoji commit selector |
+### Terminal
+
+| Mode     | Shortcut       | Description                  |
+| -------- | -------------- | ---------------------------- |
+| Normal   | `<A-i>`        | Toggle floating terminal     |
+| Terminal | `<A-i>`        | Close floating terminal      |
+| Normal   | `<A-\>`        | Toggle split terminal        |
+
+### Git (gitsigns)
+
+| Shortcut       | Description                  |
+| -------------- | ---------------------------- |
+| `]h` / `[h`    | Next / previous hunk         |
+| `<leader>hs`   | Stage hunk                   |
+| `<leader>hr`   | Reset hunk                   |
+| `<leader>hu`   | Undo stage hunk              |
+| `<leader>hp`   | Preview hunk                 |
+| `<leader>hb`   | Blame line (popup)           |
+| `<leader>hB`   | Blame buffer                 |
+| `<leader>htb`  | Toggle line blame            |
+| `<leader>hd`   | Diff this                    |
+| `<leader>hts`  | Toggle signs                 |
+| `<leader>htn`  | Toggle line number highlight |
+| `<leader>htw`  | Toggle word diff             |
+
+### Others
+
+| Shortcut       | Description                  |
+| -------------- | ---------------------------- |
+| `<leader>gc`   | Open gitmoji commit selector |
 
 ## 🔧 Custom Configuration
 
 ### Editor Options
 
 - Map leader to space (` `)
-- Relative line numbers enabled
-- Tab settings: 4 spaces, expand tabs
-- Clipboard integration with system clipboard
-- Current line highlighting
+- Tab settings: 4 spaces (overrides LazyVim's default 2)
+- Current column highlighting enabled
 
 ### Plugin Categories
 
-1. **UI**: Snacks.nvim for dashboard and notifications
-2. **Colorscheme**: Enhanced theme management
-3. **Tools**: FTerm, Telescope with gitmoji extension
-4. **Code Companion**: AI coding assistance
-5. **Header**: Automatic file header templates
+1. **UI**: Snacks.nvim for dashboard, picker, and terminal
+2. **Colorscheme**: Kanagawa (default) + OneDark
+3. **Git**: gitsigns (inline blame, hunk ops) + vgit.nvim (visual diff)
+4. **AI**: copilot.lua (inline completion) + CodeCompanion (chat/edit/agent)
+5. **Code**: blink.cmp (completion), IDE features (treesitter-context, todo-comments)
+6. **Header**: Automatic file header templates
+7. **PlatformIO**: Embedded development toolchain
 
 ## 📁 Project Structure
 
@@ -87,12 +113,19 @@ nvcode/
 │   │   ├── lazy.lua        # Lazy plugin manager setup
 │   │   └── options.lua     # Editor options
 │   ├── plugins/
-│   │   ├── ui.lua          # UI enhancements
+│   │   ├── ai.lua          # AI plugin (copilot, CodeCompanion)
+│   │   ├── blink.lua       # Completion engine (blink.cmp)
+│   │   ├── codecompanion.lua # AI chat & agent configuration
 │   │   ├── colorscheme.lua # Theme configurations
-│   │   ├── tools.lua       # Development tools
-│   │   ├── codecompanion.lua # AI coding tools
-│   │   └── header.lua      # File header templates
+│   │   ├── git.lua         # Git tools (gitsigns, vgit)
+│   │   ├── header.lua      # File header templates
+│   │   ├── ide.lua         # IDE enhancements (context, todos)
+│   │   ├── lsp.lua         # LSP server overrides
+│   │   ├── platformio.lua  # PlatformIO embedded dev
+│   │   └── ui.lua          # Snacks dashboard
 │   └── tools/
+│       ├── emojis.lua      # Gitmoji emoji data
+│       └── gitmoji_commit.lua # Gitmoji commit picker
 ├── config/
 │   └── header/             # Template files for various languages
 └── README.md
@@ -107,8 +140,7 @@ Before installing this configuration, ensure you have the following system depen
 - **Node.js**: Latest LTS version (for LSP and formatters)
 - **npm** or **yarn**: Package managers for JavaScript/TypeScript tools
 - **Python**: Version 3.8+ with `pynvim` (for Python LSP)
-- **ripgrep**: `rg` command for telescope fuzzy finder
-- **fzf**: Fuzzy finder command-line tool
+- **ripgrep**: `rg` command for content searching
 - **GCC/G++**: For compiling certain plugins and LSP servers
 - **CMake**: For building some Neovim plugins
 - **Go**: If you plan to work with Go projects (optional)
@@ -184,13 +216,17 @@ Headers include author, date, and description fields that are automatically fill
 
 Multiple color schemes available with optimized settings:
 
-- TokyoNight (default)
-- Habamax
+- Kanagawa (default)
+- OneDark
 - Additional themes can be added in `lua/plugins/colorscheme.lua`
 
-## 🤖 Code Companion
+## 🤖 AI Coding Assistance
 
-Integrated AI-powered coding assistance for enhanced productivity and code completion.
+- **Copilot**: Inline code completion as you type
+- **CodeCompanion**: Multi-model AI chat, inline editing, and agent mode (OpenCode, Gemini, Qwen)
+  - Custom commit message generation from staged changes (`/commit`)
+  - Adapter switching via `<leader>Ct`
+  - Offline mode via `NVIM_OFFLINE=1` environment variable
 
 ## 📦 Plugin Management
 

@@ -28,48 +28,74 @@
 
 - **LazyVim 基础**: 建立在 LazyVim 稳定的插件生态系统之上
 - **自定义仪表板**: 使用 Snacks.nvim 创建美观的 ASCII 艺术欢迎屏幕
-- **增强选项**: 优化设置，包括相对行号、4 空格缩进和剪贴板集成
-- **智能键映射**: 自定义快捷键，包括终端切换和 Gitmoji 提交
+- **增强选项**: 优化设置，包括 4 空格缩进和当前列高亮
+- **智能键映射**: 自定义快捷键，包括双模式终端和 Gitmoji 提交
 
 ### 开发工具
 
-- **浮动终端**: 通过 FTerm.nvim 实现无缝终端访问，快捷键为 `<A-i>`
+- **双模式终端**: 浮动终端 (`<A-i>`) + 底部分割终端 (`<A-\>`)，由 Snacks 驱动
+- **Snacks Picker**: 40+ 内置搜索源（文件、全文搜索、缓冲区、LSP、Git、GitHub）
 - **Gitmoji 集成**: 通过 `<leader>gc` 实现带有表情符号选择的增强提交工作流
-- **代码助手**: AI 辅助编码功能
+- **Git Hunk 管理**: 完整的 gitsigns 集成（hunk 导航、暂存、Blame、Diff）
+- **AI 编程助手**: 支持 OpenCode、Gemini、Qwen 等多种模型
 - **文件头**: 自动插入包含作者/日期信息的文件头
 
 ### UI/UX 改进
 
-- **现代配色方案**: 多种主题选项，包括 TokyoNight
-- **Snacks.nvim**: 增强的仪表板和通知
-- **双边框窗口**: 统一的窗口样式
-- **透明效果**: 浮动窗口的微妙透明度
+- **现代配色方案**: Kanagawa（默认）和 OneDark 主题
+- **Snacks.nvim**: 增强的仪表板、通知和动画
+- **双边框窗口**: 一致的浮动窗口样式
 
 ## ⚙️ 关键绑定
 
-| 模式     | 快捷键       | 描述                    |
-| -------- | ------------ | ----------------------- |
-| 普通模式 | `<A-i>`      | 切换浮动终端            |
-| 终端模式 | `<A-i>`      | 关闭浮动终端            |
-| 普通模式 | `<leader>gc` | 打开 Gitmoji 提交选择器 |
+### 终端
+
+| 模式     | 快捷键        | 描述            |
+| -------- | ------------- | --------------- |
+| 普通模式 | `<A-i>`       | 切换浮动终端    |
+| 终端模式 | `<A-i>`       | 关闭浮动终端    |
+| 普通模式 | `<A-\>`       | 切换底部分割终端 |
+
+### Git (gitsigns)
+
+| 快捷键            | 描述                   |
+| ----------------- | ---------------------- |
+| `]h` / `[h`       | 下一个 / 上一个 hunk   |
+| `<leader>hs`      | 暂存 hunk              |
+| `<leader>hr`      | 重置 hunk              |
+| `<leader>hu`      | 撤销暂存               |
+| `<leader>hp`      | 预览 hunk              |
+| `<leader>hb`      | Blame 弹窗（当前行）   |
+| `<leader>hB`      | Blame 全文件           |
+| `<leader>htb`     | 切换行尾 blame         |
+| `<leader>hd`      | Diff 对比              |
+| `<leader>hts`     | 切换 sign 列           |
+| `<leader>htn`     | 切换行号高亮            |
+| `<leader>htw`     | 切换单词级 diff        |
+
+### 其他
+
+| 快捷键        | 描述                 |
+| ------------- | -------------------- |
+| `<leader>gc`  | 打开 Gitmoji 提交选择器 |
 
 ## 🔧 自定义配置
 
 ### 编辑器选项
 
 - 将 leader 键映射到空格 (` `)
-- 启用相对行号
-- 制表符设置：4 个空格，展开制表符
-- 与系统剪贴板集成
-- 当前行高亮
+- 制表符设置：4 个空格（覆盖 LazyVim 默认的 2 空格）
+- 当前列高亮显示
 
 ### 插件分类
 
-1. **UI**: Snacks.nvim 用于仪表板和通知
-2. **颜色主题**: 增强的主题管理
-3. **工具**: FTerm, 集成 Gitmoji 扩展的 Telescope
-4. **代码助手**: AI 编码辅助
-5. **头部**: 自动文件头模板
+1. **UI**: Snacks.nvim（仪表板、Picker、终端）
+2. **颜色主题**: Kanagawa（默认）+ OneDark
+3. **Git**: gitsigns（行内 blame、hunk 操作）+ vgit.nvim（可视化 diff）
+4. **AI**: copilot.lua（行内补全）+ CodeCompanion（对话/编辑/Agent）
+5. **代码**: blink.cmp（补全引擎）、IDE 功能（上下文保持、TODO 高亮）
+6. **文件头**: 自动文件头模板
+7. **PlatformIO**: 嵌入式开发工具链
 
 ## 📁 项目结构
 
@@ -87,12 +113,19 @@ nvcode/
 │   │   ├── lazy.lua        # Lazy 插件管理器设置
 │   │   └── options.lua     # 编辑器选项
 │   ├── plugins/
-│   │   ├── ui.lua          # UI 增强
+│   │   ├── ai.lua          # AI 插件 (copilot, CodeCompanion)
+│   │   ├── blink.lua       # 补全引擎 (blink.cmp)
+│   │   ├── codecompanion.lua # AI 对话 & Agent 配置
 │   │   ├── colorscheme.lua # 主题配置
-│   │   ├── tools.lua       # 开发工具
-│   │   ├── codecompanion.lua # AI 编码工具
-│   │   └── header.lua      # 文件头模板
+│   │   ├── git.lua         # Git 工具 (gitsigns, vgit)
+│   │   ├── header.lua      # 文件头模板
+│   │   ├── ide.lua         # IDE 增强 (context, todos)
+│   │   ├── lsp.lua         # LSP 服务器覆盖
+│   │   ├── platformio.lua  # PlatformIO 嵌入式开发
+│   │   └── ui.lua          # Snacks 仪表板
 │   └── tools/
+│       ├── emojis.lua      # Gitmoji 表情数据
+│       └── gitmoji_commit.lua # Gitmoji 提交选择器
 ├── config/
 │   └── header/             # 各种语言的模板文件
 └── README.md
@@ -107,8 +140,7 @@ nvcode/
 - **Node.js**: 最新LTS版本 (用于LSP和格式化工具)
 - **npm** 或 **yarn**: JavaScript/TypeScript 工具包管理器
 - **Python**: 版本 3.8+ 并安装 `pynvim` (用于Python LSP)
-- **ripgrep**: `rg` 命令，用于 telescope 模糊查找
-- **fzf**: 模糊查找命令行工具
+- **ripgrep**: `rg` 命令，用于内容搜索
 - **GCC/G++**: 用于编译某些插件和LSP服务器
 - **CMake**: 用于构建一些 Neovim 插件
 - **Go**: 如果您计划处理 Go 项目 (可选)
@@ -138,7 +170,7 @@ nix run .
 1. 前往 [Releases](https://github.com/quintin-lee/NVCode/releases) 页面。
 2. 下载最新的 `nvcode_portable_*.zip`。
 3. 解压 ZIP 并运行 `./run_offline.sh` (终端版) 或 `./run_gui_offline.sh` (图形版)。
-4. 运行解压文件夹内的 `./install.sh` 进行全系统集成（快捷方式、别名等）。
+4. 运行解压文件夹内的 `./install.sh` 进行全系统集成。
 
 ### 手动安装
 
@@ -184,13 +216,17 @@ NVIM_APPNAME=$NVIM_APPNAME XDG_CONFIG_HOME=$XDG_CONFIG_HOME XDG_DATA_HOME=$XDG_D
 
 提供多种配色方案，具有优化设置：
 
-- TokyoNight (默认)
-- Habamax
+- Kanagawa（默认）
+- OneDark
 - 可在 `lua/plugins/colorscheme.lua` 中添加其他主题
 
-## 🤖 代码助手
+## 🤖 AI 编程助手
 
-集成 AI 驱动的编码辅助，以增强生产力和代码补全。
+- **Copilot**: 行内代码补全
+- **CodeCompanion**: 多模型 AI 对话、内联编辑和 Agent 模式（OpenCode、Gemini、Qwen）
+  - 从暂存更改生成提交消息（`/commit` 命令）
+  - 通过 `<leader>Ct` 切换适配器
+  - 通过 `NVIM_OFFLINE=1` 环境变量支持离线模式
 
 ## 📦 插件管理
 
