@@ -3,7 +3,6 @@ return {
     "anurag3301/nvim-platformio.lua",
     dependencies = {
       { "akinsho/toggleterm.nvim" },
-      { "nvim-telescope/telescope.nvim" },
       { "nvim-lua/plenary.nvim" },
     },
     -- 移除 cmd 延迟加载，防止命令无法识别

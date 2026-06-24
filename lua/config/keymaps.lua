@@ -20,3 +20,8 @@ map("n", "<A-i>", function()
     },
   })
 end, { desc = "Float Terminal (root dir)" })
+
+-- Gitmoji commit (基于 Snacks Picker)
+map({ "n", "v" }, "<leader>gc", function()
+  require("tools.gitmoji_commit").commit()
+end, { desc = "Gitmoji commit" })
