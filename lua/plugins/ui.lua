@@ -16,17 +16,6 @@ return {
           ]],
         },
       },
-      -- 浮动终端配置（替换 FTerm）
-      terminal = {
-        win = {
-          style = "float",
-          border = "double",
-          width = 0.9,
-          height = 0.9,
-          row = 0.05,
-          col = 0.05,
-        },
-      },
     },
   },
 }

@@ -4,6 +4,19 @@
 
 local map = vim.keymap.set
 
--- FTerm 快捷键配置 (兼容 NVCode 习惯) - 已移动到 lua/plugins/tools.lua
--- map("n", "<A-i>", '<CMD>lua require("FTerm").toggle()<CR>', { desc = "Toggle Terminal" })
--- map("t", "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', { desc = "Toggle Terminal" })
+-- 浮动终端快捷键（替换 FTerm）
+-- <A-i> 浮动终端 / <A-\> 底部分割（LazyVim 默认）
+map("n", "<A-i>", function()
+  local LazyVim = require("lazyvim.util")
+  Snacks.terminal.toggle(nil, {
+    cwd = LazyVim.root.git(),
+    win = {
+      style = "float",
+      border = "double",
+      width = 0.9,
+      height = 0.9,
+      row = 0.05,
+      col = 0.05,
+    },
+  })
+end, { desc = "Float Terminal (root dir)" })
