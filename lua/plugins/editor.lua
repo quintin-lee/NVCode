@@ -28,6 +28,7 @@ return {
     event = "VeryLazy",
     opts = {
       backend = "kitty",
+      tmux_show_only_in_active_window = false,
       integrations = {
         markdown = {
           enabled = true,
