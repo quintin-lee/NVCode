@@ -8,10 +8,9 @@ vim.g.maplocalleader = "\\"
 
 local opt = vim.opt
 
-opt.relativenumber = true -- 相对行号 [2]
-opt.shiftwidth = 4 -- 缩进空格数
+-- 覆盖 LazyVim 默认缩进（2 → 4）
+opt.shiftwidth = 4
 opt.tabstop = 4
-opt.expandtab = true
-opt.clipboard = "unnamedplus" -- 共享系统剪贴板
-opt.cursorline = true -- 高亮当前行
-opt.cursorcolumn = true -- 高亮当前列
+
+-- 高亮当前列（LazyVim 未默认开启）
+opt.cursorcolumn = true
