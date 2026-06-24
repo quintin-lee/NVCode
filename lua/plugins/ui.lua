@@ -16,6 +16,21 @@ return {
           ]],
         },
       },
+      -- 缩进参考线
+      indent = {
+        enabled = true,
+        indent = {
+          only_scope = false, -- 显示所有层级的缩进线
+          char = "│",
+        },
+        scope = {
+          enabled = true, -- 高亮当前作用域
+          char = "│",
+        },
+        chunk = {
+          enabled = true, -- 代码块边界标记
+        },
+      },
     },
   },
 }
