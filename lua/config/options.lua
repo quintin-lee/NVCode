@@ -14,3 +14,6 @@ opt.tabstop = 4
 
 -- 高亮当前列（LazyVim 未默认开启）
 opt.cursorcolumn = true
+
+-- 启用标题栏（用于窗口管理器识别 neovim 实例）
+opt.title = true
