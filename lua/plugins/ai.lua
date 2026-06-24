@@ -2,29 +2,19 @@
 local is_offline = os.getenv("NVIM_OFFLINE") == "1"
 
 return {
-  -- 1. Avante AI 助手
-  {
-    "yetone/avante.nvim",
-    enabled = not is_offline,
-  },
-
-  -- 2. GitHub Copilot
+  -- 1. GitHub Copilot（行内补全）
   {
     "zbirenbaum/copilot.lua",
     enabled = not is_offline,
   },
 
-  -- 3. CodeCompanion (Gemini/Qwen)
+  -- 2. CodeCompanion (OpenCode/Gemini/Qwen)
   {
     "olimorris/codecompanion.nvim",
     enabled = not is_offline,
   },
 
-  -- 4. 相关的补充插件
-  {
-    "Kaiser-Yang/blink-cmp-avante",
-    enabled = not is_offline,
-  },
+  -- 3. Copilot 补全源（配合 blink.cmp）
   {
     "giuxtaposition/blink-cmp-copilot",
     enabled = not is_offline,
