@@ -4,11 +4,10 @@
   # 国内镜像源（自动生效，无需用户修改 nix.conf）
   nixConfig = {
     extra-substituters = [
-      "https://mirrors.cernet.edu.cn/nix-channels/store"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      "https://cache.nixos.org"
     ];
     extra-trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "cache.nixos.org-1:6NCHdD59X431oheimd5cE5oUlA434HPMQFGspcDShjY="
     ];
   };
 
