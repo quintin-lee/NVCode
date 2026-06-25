@@ -92,7 +92,7 @@
             mesa
             # CJK 字体支持
             noto-fonts
-            noto-fonts-emoji
+            noto-fonts-color-emoji
           ]
           ++ lib.optionals isDarwin [];
 
