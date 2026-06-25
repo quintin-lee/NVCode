@@ -155,22 +155,11 @@ nvcode/
 │   │   ├── lazy.lua        # Lazy plugin manager setup
 │   │   └── options.lua     # Editor options
 │   ├── plugins/
-│   │   ├── ai.lua          # AI plugin (copilot, CodeCompanion)
-│   │   ├── blink.lua       # Completion engine (blink.cmp)
-│   │   ├── code-features.lua # Code context & todo highlights
-│   │   ├── codecompanion.lua # AI chat & agent configuration
-│   │   ├── colorscheme.lua # Theme configurations
-│   │   ├── edgy.lua        # Edge panels
-│   │   ├── git.lua         # Git tools (gitsigns, vgit)
-│   │   ├── header.lua      # File header templates
-│   │   ├── lsp.lua         # LSP server overrides
-│   │   ├── media.lua       # Image rendering
-│   │   ├── navigation.lua  # Quick file jump (grapple)
-│   │   ├── overseer.lua    # Task runner
-│   │   ├── platformio.lua  # PlatformIO embedded dev
-│   │   ├── surround.lua    # Surround text objects
-│   │   └── ui.lua          # Snacks dashboard & indent guides
-│   │   └── vim-visual-multi.lua # Multi-cursor editing
+│   │   ├── ai/             # AI (copilot, CodeCompanion)
+│   │   ├── editor/         # Text editing (surround, multi-cursor, context, headers)
+│   │   ├── tools/          # Tools (git, blink, LSP, task runner, PlatformIO)
+│   │   └── ui/             # UI (dashboard, edgy, media, colorscheme)
+│   └── tools/
 │   ├── tools/
 │   │   ├── emojis.lua      # Gitmoji emoji data
 │   │   └── git-commit.lua  # Gitmoji commit picker

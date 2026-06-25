@@ -155,22 +155,11 @@ nvcode/
 │   │   ├── lazy.lua        # Lazy 插件管理器设置
 │   │   └── options.lua     # 编辑器选项
 │   ├── plugins/
-│   │   ├── ai.lua          # AI 插件 (copilot, CodeCompanion)
-│   │   ├── blink.lua       # 补全引擎 (blink.cmp)
-│   │   ├── code-features.lua # 代码上下文 & TODO 高亮
-│   │   ├── codecompanion.lua # AI 对话 & Agent 配置
-│   │   ├── colorscheme.lua # 主题配置
-│   │   ├── edgy.lua        # 边缘面板
-│   │   ├── git.lua         # Git 工具 (gitsigns, vgit)
-│   │   ├── header.lua      # 文件头模板
-│   │   ├── lsp.lua         # LSP 服务器覆盖
-│   │   ├── media.lua       # 图片渲染
-│   │   ├── navigation.lua  # 快速文件跳转 (grapple)
-│   │   ├── overseer.lua    # 任务运行器
-│   │   ├── platformio.lua  # PlatformIO 嵌入式开发
-│   │   ├── surround.lua    # 包围字符管理
-│   │   ├── ui.lua          # Snacks 仪表板与缩进参考线
-│   │   └── vim-visual-multi.lua # 多光标编辑
+│   │   ├── ai/             # AI（copilot, CodeCompanion）
+│   │   ├── editor/         # 编辑增强（surround, 多光标, 上下文, 文件头）
+│   │   ├── tools/          # 工具（git, blink, LSP, 任务, PlatformIO）
+│   │   └── ui/             # UI（仪表板, edgy, 媒体, 主题）
+│   └── tools/
 │   ├── tools/
 │   │   ├── emojis.lua      # Gitmoji 表情数据
 │   │   └── git-commit.lua  # Gitmoji 提交选择器
