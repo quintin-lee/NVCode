@@ -112,10 +112,15 @@ return {
       },
       chat = {
         window = {
-          layout = "vertical",
-          width = 72, -- 固定 72 列（>1 为绝对列数，<1 为相对比例）
+          layout = "float",
+          width = 48,
+          height = 0.8,
           border = "rounded",
           relative = "editor",
+          row = 2,
+          col = function()
+            return vim.o.columns - 52
+          end, -- 靠右对齐
           opts = {
             breakindent = true,
             cursorline = true,
