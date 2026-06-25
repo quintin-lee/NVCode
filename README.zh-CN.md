@@ -41,6 +41,7 @@
 - **文件头**: 自动插入包含作者/日期信息的文件头
 - **快速文件跳转**: grapple.nvim 跨项目文件标记，`<leader>1-5` 编号直达
 - **文本对象**: nvim-surround 管理括号、引号、HTML 标签包围
+- **任务运行器**: overseer.nvim 统一管理构建、测试和 LSP 发现的 task
 
 ### UI/UX 改进
 
@@ -86,6 +87,16 @@
 | `<leader>gt`  | 打开 grapple tags 面板 |
 | `<leader>te`  | 切换 edgy 侧栏 |
 
+### Task Runner (overseer)
+
+| 快捷键        | 描述                   |
+| ------------- | ---------------------- |
+| `<leader>oo`  | 切换任务面板           |
+| `<leader>or`  | 运行任务               |
+| `<leader>oa`  | 快速操作（智能推荐）    |
+| `<leader>ob`  | 构建                   |
+| `<leader>ox`  | 清除任务缓存           |
+
 ### Surround (nvim-surround)
 
 | 按键          | 描述                   |
@@ -110,9 +121,10 @@
 3. **Git**: gitsigns（行内 blame、hunk 操作）+ vgit.nvim（可视化 diff）+ grapple.nvim（文件标记）
 4. **AI**: copilot.lua（行内补全）+ CodeCompanion（对话/编辑/Agent）
 5. **代码**: blink.cmp（补全引擎）、nvim-surround（文本对象）、IDE 功能（上下文保持、TODO 高亮）
-6. **多媒体**: image.nvim（Kitty 终端内嵌图片渲染）
-7. **文件头**: 自动文件头模板
-8. **PlatformIO**: 嵌入式开发工具链
+6. **任务**: overseer.nvim（构建/测试运行器，LSP task 发现）
+7. **多媒体**: image.nvim（Kitty 终端内嵌图片渲染）
+8. **文件头**: 自动文件头模板
+9. **PlatformIO**: 嵌入式开发工具链
 
 ## 📁 项目结构
 

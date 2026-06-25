@@ -41,6 +41,7 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 - **File Headers**: Automatic insertion of file headers with author/date info
 - **Quick File Jump**: grapple.nvim for cross-project file tagging with `<leader>1-5` navigation
 - **Text Objects**: nvim-surround for managing brackets, quotes, and HTML tags
+- **Task Runner**: overseer.nvim for running builds, tests, and LSP-discovered tasks from a unified panel
 
 ### UI/UX Improvements
 
@@ -101,6 +102,16 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 | `ds"`         | Delete surrounding `"`       |
 | `yssb`        | Wrap line with parentheses   |
 
+### Task Runner (overseer)
+
+| Shortcut       | Description                         |
+| -------------- | ----------------------------------- |
+| `<leader>oo`   | Toggle task panel                   |
+| `<leader>or`   | Run a task                          |
+| `<leader>oa`   | Quick action (smart recommendation) |
+| `<leader>ob`   | Build                               |
+| `<leader>ox`   | Clear task cache                    |
+
 ## 🔧 Custom Configuration
 
 ### Editor Options
@@ -116,9 +127,10 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 3. **Git**: gitsigns (inline blame, hunk ops) + vgit.nvim (visual diff) + grapple.nvim (file tags)
 4. **AI**: copilot.lua (inline completion) + CodeCompanion (chat/edit/agent)
 5. **Code**: blink.cmp (completion), nvim-surround (text objects), IDE features (treesitter-context, todo-comments)
-6. **Media**: image.nvim (inline image rendering in Kitty terminal)
-7. **Header**: Automatic file header templates
-8. **PlatformIO**: Embedded development toolchain
+6. **Task**: overseer.nvim (build/test runner, LSP task discovery)
+7. **Media**: image.nvim (inline image rendering in Kitty terminal)
+8. **Header**: Automatic file header templates
+9. **PlatformIO**: Embedded development toolchain
 
 ## 📁 Project Structure
 
