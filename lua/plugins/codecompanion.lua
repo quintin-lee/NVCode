@@ -112,15 +112,9 @@ return {
       },
       chat = {
         window = {
-          layout = "float",
+          layout = "vertical",
           width = 48,
-          height = 0.8,
           border = "rounded",
-          relative = "editor",
-          row = 2,
-          col = function()
-            return vim.o.columns - 52
-          end, -- 靠右对齐
           opts = {
             breakindent = true,
             cursorline = true,
@@ -175,6 +169,17 @@ return {
   },
   config = function(_, opts)
     require("codecompanion").setup(opts)
+
+    -- 锁定 CodeCompanion chat 窗口宽度，防止被 Neovim 自动重排
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "codecompanion",
+      callback = function(args)
+        vim.schedule(function()
+          local win = vim.api.nvim_get_current_win()
+          vim.wo[win].winfixwidth = true
+        end)
+      end,
+    })
 
     -- 设置命令缩写
     vim.cmd([[cab cc CodeCompanion]])
