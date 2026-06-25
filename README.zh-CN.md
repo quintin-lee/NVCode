@@ -157,18 +157,24 @@ nvcode/
 │   ├── plugins/
 │   │   ├── ai.lua          # AI 插件 (copilot, CodeCompanion)
 │   │   ├── blink.lua       # 补全引擎 (blink.cmp)
+│   │   ├── code-features.lua # 代码上下文 & TODO 高亮
 │   │   ├── codecompanion.lua # AI 对话 & Agent 配置
 │   │   ├── colorscheme.lua # 主题配置
-│   │   ├── editor.lua      # 编辑增强 (surround, grapple, image, edgy)
+│   │   ├── edgy.lua        # 边缘面板
 │   │   ├── git.lua         # Git 工具 (gitsigns, vgit)
 │   │   ├── header.lua      # 文件头模板
-│   │   ├── ide.lua         # IDE 增强 (context, todos)
 │   │   ├── lsp.lua         # LSP 服务器覆盖
+│   │   ├── media.lua       # 图片渲染
+│   │   ├── navigation.lua  # 快速文件跳转 (grapple)
+│   │   ├── overseer.lua    # 任务运行器
 │   │   ├── platformio.lua  # PlatformIO 嵌入式开发
-│   │   └── ui.lua          # Snacks 仪表板与缩进参考线
-│   └── tools/
-│       ├── emojis.lua      # Gitmoji 表情数据
-│       └── gitmoji_commit.lua # Gitmoji 提交选择器
+│   │   ├── surround.lua    # 包围字符管理
+│   │   ├── ui.lua          # Snacks 仪表板与缩进参考线
+│   │   └── vim-visual-multi.lua # 多光标编辑
+│   ├── tools/
+│   │   ├── emojis.lua      # Gitmoji 表情数据
+│   │   └── git-commit.lua  # Gitmoji 提交选择器
+│   └── header-templates/   # 文件头模板文件
 ├── config/
 │   └── header/             # 各种语言的模板文件
 └── README.md

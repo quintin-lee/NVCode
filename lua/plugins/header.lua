@@ -6,7 +6,7 @@ return {
   "quintin-lee/header.nvim",
   event = { "BufNewFile", "BufReadPost" },
   opts = {
-    template_dir = vim.fn.stdpath("config") .. "/config/header/",
+    template_dir = vim.fn.stdpath("config") .. "/lua/header-templates/",
     -- 预设占位符
     placeholders = {
       ["{{AUTHOR}}"] = function()
