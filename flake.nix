@@ -77,12 +77,12 @@
         # ============================================================
         guiLibs = with pkgs;
           lib.optionals isLinux [
-            xorg.libX11
-            xorg.libXcursor
-            xorg.libXext
-            xorg.libXfixes
-            xorg.libXi
-            xorg.libXrender
+            libx11
+            libxcursor
+            libxext
+            libxfixes
+            libxi
+            libxrender
             libGL
             libglvnd
             libxkbcommon
@@ -91,7 +91,7 @@
             vulkan-loader
             mesa
             # CJK 字体支持
-            noto-fonts-cjk
+            noto-fonts
             noto-fonts-emoji
           ]
           ++ lib.optionals isDarwin [];
