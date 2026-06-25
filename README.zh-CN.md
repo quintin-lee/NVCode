@@ -175,6 +175,13 @@ nvcode/
 │   │   ├── emojis.lua      # Gitmoji 表情数据
 │   │   └── git-commit.lua  # Gitmoji 提交选择器
 │   └── header-templates/   # 文件头模板文件
+├── scripts/
+│   ├── install.sh          # 安装主逻辑
+│   ├── build-offline.sh    # 构建离线包
+│   ├── setup-offline.sh    # 离线环境设置
+│   ├── install-fonts.sh    # 字体安装
+│   ├── docker/             # Docker 打包
+│   └── README.md           # 脚本文档
 ├── config/
 │   └── header/             # 各种语言的模板文件
 └── README.md

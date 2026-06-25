@@ -175,6 +175,17 @@ nvcode/
 │   │   ├── emojis.lua      # Gitmoji emoji data
 │   │   └── git-commit.lua  # Gitmoji commit picker
 │   └── header-templates/   # File header template files
+├── scripts/
+│   ├── install.sh          # Full installation logic
+│   ├── build-offline.sh    # Build offline bundle
+│   ├── setup-offline.sh    # Setup offline environment
+│   ├── install-fonts.sh    # Font installation
+│   ├── docker/             # Docker packaging
+│   └── README.md           # Scripts documentation
+├── .github/
+├── docker/                 # (moved to scripts/docker/)
+├── config/                 # (moved to lua/header-templates/)
+├── after/                  # (removed)
 └── README.md
 ```
 
