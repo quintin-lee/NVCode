@@ -42,6 +42,7 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 - **Quick File Jump**: grapple.nvim for cross-project file tagging with `<leader>1-5` navigation
 - **Text Objects**: nvim-surround for managing brackets, quotes, and HTML tags
 - **Task Runner**: overseer.nvim for running builds, tests, and LSP-discovered tasks from a unified panel
+- **Multi-Cursor**: vim-visual-multi for batch editing with `<C-n>` word selection
 
 ### UI/UX Improvements
 
@@ -49,12 +50,6 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 - **Snacks.nvim**: Dashboard, notifications, animations, indent guides, and picker
 - **Edgy Panels**: IDE-style edge panels (neo-tree left, outline right) via `<leader>te`
 - **Image Rendering**: Inline image display in Kitty terminal via image.nvim
-
-### UI/UX Improvements
-
-- **Modern Color Schemes**: Kanagawa (default) and OneDark themes
-- **Snacks.nvim**: Enhanced dashboard, notifications, animations
-- **Double Border Windows**: Consistent window styling for all floating elements
 
 ## ⚙️ Key Bindings
 
@@ -112,6 +107,18 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 | `<leader>ob`   | Build                               |
 | `<leader>ox`   | Clear task cache                    |
 
+### Multi-Cursor (vim-visual-multi)
+
+| Shortcut      | Description                       |
+| ------------- | --------------------------------- |
+| `<C-n>`       | Select word and add cursor        |
+| `<C-x>`       | Skip current match                |
+| `<C-p>`       | Remove previous cursor            |
+| `n`           | Extend selection to next          |
+| `q`           | Skip current, add next            |
+| `I`           | Insert at all cursor starts       |
+| `A`           | Insert at all cursor ends         |
+
 ## 🔧 Custom Configuration
 
 ### Editor Options
@@ -126,7 +133,7 @@ A comprehensive Neovim configuration based on [LazyVim](https://github.com/LazyV
 2. **Colorscheme**: Kanagawa (default) + OneDark
 3. **Git**: gitsigns (inline blame, hunk ops) + vgit.nvim (visual diff) + grapple.nvim (file tags)
 4. **AI**: copilot.lua (inline completion) + CodeCompanion (chat/edit/agent)
-5. **Code**: blink.cmp (completion), nvim-surround (text objects), IDE features (treesitter-context, todo-comments)
+5. **Code**: blink.cmp (completion), nvim-surround (text objects), vim-visual-multi (multi-cursor), IDE features (treesitter-context, todo-comments)
 6. **Task**: overseer.nvim (build/test runner, LSP task discovery)
 7. **Media**: image.nvim (inline image rendering in Kitty terminal)
 8. **Header**: Automatic file header templates

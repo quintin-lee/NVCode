@@ -42,6 +42,7 @@
 - **快速文件跳转**: grapple.nvim 跨项目文件标记，`<leader>1-5` 编号直达
 - **文本对象**: nvim-surround 管理括号、引号、HTML 标签包围
 - **任务运行器**: overseer.nvim 统一管理构建、测试和 LSP 发现的 task
+- **多光标**: vim-visual-multi 多光标批量编辑，`<C-n>` 选词后同时编辑
 
 ### UI/UX 改进
 
@@ -97,6 +98,18 @@
 | `<leader>ob`  | 构建                   |
 | `<leader>ox`  | 清除任务缓存           |
 
+### 多光标 (vim-visual-multi)
+
+| 按键     | 描述                       |
+| -------- | -------------------------- |
+| `<C-n>`  | 选中单词并添加光标         |
+| `<C-x>`  | 跳过当前匹配               |
+| `<C-p>`  | 移除上一个光标             |
+| `n`      | 扩展选区到下一处           |
+| `q`      | 跳过当前并添加下一处       |
+| `I`      | 在所有光标行首插入         |
+| `A`      | 在所有光标行尾插入         |
+
 ### Surround (nvim-surround)
 
 | 按键          | 描述                   |
@@ -120,7 +133,7 @@
 2. **颜色主题**: Kanagawa（默认）+ OneDark
 3. **Git**: gitsigns（行内 blame、hunk 操作）+ vgit.nvim（可视化 diff）+ grapple.nvim（文件标记）
 4. **AI**: copilot.lua（行内补全）+ CodeCompanion（对话/编辑/Agent）
-5. **代码**: blink.cmp（补全引擎）、nvim-surround（文本对象）、IDE 功能（上下文保持、TODO 高亮）
+5. **代码**: blink.cmp（补全引擎）、nvim-surround（文本对象）、vim-visual-multi（多光标）、IDE 功能（上下文保持、TODO 高亮）
 6. **任务**: overseer.nvim（构建/测试运行器，LSP task 发现）
 7. **多媒体**: image.nvim（Kitty 终端内嵌图片渲染）
 8. **文件头**: 自动文件头模板
