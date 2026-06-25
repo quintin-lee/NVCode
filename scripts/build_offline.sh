@@ -44,13 +44,29 @@ else
     "$BUNDLE_BIN" --headless "+Lazy! sync" +qa || echo "⚠️ 插件同步完成"
 fi
 
+# 等待 Mason 包安装完成
+# 避免后台下载导致 rsync 报 "file has vanished" 错误
+echo "⏳ 等待 Mason / Treesitter 包安装完成..."
+sleep 30
+for i in $(seq 1 60); do
+    if pgrep -f "mason-tool-installer\|nvim-treesitter/install" > /dev/null 2>&1; then
+        echo "  等待后端安装... ($i/60)"
+        sleep 5
+    else
+        echo "✅ 后端安装完成"
+        break
+    fi
+done
+
 # 🚀 关键：彻底解引用软链接，消除 tar 报错并保证离线可用
 echo "🔗 正在扁平化目录结构并处理软链接..."
 FLAT_DIR="${PROJECT_ROOT}/nvcode_portable"
 rm -rf "$FLAT_DIR"
 # 使用 rsync -aL 将所有链接替换为真实文件
-# 这是解决所有 "link name too long" 和 "broken links" 问题的终极手段
-rsync -aL "$DIST_DIR/" "$FLAT_DIR/"
+# --exclude 排除临时 lock 文件，避免 "file has vanished" 错误
+# --ignore-errors 即使有个别文件消失也不中断构建
+rsync -aL --exclude="*.lock" --exclude="*~" --exclude="*.tmp" --exclude="*.part" \
+    --ignore-errors "$DIST_DIR/" "$FLAT_DIR/"
 
 # 🚀 关键：体积控制
 echo "🧹 正在清理冗余数据..."
