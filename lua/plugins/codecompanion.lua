@@ -113,7 +113,7 @@ return {
       chat = {
         window = {
           layout = "vertical",
-          width = 0.3,
+          width = 72, -- 固定 72 列（>1 为绝对列数，<1 为相对比例）
           border = "rounded",
           relative = "editor",
           opts = {
