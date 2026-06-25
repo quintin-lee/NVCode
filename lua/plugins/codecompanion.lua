@@ -1,3 +1,7 @@
+--[codecompanion] AI 编程助手
+-- 支持 OpenCode（默认）/ Gemini CLI / Qwen CLI 三种 ACP adapter
+-- 含自定义 /commit prompt library 和模型切换命令
+
 return {
   "olimorris/codecompanion.nvim",
   cmd = { "CodeCompanion", "CodeCompanionChat" },

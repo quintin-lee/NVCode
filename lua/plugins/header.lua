@@ -1,3 +1,7 @@
+--[header] 自动文件头模板
+-- 支持 C/C++/Python/Go/Rust/JS/TS 等多语言
+-- 含自动更新 Last Modified 时间戳功能
+
 return {
   "quintin-lee/header.nvim",
   event = { "BufNewFile", "BufReadPost" },

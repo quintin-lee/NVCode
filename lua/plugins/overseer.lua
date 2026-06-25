@@ -1,3 +1,7 @@
+--[overseer] 任务运行器
+-- 自动从 LSP 发现 task（cargo build / go test / cmake 等）
+-- 提供面板化 UI 统一管理构建、测试和自定义任务
+
 return {
   "stevearc/overseer.nvim",
   cmd = { "OverseerRun", "OverseerBuild", "OverseerToggle", "OverseerQuickAction" },
