@@ -273,53 +273,15 @@ Multiple color schemes available with optimized settings:
 
 ## 🚦 Common Workflows
 
-### Git Workflow
+**Git Commit:** `<leader>gc` → pick emoji and scope → write message → `<C-s>` commit / `<C-c>` cancel.
 
-| Step | Shortcut | Description |
-|------|----------|-------------|
-| 1 | `<leader>gc` | Pick a gitmoji and scope |
-| 2 | Write commit message in the floating window |
-| 3 | `<C-s>` to commit, `<C-c>` to cancel |
+**Code Review:** `<leader>hd` to diff → `]h`/`[h` navigate → `<leader>hp` preview → `<leader>hs`/`<leader>hr` stage/reset hunk.
 
-### Code Review
+**Multi-Cursor Edit:** `<C-n>` on a word to start → continue `<C-n>` for more → `<C-x>` to skip → `I`/`A` to insert at cursor start/end → `<Esc>` to exit.
 
-| Step | Shortcut | Description |
-|------|----------|-------------|
-| 1 | `<leader>gd` | Git diff against index |
-| 2 | `]h` / `[h` | Navigate through hunks |
-| 3 | `<leader>hp` | Preview hunk content |
-| 4 | `<leader>hs` / `<leader>hr` | Stage or reset hunk |
-| 5 | `<leader>xx` | Open Trouble diagnostics panel |
+**Task & Build:** `<leader>oo` open panel → `<leader>or` list tasks → auto-detected from LSP → `<leader>ob` quick re-run.
 
-### Multi-Cursor Edit
-
-| Step | Shortcut | Description |
-|------|----------|-------------|
-| 1 | `<C-n>` on a word | Select word and add cursor |
-| 2 | Continue `<C-n>` | Add more cursors on matches |
-| 3 | `<C-x>` | Skip current match |
-| 4 | `I` or `A` | Insert at cursor start/end |
-| 5 | Edit text | All cursors update simultaneously |
-| 6 | `<Esc>` | Exit multi-cursor mode |
-
-### Task & Build
-
-| Step | Shortcut | Description |
-|------|----------|-------------|
-| 1 | `<leader>oo` | Open overseer task panel |
-| 2 | `<leader>or` | List available tasks (auto-detected from LSP) |
-| 3 | Select a task | Runs in the bottom panel |
-| 4 | `<leader>ob` | Quick re-run last build task |
-
-### Diagnostics Navigation
-
-| Step | Shortcut | Description |
-|------|----------|-------------|
-| 1 | `]e` / `[e` | Jump between errors |
-| 2 | `]w` / `[w` | Jump between warnings |
-| 3 | `<leader>cd` | Show line diagnostics float |
-| 4 | `<leader>xx` | Open Trouble diagnostics list |
-| 5 | `<leader>ud` | Toggle all diagnostics on/off |
+**Diagnostics:** `]e`/`[e` errors, `]w`/`[w` warnings → `<leader>cd` line float → `<leader>xx` Trouble panel → `<leader>ud` toggle all.
 
 ## 📦 Plugin Management
 
