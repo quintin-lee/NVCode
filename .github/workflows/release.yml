@@ -25,6 +25,16 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
+            substituters = https://mirrors.cernet.edu.cn/nix-channels/store https://cache.nixos.org
+            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+
+      - name: Validate Flake
+        run: |
+          nix flake check --no-build
+
+      - name: Build Nix Package
+        run: |
+          nix build .#nvcode --no-link
 
       - name: Build Offline Installer
         run: |
