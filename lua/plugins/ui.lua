@@ -1,9 +1,9 @@
 return {
-  -- 自定义仪表盘 (基于 Snacks.nvim)
   {
     "folke/snacks.nvim",
-    event = "VeryLazy",
     opts = {
+      -- ============ 已启用模块 ============
+
       dashboard = {
         preset = {
           header = [[
@@ -16,21 +16,35 @@ return {
           ]],
         },
       },
-      -- 缩进参考线
+
       indent = {
         enabled = true,
         indent = {
-          only_scope = false, -- 显示所有层级的缩进线
+          only_scope = false,
           char = "│",
         },
         scope = {
-          enabled = true, -- 高亮当前作用域
+          enabled = true,
           char = "│",
         },
         chunk = {
-          enabled = true, -- 代码块边界标记
+          enabled = true,
         },
       },
+
+      -- ============ 禁用未使用的模块（减少初始化开销） ============
+
+      bigfile = { enabled = false },
+      dim = { enabled = false },
+      explorer = { enabled = false },
+      gitbrowse = { enabled = false },
+      lazygit = { enabled = false },
+      notifier = { enabled = false }, -- 由 noice.nvim 接管通知
+      profiler = { enabled = false },
+      quickfile = { enabled = false },
+      scratch = { enabled = false },
+      words = { enabled = false },
+      zen = { enabled = false },
     },
   },
 }
