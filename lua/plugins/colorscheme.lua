@@ -1,3 +1,6 @@
+--[colorscheme] 主题配置
+-- kanagawa（默认） + onedark（备选）
+
 return {
   -- add onedark
   { "navarasu/onedark.nvim" },

@@ -1,3 +1,6 @@
+--[platformio] 嵌入式开发工具 PlatformIO
+-- 提供 Pioinit/Piorun/Piomon 等命令，依赖 toggleterm 作为终端后端
+
 return {
   {
     "anurag3301/nvim-platformio.lua",

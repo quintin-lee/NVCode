@@ -1,3 +1,6 @@
+--[git] Git 工具集成
+-- gitsigns（行内 blame + hunk 操作） / vgit.nvim（可视化 diff）
+
 return {
   {
     "lewis6991/gitsigns.nvim",

@@ -1,3 +1,6 @@
+--[lsp] LSP 配置覆盖
+-- 仅包含 deviating from LazyVim 默认的服务器选项
+
 return {
   {
     "neovim/nvim-lspconfig",

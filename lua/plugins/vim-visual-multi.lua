@@ -1,3 +1,7 @@
+--[vim-visual-multi] 多光标编辑
+-- Vim 内核级多光标插件，<C-n> 选词添加光标，按 I/A 批量插入
+-- 默认映射即够用，无需额外配置
+
 return {
   "mg979/vim-visual-multi",
   event = "VeryLazy",

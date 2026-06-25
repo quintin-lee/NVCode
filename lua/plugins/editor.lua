@@ -1,3 +1,6 @@
+--[editor] 编辑器增强
+-- nvim-surround（包围字符） / grapple（文件标记跳转） / image.nvim（图片渲染） / edgy（边缘面板）
+
 return {
   {
     "kylechui/nvim-surround",

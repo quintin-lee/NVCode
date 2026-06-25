@@ -1,3 +1,6 @@
+--[ide] IDE 增强功能
+-- treesitter-context（函数上下文固定） / todo-comments（TODO/FIXME 高亮）
+
 return {
   -- 1. Sticky Headers (上下文保持)
   -- 在滚动长函数时，将函数名固定在顶部

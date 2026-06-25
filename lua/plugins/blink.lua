@@ -1,3 +1,6 @@
+--[blink] 补全引擎：blink.cmp
+-- 如果预编译二进制下载失败，强制从源码编译（需 rust + cargo）
+
 return {
   {
     "saghen/blink.cmp",
