@@ -14,7 +14,7 @@ mkdir -p "$OFFLINE_DATA_DIR"
 # Stage 1: nix bundle creates self-contained AppImage with tools
 echo "📦 阶段 1: 使用 nix bundle 创建自包含二进制..."
 nix bundle --bundler github:NixOS/bundlers#toAppImage "${PROJECT_ROOT}#nvcode" -o "$BUNDLE_BIN"
-chmod +x "$BUNDLE_BIN"
+chmod +x "$BUNDLE_BIN" || true
 
 # Stage 2: Pre-sync plugins
 echo "📥 阶段 2: 正在预下载插件 (需要联网)..."
