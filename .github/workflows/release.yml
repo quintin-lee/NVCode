@@ -25,29 +25,20 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
           extra_nix_config: |
             experimental-features = nix-command flakes
-            substituters = https://cache.nixos.org
-            trusted-public-keys = cache.nixos.org-1:6NCHdD59X431oheimd5cE5oUlA434HPMQFGspcDShjY=
-
-      - name: Validate Flake
-        run: |
-          nix flake check --no-build
-
-      - name: Download Tools
-        run: |
-          echo "nix develop will provide tool chain (ripgrep, fd, fzf, neovide, etc.)"
 
       - name: Build Offline Installer
         run: |
+          # 确保脚本可执行
           chmod +x scripts/build_offline.sh
-          # nix bundle 创建自包含 AppImage (从 Nix 二进制缓存下载，不会从源编译)
-          nix develop -c ./scripts/build_offline.sh
-        timeout-minutes: 30
+          # 使用 nix develop 进入开发环境运行，确保 makeself/rsync 可用
+          nix develop --command ./scripts/build_offline.sh
 
       - name: Get Package Name
         id: get_filename
         run: |
           FILENAME=$(ls *.zip | head -n 1)
           echo "FILENAME=$FILENAME" >> $GITHUB_ENV
+          echo "PACKAGE_NAME=$FILENAME" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v2

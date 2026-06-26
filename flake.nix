@@ -1,16 +1,6 @@
 {
   description = "NvCode - A comprehensive Neovim IDE configuration bundled with its dependencies";
 
-  # 国内镜像源（自动生效，无需用户修改 nix.conf）
-  nixConfig = {
-    extra-substituters = [
-      "https://cache.nixos.org"
-    ];
-    extra-trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431oheimd5cE5oUlA434HPMQFGspcDShjY="
-    ];
-  };
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
