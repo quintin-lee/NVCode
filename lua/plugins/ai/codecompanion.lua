@@ -185,6 +185,35 @@ return {
       end,
     })
 
+    -- 检查 AI adapter 所需 CLI 工具
+    local function check_cli_tools()
+      local adapters = {
+        opencode = { cmd = "opencode", name = "OpenCode", url = "github.com/quintin-lee/opencode" },
+        gemini_cli = { cmd = "gemini", name = "Gemini CLI", url = "github.com/google-gemini/gemini-cli" },
+        qwen_cli = { cmd = "qwen", name = "Qwen CLI", url = "github.com/QwenLM/qwen-cli" },
+      }
+      local missing = {}
+      local default_adapter = "opencode"
+      for key, info in pairs(adapters) do
+        if vim.fn.executable(info.cmd) ~= 1 then
+          table.insert(missing, info)
+        end
+      end
+      if #missing > 0 then
+        vim.schedule(function()
+          local msg = { "⚠️ AI adapter CLI 工具缺失:\n" }
+          for _, m in ipairs(missing) do
+            table.insert(msg, { ("  · %s (%s): %s\n"):format(m.cmd, m.name, m.url), "WarningMsg" })
+          end
+          table.insert(msg, { ("\n当前默认 adapter 为 %s，缺失可能导致无法使用。"):format(default_adapter), "Comment" })
+          if vim.fn.has("nvim-0.10") == 1 then
+            vim.notify(table.concat(vim.tbl_map(function(x) return x[1] or x end, msg), ""), vim.log.levels.WARN, { title = "CodeCompanion" })
+          end
+        end)
+      end
+    end
+    check_cli_tools()
+
     -- 设置命令缩写
     vim.cmd([[cab cc CodeCompanion]])
     vim.cmd([[cab ccc CodeCompanionChat]])
