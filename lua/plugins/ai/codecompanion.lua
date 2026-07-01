@@ -188,7 +188,7 @@ return {
     -- 检查 AI adapter 所需 CLI 工具
     local function check_cli_tools()
       local adapters = {
-        opencode = { cmd = "opencode", name = "OpenCode", url = "github.com/quintin-lee/opencode" },
+        opencode = { cmd = "opencode", name = "OpenCode", url = "github.com/opencode-ai/opencode" },
         gemini_cli = { cmd = "gemini", name = "Gemini CLI", url = "github.com/google-gemini/gemini-cli" },
         qwen_cli = { cmd = "qwen", name = "Qwen CLI", url = "github.com/QwenLM/qwen-cli" },
       }
