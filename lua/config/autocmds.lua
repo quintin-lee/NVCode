@@ -62,3 +62,11 @@ vim.diagnostic.config({
 --   <leader>xX      当前 Buffer 诊断面板
 --   <leader>ud      切换诊断显示
 --   <leader>sd      Snacks picker 全局诊断
+
+-- 关闭 Markdown 文件的静态检查（diagnostics）
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "markdown",
+  callback = function()
+    vim.diagnostic.enable(false, { buf = 0 })
+  end,
+})
