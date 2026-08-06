@@ -24,8 +24,6 @@ local function check_dependencies()
     { cmd = "rg", name = "ripgrep", desc = "用于快速文本搜索 (Snacks Picker)" },
     { cmd = "fd", name = "fd", desc = "用于快速文件查找 (Snacks Picker)" },
     { cmd = "git", name = "git", desc = "版本控制核心" },
-    { cmd = "gemini", name = "Gemini CLI", desc = "AI 助手 (CodeCompanion)" },
-    { cmd = "qwen", name = "Qwen CLI", desc = "AI 助手 (CodeCompanion)" },
   }
 
   local missing = {}
@@ -42,9 +40,7 @@ local function check_dependencies()
       { title = "Dependency Check" }
     )
   end
-
 end
 
 -- 执行检查
 check_dependencies()
-
