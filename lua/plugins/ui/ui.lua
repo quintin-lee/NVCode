@@ -21,6 +21,13 @@ return {
   ╚═╝  ╚═══╝  ╚═══╝   ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
           ]],
         },
+        -- 首页分区：新增最近文件列表（1-9 快捷打开；无历史时自动隐藏）
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1, padding = 1 },
+          { section = "recent_files", limit = 5, indent = 2, padding = 2 },
+          { section = "startup" },
+        },
       },
 
       indent = {
