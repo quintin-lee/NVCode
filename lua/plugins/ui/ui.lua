@@ -39,16 +39,11 @@ return {
       },
 
       -- ============ 禁用未使用的模块（减少初始化开销） ============
+      -- 注：lazygit/gitbrowse/scratch/zen/dim/profiler 不检查 enabled 配置（禁不掉），无需列出
 
-      dim = { enabled = false },
       explorer = { enabled = false },
-      gitbrowse = { enabled = false },
-      lazygit = { enabled = false },
       notifier = { enabled = false }, -- 由 noice.nvim 接管通知
-      profiler = { enabled = false },
       quickfile = { enabled = false },
-      scratch = { enabled = false },
-      zen = { enabled = false },
     },
   },
 }
