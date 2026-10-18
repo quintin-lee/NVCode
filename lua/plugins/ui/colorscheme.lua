@@ -2,9 +2,10 @@
 -- kanagawa（默认） + onedark（备选）
 
 return {
-  -- add onedark
+  -- onedark：备选主题（<leader>uC 中可切换）
   { "navarasu/onedark.nvim" },
-  { "rebelot/kanagawa.nvim" },
+  -- kanagawa：默认主题，背景透明
+  { "rebelot/kanagawa.nvim", opts = { transparent = true } },
 
   -- Configure LazyVim to load kanagawa
   {
