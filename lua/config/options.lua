@@ -18,6 +18,9 @@ opt.cursorcolumn = true
 -- 启用标题栏（用于窗口管理器识别 neovim 实例）
 opt.title = true
 
+-- 浮窗统一圆角边框（Neovim 0.11+；未显式指定边框的浮窗生效）
+opt.winborder = "rounded"
+
 -- 依赖检查函数
 local function check_dependencies()
   local dependencies = {

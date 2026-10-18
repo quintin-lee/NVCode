@@ -1,5 +1,5 @@
 --[edgy] IDE 风格边缘面板
--- neo-tree 左边缘 / outline 右边缘，替代传统侧栏布局
+-- neo-tree 左边缘 / outline 右边缘 / trouble 诊断面板底部，替代传统侧栏布局
 
 return {
   "folke/edgy.nvim",
@@ -10,6 +10,9 @@ return {
     },
     right = {
       { ft = "outline", title = "Outline" },
+    },
+    bottom = {
+      { ft = "trouble", title = "Trouble" },
     },
     animate = {
       enabled = false,
