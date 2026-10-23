@@ -1,12 +1,12 @@
 --[blink] 补全引擎：blink.cmp
--- 如果预编译二进制下载失败，强制从源码编译（需 rust + cargo）
+-- 默认跟随版本化 release（预编译二进制）；仅在 vim.g.lazyvim_blink_main = true 时从源码编译
 
 return {
   {
     "saghen/blink.cmp",
-    -- 如果预编译二进制文件下载失败，强制从源码编译
-    -- 这需要你的系统安装了 rust 和 cargo
-    build = "cargo build --release",
+    -- 仅跟随 main 分支时从源码编译；release 版本用预编译二进制
+    -- 跟随 main 需要系统安装 rust 和 cargo（vim.g.lazyvim_blink_main = true 开启）
+    build = vim.g.lazyvim_blink_main and "cargo build --release",
     opts = {
       -- 也可以尝试强制使用特定的版本，通常版本匹配能解决二进制下载问题
       -- version = 'v0.5.1', 
