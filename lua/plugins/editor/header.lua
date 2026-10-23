@@ -68,23 +68,37 @@ return {
           end
         end
 
-        -- 2. 如果没找到，则寻找锚点（Date: 或 Author:）进行插入
+        -- 2. 如果没找到，则插入到元数据块的末尾。
+        --    不能简单"插在某个锚点之后"：模板的元数据行顺序各异
+        --    （File/Author/Date/Created on），以 Author 为锚点会插在
+        --    Date 或 Created on 之前，破坏既定顺序。
+        --    正确做法：取前 15 行内最后一个元数据行，插在它后面。
         if not found then
-          for i, line in ipairs(lines) do
-            -- 增加对不同注释风格的支持
-            if line:match("Date:") or line:match("Author:") or line:match("Created on") then
-              -- 智能提取注释前缀，支持 " # ", " -- ", " // ", " * " 等
-              local prefix = line:match("^(%s*[%#%-%/%*]+%s*)")
-              if not prefix then
-                -- 如果正则提取失败，回退到根据 filetype 判断
-                local comment_string = vim.bo.commentstring
-                prefix = comment_string:gsub("%%s", "") or "# "
-              end
+          local meta_patterns = { "File:", "Author:", "Date:", "Created on", "Last Modified:" }
+          local last_idx = nil
+          local last_prefix = nil
 
-              local new_line = prefix .. "Last Modified: " .. time_str
-              vim.api.nvim_buf_set_lines(0, i, i, false, { new_line })
-              break
+          for i = 1, n_lines do
+            for _, pattern in ipairs(meta_patterns) do
+              if lines[i]:match(pattern) then
+                last_idx = i
+                -- 智能提取注释前缀，支持 " # ", " -- ", " // ", " * " 等
+                last_prefix = lines[i]:match("^(%s*[%#%-%/%*]+%s*)")
+                break
+              end
             end
+          end
+
+          if last_idx then
+            if not last_prefix then
+              -- 如果正则提取失败，回退到根据 filetype 判断
+              local comment_string = vim.bo.commentstring
+              last_prefix = comment_string:gsub("%%s", "") or "# "
+            end
+
+            local new_line = last_prefix .. "Last Modified: " .. time_str
+            -- last_idx 是 1-indexed 的行号，插到它之后
+            vim.api.nvim_buf_set_lines(0, last_idx, last_idx, false, { new_line })
           end
         end
       end,
