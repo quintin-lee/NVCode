@@ -13,10 +13,4 @@ return {
     "olimorris/codecompanion.nvim",
     enabled = not is_offline,
   },
-
-  -- 3. Copilot 补全源（配合 blink.cmp）
-  {
-    "giuxtaposition/blink-cmp-copilot",
-    enabled = not is_offline,
-  },
 }
